@@ -19,6 +19,7 @@
     "@mui/joy": "5.0.0-alpha.67",
     "@next/font": "13.1.6",
     "clsx": "1.2.1",
+    "lottie-react": "2.3.1",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",
