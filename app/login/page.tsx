@@ -9,9 +9,12 @@ import {
   Sheet,
   Typography,
 } from '@mui/joy';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 export default function Login() {
+  const router = useRouter();
+
   return (
     <Sheet className="flex min-h-screen w-full items-center justify-center">
       <div>
@@ -27,7 +30,7 @@ export default function Login() {
           Let's get started! Please enter your details.
         </Typography>
 
-        <div
+        <form
           className="flex flex-col gap-4"
           onSubmit={(event: any) => {
             event.preventDefault();
@@ -37,6 +40,9 @@ export default function Login() {
               password: formElements.password.value,
               persistent: formElements.persistent.checked,
             };
+
+            router.push('/dashboard/home');
+
             // alert(JSON.stringify(data, null, 2));
           }}
         >
@@ -64,8 +70,10 @@ export default function Login() {
               Forgot password
             </Link>
           </Sheet>
-          <Button fullWidth>Sign in</Button>
-        </div>
+          <Button type="submit" fullWidth>
+            Sign in
+          </Button>
+        </form>
       </div>
     </Sheet>
   );

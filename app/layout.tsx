@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={publicSans.className}>
       <head>
-        <title>Next.js Turbopack App Directory Playground</title>
+        <title>YourGPT - Personalized ChatGPT for your business</title>
       </head>
       <body className="">
         <ClientProvider>{children}</ClientProvider>

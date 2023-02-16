@@ -1,7 +1,13 @@
-@tailwind base;
+/* @tailwind base; */
 @tailwind components;
 @tailwind utilities;
 
 body {
   margin: 0;
+}
+
+button {
+  background: unset;
+  border: none;
+  outline: none;
 }
