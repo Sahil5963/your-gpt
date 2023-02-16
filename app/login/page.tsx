@@ -1,72 +1,45 @@
 'use client';
-import {
-  Button,
-  Checkbox,
-  FormControl,
-  FormLabel,
-  Input,
-  Link,
-  Sheet,
-  Typography,
-} from '@mui/joy';
+
+import { Button, Input, Text } from '@nextui-org/react';
 import React from 'react';
 
 export default function Login() {
   return (
-    <Sheet className="flex min-h-screen w-full items-center justify-center">
-      <div>
-        <Typography fontWeight="xl" level="h4">
-          Welcome back
-        </Typography>
-        <Typography
-          sx={{
-            mb: 2,
-            color: 'text.secondary',
-          }}
-        >
-          Let's get started! Please enter your details.
-        </Typography>
-
-        <div
-          className="flex flex-col gap-4"
-          onSubmit={(event: any) => {
-            event.preventDefault();
-            const formElements = event.currentTarget.elements;
-            const data = {
-              email: formElements.email.value,
-              password: formElements.password.value,
-              persistent: formElements.persistent.checked,
-            };
-            // alert(JSON.stringify(data, null, 2));
-          }}
-        >
-          <FormControl required>
-            <FormLabel>Email</FormLabel>
-            <Input placeholder="Enter your email" type="email" name="email" />
-          </FormControl>
-          <FormControl required>
-            <FormLabel>Password</FormLabel>
-            <Input placeholder="•••••••" type="password" name="password" />
-          </FormControl>
-          <Sheet
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Checkbox
-              size="sm"
-              label="Remember for 30 days"
-              name="persistent"
-            />
-            <Link fontSize="sm" href="#replace-with-a-link" fontWeight="lg">
-              Forgot password
-            </Link>
-          </Sheet>
-          <Button fullWidth>Sign in</Button>
+    <div className=" flex h-screen w-full items-center justify-center">
+      <div className="">
+        <div className="mb-6">
+          <Text h3 weight="bold">
+            Welcome back
+          </Text>
+          <Text size="lg">Let's get started! Please enter your details.</Text>
         </div>
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <Input
+            bordered
+            label="Email"
+            placeholder="Enter your email"
+            size="lg"
+            color="primary"
+            required
+          />
+          <Input
+            bordered
+            type="password"
+            label="Password"
+            placeholder="Enter your email"
+            color="primary"
+            size="lg"
+            required
+          />
+
+          <Button type="submit">Login</Button>
+        </form>
       </div>
-    </Sheet>
+    </div>
   );
 }

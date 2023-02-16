@@ -1,10 +1,8 @@
-'use client';
 import 'styles/globals.css';
 import React from 'react';
 
 import { Public_Sans } from '@next/font/google';
-import { CssVarsProvider } from '@mui/joy';
-import { getInitColorSchemeScript } from '@mui/joy/styles';
+import ClientProviders from './ClientProviders';
 
 // If loading a variable font, you don't need to specify the font weight
 const publicSans = Public_Sans({
@@ -24,9 +22,7 @@ export default function RootLayout({
         <title>Next.js Turbopack App Directory Playground</title>
       </head>
       <body className="">
-        <CssVarsProvider defaultMode="dark" modeStorageKey="joyTheme">
-          {children}
-        </CssVarsProvider>
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );
