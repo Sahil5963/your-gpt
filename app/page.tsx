@@ -1,45 +1,44 @@
-import { demos } from '@/lib/demos';
-import Link from 'next/link';
+'use client';
+
+import Image from 'next/image';
 
 export default function Page() {
   return (
-    <div className="space-y-6">
-      <div className="space-y-8 text-white">
-        {demos
-          .filter((section) =>
-            section.items.some((x) => typeof x.isDisabled === 'undefined'),
-          )
-          .map((section) => {
-            return (
-              <div key={section.name} className="space-y-3">
-                <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                  {section.name}
-                </div>
+    <div className="flex h-screen w-full items-center justify-center bg-gray-900">
+      <div>
+        <div className=" relative mb-8 h-28 ">
+          <Image alt="Your GPT" src={'/images/svg/logo.svg'} fill />
+        </div>
 
-                <div className="grid grid-cols-2 gap-5">
-                  {section.items
-                    .filter((item) => !item.isDisabled)
-                    .map((item) => {
-                      return (
-                        <Link
-                          href={`/${item.slug}`}
-                          key={item.name}
-                          className="block space-y-1.5 rounded-lg border border-white/10 px-4 py-3 hover:border-white/20"
-                        >
-                          <div>{item.name}</div>
+        <h2 className="mb-4 text-4xl font-medium  text-gray-50">
+          Develop your personalised{' '}
+          <span className="font-bold text-blue-600">ChatGPT</span> like an{' '}
+          <span className="font-bold text-orange-400">Expert</span>
+        </h2>
 
-                          {item.description ? (
-                            <div className="line-clamp-3 text-sm text-zinc-400">
-                              {item.description}
-                            </div>
-                          ) : null}
-                        </Link>
-                      );
-                    })}
-                </div>
-              </div>
-            );
-          })}
+        <p className="mb-8 text-center text-2xl text-gray-500">Coming soon!</p>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+
+            console.log('ERRR', e.target);
+          }}
+          className="flex w-full gap-2"
+        >
+          <input
+            type="email"
+            required
+            className="flex-1 rounded-lg  border border-transparent bg-white bg-opacity-10 py-4 px-4 text-xl text-white outline-none focus:border-blue-500"
+            placeholder="Enter your email"
+          />
+          <button
+            type="submit"
+            className="rounded-lg bg-blue-500 px-6 text-white hover:bg-blue-600 "
+          >
+            Notify me
+          </button>
+        </form>
       </div>
     </div>
   );
