@@ -4,19 +4,19 @@ import Image from 'next/image';
 
 export default function Page() {
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-gray-900">
+    <div className="flex h-screen w-full items-center justify-center bg-black bg-opacity-95">
       <div>
         <div className=" relative mb-8 h-28 ">
           <Image alt="Your GPT" src={'/images/svg/logo.svg'} fill />
         </div>
 
-        <h2 className="mb-4 text-4xl font-medium  text-gray-50">
+        <h2 className="mb-8 text-4xl font-medium  text-gray-50">
           Develop your personalised{' '}
           <span className="font-bold text-blue-600">ChatGPT</span> like an{' '}
           <span className="font-bold text-orange-400">Expert</span>
         </h2>
 
-        <p className="mb-8 text-center text-2xl text-gray-500">Coming soon!</p>
+        <p className="mb-4 text-center text-2xl text-gray-500">Coming soon!</p>
 
         <form
           onSubmit={(e) => {
