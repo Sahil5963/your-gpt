@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Lottie from 'lottie-react';
 
-import aiAnim from '../assets/animations/chatbot4.json';
+import aiAnim from '../../../assets/animations/chatbot4.json';
 
 export default function Page() {
   return (

@@ -8,7 +8,7 @@ export default function ClientProvider({
   children: React.ReactNode;
 }) {
   return (
-    <CssVarsProvider defaultMode="dark" modeStorageKey="joyTheme">
+    <CssVarsProvider defaultMode="light" modeStorageKey="joyTheme">
       {children}
     </CssVarsProvider>
   );
