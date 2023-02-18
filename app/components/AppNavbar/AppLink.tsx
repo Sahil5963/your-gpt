@@ -1,6 +1,7 @@
 'use client';
 
 import { useApp } from 'app/(pages)/(dashboard)/apps/[appId]/AppContext';
+import clsx from 'clsx';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 
@@ -24,7 +25,10 @@ export default function AppLink({
   return (
     <Link
       href={`/apps/${appId}/${href || ''}`}
-      className={`${className} ${isActive ? 'text-white' : 'text-blue-400'}`}
+      className={`${className} rounded-md py-2 px-4 ${clsx(
+        { 'bg-blue-700  text-white': isActive },
+        { 'bg-transparent text-blue-300': !isActive },
+      )}`}
     >
       {children}
     </Link>

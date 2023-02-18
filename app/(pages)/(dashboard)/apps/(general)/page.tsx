@@ -1,59 +1,93 @@
 'use client';
 
-import { Badge, Button, Chip, IconButton, Table, Typography } from '@mui/joy';
+import { Badge, Button, Chip, IconButton, Typography } from '@mui/joy';
 import Link from 'next/link';
 import React from 'react';
 import { FaArrowRight, FaEdit, FaPlus } from 'react-icons/fa';
+import { HiDotsVertical } from 'react-icons/hi';
 import { BsThreeDots } from 'react-icons/bs';
+import styled from '@emotion/styled';
+
+const COLS = [
+  {
+    id: 1,
+    label: 'Name',
+  },
+  {
+    id: 2,
+    label: 'Plan',
+  },
+  {
+    id: 3,
+    label: 'Users',
+  },
+  {
+    id: 4,
+    label: '',
+  },
+];
+
+const DATA = [
+  {
+    id: 1,
+    name: 'Amazecall ',
+    users: '12.5K',
+  },
+  {
+    id: 2,
+    name: 'LetsQA ',
+    users: '1.5K',
+  },
+];
 
 export default function Apps() {
   return (
     <div>
-      <div className="mx-auto mt-12 max-w-[800px]">
+      <div className="">
         <div>
-          <div className="mb-4 flex justify-between">
-            <Typography level="h5" fontWeight={'lg'}>
-              Organisation
+          <div className="mb-6 flex items-center justify-between">
+            <Typography level="h6" fontWeight={'md'}>
+              Your apps
             </Typography>
 
             <div className="">
-              <Button startDecorator={<FaPlus />}> Add Organisation</Button>
+              <Button variant="outlined" startDecorator={<FaPlus />}>
+                Add App
+              </Button>
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-lg bg-white p-2 shadow-md">
-            <Table aria-label="basic table">
-              <thead>
-                <tr>
-                  <th style={{ width: '40%' }}>Name</th>
-                  <th>Plan</th>
-                  <th>Users</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div className="font-bold"> Frozen yoghurt </div>
-                  </td>
-                  <td>
-                    <Chip>Free</Chip>
-                  </td>
-                  <td>6</td>
-                  <td>
-                    <div className="flex gap-1">
-                      <IconButton>
-                        <BsThreeDots />
-                      </IconButton>
-                      <Link href={'/apps/121'}>
-                        <IconButton variant="solid">
-                          <FaArrowRight />
+          <div className="overflow-hidden rounded-lg bg-white ">
+            <Table>
+              <div className="header row bg-gray-200">
+                {COLS.map((i) => {
+                  return <div className="cell font-medium">{i.label}</div>;
+                })}
+              </div>
+
+              <div className="body">
+                {DATA.map((i) => {
+                  return (
+                    <div className="row">
+                      <div className="name cell font-semibold">
+                        <Link href={'/apps/1'} className="text-gray-900">
+                          {i.name}
+                        </Link>
+                      </div>
+                      <div className="name cell">FREE</div>
+                      <div className="name cell">{i.users}</div>
+                      <div className="actions cell flex justify-end gap-1">
+                        <IconButton variant="outlined">
+                          <FaEdit />
                         </IconButton>
-                      </Link>
+                        <IconButton variant="plain">
+                          <HiDotsVertical />
+                        </IconButton>
+                      </div>
                     </div>
-                  </td>
-                </tr>
-              </tbody>
+                  );
+                })}
+              </div>
             </Table>
           </div>
           {/* 
@@ -78,3 +112,28 @@ export default function Apps() {
     </div>
   );
 }
+
+const Table = styled.div`
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+
+  .row {
+    display: flex;
+    & > div:first-child {
+      flex: 1;
+    }
+  }
+  .body {
+    & > div:not(:last-child) {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  .cell {
+    min-width: 20%;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+  }
+`;
