@@ -24,7 +24,6 @@ import {
 import React from 'react';
 import { FiArrowDown, FiChevronLeft } from 'react-icons/fi';
 import { useApp } from '../../AppContext';
-import Data from './Data';
 import Events from './Events';
 import Result from './Result';
 import Training from './Training';
