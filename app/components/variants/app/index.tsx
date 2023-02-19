@@ -28,3 +28,11 @@ export const appContent = tv({
 export const appTablePaper = tv({
   base: '',
 });
+
+//LIST
+export const listItems = tv({
+  base: 'flex flex-col gap-2',
+});
+export const listItem = tv({
+  base: 'border-0 border-b grid grid-cols-2',
+});

@@ -87,7 +87,7 @@ export default function AppFiles() {
           <Select
             placeholder="Filter"
             indicator={<FiChevronDown />}
-            size="md"
+            size="sm"
             sx={{
               width: 100,
               [`& .${selectClasses.indicator}`]: {
