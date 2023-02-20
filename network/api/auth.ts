@@ -27,8 +27,13 @@ export const socialLoginApi = async ({
   device_info?: string;
 }) => {
   return post({
-    route: '/api/v1/login',
+    route: '/api/v1/socialLogin',
     data: JSON.stringify({ source, version, device_info, ...raw }),
+    config: {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    },
   });
 };
 

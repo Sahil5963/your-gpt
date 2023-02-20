@@ -1,8 +1,8 @@
 'use client';
 
 import AppNavbar from 'app/components/AppNavbar';
+import { AppContext } from 'context/AppContext';
 import React, { createContext, useContext } from 'react';
-import { AppContext } from './AppContext';
 
 export default function AppLayout(p: { children: React.ReactNode } & any) {
   return (

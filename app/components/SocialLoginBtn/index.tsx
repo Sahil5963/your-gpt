@@ -14,6 +14,8 @@ import { firebaseApp } from 'network/firebase';
 import { log, logErr } from 'utils/helpers';
 import { loginApi, socialLoginApi } from 'network/api/auth';
 import { SocialLoginD } from 'types/auth';
+import { useAuth } from 'context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 let auth: any;
 
@@ -22,6 +24,9 @@ if (typeof window !== 'undefined') {
 }
 
 export default function SocialLoginBtns() {
+  const { onLoginSuccess } = useAuth();
+  const router = useRouter();
+
   const onLogin = async (type: SocialLoginD) => {
     try {
       let provider;
@@ -58,13 +63,18 @@ export default function SocialLoginBtns() {
       });
 
       log('RES', res);
+
+      if (res.type === 'RXUCCESS') {
+        onLoginSuccess({ data: res.data, persist: true });
+        router.push('/apps');
+      }
     } catch (err: any) {
       console.log('Err', err);
       // Handle Errors here.
       const errorCode = err?.code;
       const errorMessage = err?.message;
       // The email of the user's account used.
-      const email = err?.customData.email;
+      const email = err?.customData?.email;
       // The AuthCredential type that was used.
       // const credential = GoogleAuthProvider.credentialFromError(error);
       // ...

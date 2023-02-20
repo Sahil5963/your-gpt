@@ -1,6 +1,6 @@
 'use client';
 
-import { useApp } from 'app/(pages)/(dashboard)/apps/[appId]/AppContext';
+import { useApp } from 'context/AppContext';
 import { THEME } from 'constants/ui';
 import Link from 'next/link';
 import {

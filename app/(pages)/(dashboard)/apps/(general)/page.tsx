@@ -2,11 +2,12 @@
 
 import { Badge, Button, Chip, IconButton, Typography } from '@mui/joy';
 import Link from 'next/link';
-import React from 'react';
-import { FaArrowRight, FaEdit, FaPlus } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { FaArrowRight, FaEdit, FaPlus, FaPlusCircle } from 'react-icons/fa';
 import { HiDotsVertical } from 'react-icons/hi';
 import { BsThreeDots } from 'react-icons/bs';
 import styled from '@emotion/styled';
+import { getAppsApi } from 'network/api/app';
 
 const COLS = [
   {
@@ -41,6 +42,18 @@ const DATA = [
 ];
 
 export default function Apps() {
+  const [list, setList] = useState<any[]>([]);
+
+  const fetchApps = async () => {
+    try {
+      const res = await getAppsApi({ token: '' });
+    } catch (err) {
+      console.log('Err', err);
+    }
+  };
+
+  useEffect(() => {}, []);
+
   return (
     <div>
       <div className="">
@@ -51,13 +64,26 @@ export default function Apps() {
             </Typography>
 
             <div className="">
-              <Button variant="outlined" startDecorator={<FaPlus />}>
-                Add App
-              </Button>
+              <Link href={'/apps/create'} className="no-underline">
+                <Button variant="outlined" startDecorator={<FaPlus />}>
+                  Add App
+                </Button>
+              </Link>
             </div>
           </div>
 
           <div className="overflow-hidden rounded-lg bg-white ">
+            <div className="flex  flex-col items-center justify-center gap-4 rounded-lg bg-gray-100 py-16">
+              <Typography textColor="neutral.500">
+                You do not have any apps
+              </Typography>
+
+              <Button variant="outlined" startDecorator={<FaPlus />}>
+                Create new app
+              </Button>
+            </div>
+            <br />
+
             <Table>
               <div className="header row bg-gray-200">
                 {COLS.map((i) => {

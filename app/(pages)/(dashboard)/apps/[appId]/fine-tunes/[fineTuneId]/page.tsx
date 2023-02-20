@@ -15,6 +15,7 @@ import {
   Typography,
 } from '@mui/joy';
 import { appContent, listItem, listItems } from 'app/components/variants/app';
+import { useApp } from 'context/AppContext';
 import Link from 'next/link';
 import {
   useRouter,
@@ -23,7 +24,6 @@ import {
 } from 'next/navigation';
 import React from 'react';
 import { FiArrowDown, FiChevronLeft } from 'react-icons/fi';
-import { useApp } from '../../AppContext';
 import Events from './Events';
 import Result from './Result';
 import Training from './Training';

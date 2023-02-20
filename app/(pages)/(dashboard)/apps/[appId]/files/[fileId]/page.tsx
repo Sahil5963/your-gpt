@@ -14,6 +14,7 @@ import {
   Typography,
 } from '@mui/joy';
 import { appContent } from 'app/components/variants/app';
+import { useApp } from 'context/AppContext';
 import Link from 'next/link';
 import {
   useRouter,
@@ -22,7 +23,6 @@ import {
 } from 'next/navigation';
 import React from 'react';
 import { FiArrowDown, FiChevronLeft } from 'react-icons/fi';
-import { useApp } from '../../AppContext';
 import Data from './Data';
 
 export default function FileDetail() {

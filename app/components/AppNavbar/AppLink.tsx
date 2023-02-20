@@ -1,6 +1,6 @@
 'use client';
 
-import { useApp } from 'app/(pages)/(dashboard)/apps/[appId]/AppContext';
+import { useApp } from 'context/AppContext';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';

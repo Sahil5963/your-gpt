@@ -1,6 +1,6 @@
 import { log, logErr } from 'utils/helpers';
 
-export const ENDPOINT = 'https://api.letsqa.fun';
+export const ENDPOINT = 'https://api.yourgpt.ai';
 
 export const post = ({
   route,
