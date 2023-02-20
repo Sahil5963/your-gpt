@@ -1,5 +1,6 @@
 'use client';
 import { CssVarsProvider } from '@mui/joy';
+import AuthProvider from 'context/AuthContext';
 import React from 'react';
 
 export default function ClientProvider({
@@ -8,8 +9,10 @@ export default function ClientProvider({
   children: React.ReactNode;
 }) {
   return (
-    <CssVarsProvider defaultMode="light" modeStorageKey="joyTheme">
-      {children}
-    </CssVarsProvider>
+    <AuthProvider>
+      <CssVarsProvider defaultMode="light" modeStorageKey="joyTheme">
+        {children}
+      </CssVarsProvider>
+    </AuthProvider>
   );
 }
