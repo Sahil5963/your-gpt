@@ -73,7 +73,8 @@ export default function Login() {
               name="persistent"
               defaultChecked
             />
-            <Link fontSize="sm" href="#replace-with-a-link" fontWeight="lg">
+
+            <Link href="#replace-with-a-link" className="text-sm">
               Forgot password?
             </Link>
           </Sheet>

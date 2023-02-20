@@ -46,7 +46,7 @@ export default function Login() {
     }
 
     try {
-      const res = await signupApi({});
+      // const res = await signupApi({});
     } catch (err) {
       console.log('Err');
     }

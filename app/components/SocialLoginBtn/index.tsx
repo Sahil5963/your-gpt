@@ -78,15 +78,15 @@ export default function SocialLoginBtns() {
   return (
     <div className="flex flex-col gap-2">
       <div className={itemS} onClick={() => onLogin('google')}>
-        <img src="/images/svg/google.svg" className="h-7" />
+        <img src="/images/svg/google.svg" className="aspect-square h-7" />
         <Typography fontWeight={'md'}>Continue with Google</Typography>
       </div>
       <div className={itemS} onClick={() => onLogin('twitter')}>
-        <img src="/images/svg/twitter.svg" className="h-7" />
+        <img src="/images/svg/twitter.svg" className="aspect-square h-7" />
         <Typography fontWeight={'md'}>Continue with Twitter</Typography>
       </div>
       <div className={itemS} onClick={() => onLogin('github')}>
-        <img src="/images/svg/github.svg" className="h-7" />
+        <img src="/images/svg/github.svg" className="aspect-square h-7" />
         <Typography fontWeight={'md'}>Continue with Github</Typography>
       </div>
     </div>

@@ -9,7 +9,7 @@ export const loginApi = async ({
   username: string;
   password: string;
 }) => {
-  return post({ route: 'z' });
+  // return post({ route: 'z' });
 };
 export const socialLoginApi = async ({
   source = osName,
@@ -39,5 +39,5 @@ export const signupApi = async ({
   username: string;
   password: string;
 }) => {
-  return post({ route: 'z' });
+  // return post({ route: 'z' });
 };
