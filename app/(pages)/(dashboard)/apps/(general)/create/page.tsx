@@ -40,7 +40,7 @@ export default function CreateApp() {
   const router = useRouter();
   const [loadingOrg, setLoadingOrg] = useState(false);
   const [organisations, setOrganisations] = useState<any[]>([]);
-  const [org, setOrg] = useState(ORG[0]);
+  const [org, setOrg] = useState<{ id: number; name: string }>(ORG[0]);
   const [creating, setCreating] = useState(false);
   const { token } = useAuth();
 
