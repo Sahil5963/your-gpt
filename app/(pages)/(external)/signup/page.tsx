@@ -1,5 +1,6 @@
 'use client';
 import {
+  Alert,
   Button,
   Checkbox,
   FormControl,
@@ -9,6 +10,7 @@ import {
   Sheet,
   Typography,
 } from '@mui/joy';
+import { useAuth } from 'context/AuthContext';
 import { signupApi } from 'network/api/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -16,8 +18,8 @@ import React, { useState } from 'react';
 
 export default function Login() {
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
+  const { onLoginSuccess } = useAuth();
 
   const [error, setError] = useState('');
 
@@ -29,6 +31,7 @@ export default function Login() {
     setError('');
     setErrors({});
     event.preventDefault();
+
     const formElements = event.currentTarget.elements;
     const data = {
       name: formElements.name.value,
@@ -45,6 +48,7 @@ export default function Login() {
       return;
     }
 
+    setLoading(true);
     try {
       const res = await signupApi({
         email: data.email,
@@ -52,9 +56,19 @@ export default function Login() {
         organization: data.organisation,
         password: data.password,
       });
+      setLoading(false);
 
-      // if()
+      if (res.type === 'RXERROR') {
+        setError(res.message);
+      }
+
+      if (res.type === 'RXSUCCESS') {
+        onLoginSuccess({ data: res.data, persist: true });
+        router.push('/apps');
+      }
     } catch (err) {
+      setLoading(false);
+      setError('Something went wrong try again');
       console.log('Err', err);
     }
   };
@@ -104,6 +118,12 @@ export default function Login() {
               defaultValue={'Default'}
             />
           </FormControl>
+
+          {error && (
+            <Alert color="danger" variant="soft">
+              {error}
+            </Alert>
+          )}
 
           <Button type="submit" fullWidth loading={loading}>
             Create account

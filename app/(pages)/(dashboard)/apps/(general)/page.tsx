@@ -1,13 +1,25 @@
 'use client';
 
-import { Badge, Button, Chip, IconButton, Typography } from '@mui/joy';
+import {
+  Badge,
+  Button,
+  Chip,
+  CircularProgress,
+  IconButton,
+  Table,
+  Tooltip,
+  Typography,
+} from '@mui/joy';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FaArrowRight, FaEdit, FaPlus, FaPlusCircle } from 'react-icons/fa';
 import { HiDotsVertical } from 'react-icons/hi';
 import { BsThreeDots } from 'react-icons/bs';
 import styled from '@emotion/styled';
 import { getAppsApi } from 'network/api/app';
+import TablePagination from 'app/components/TablePagination';
+import { useAuth } from 'context/AuthContext';
+import { log } from 'utils/helpers';
 
 const COLS = [
   {
@@ -43,16 +55,38 @@ const DATA = [
 
 export default function Apps() {
   const [list, setList] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [total, setTotal] = useState(0);
+  const { token } = useAuth();
+  const [loading, setLoading] = useState(false);
 
-  const fetchApps = async () => {
+  const fetchApps = useCallback(async () => {
     try {
-      const res = await getAppsApi({ token: '' });
+      if (!token) {
+        return;
+      }
+
+      setLoading(true);
+      const res = await getAppsApi({ token: token, page, limit });
+      setLoading(false);
+
+      if (res.type === 'RXSUCCESS') {
+        if (page === 1) {
+          setList(res.data.rows);
+        } else {
+          setList((s) => [...s, res.data.rows]);
+        }
+      }
     } catch (err) {
+      setLoading(false);
       console.log('Err', err);
     }
-  };
+  }, [token, page, limit]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetchApps();
+  }, [fetchApps]);
 
   return (
     <div>
@@ -72,50 +106,77 @@ export default function Apps() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-lg bg-white ">
+          {loading ? (
             <div className="flex  flex-col items-center justify-center gap-4 rounded-lg bg-gray-100 py-16">
-              <Typography textColor="neutral.500">
-                You do not have any apps
-              </Typography>
-
-              <Button variant="outlined" startDecorator={<FaPlus />}>
-                Create new app
-              </Button>
+              <CircularProgress />
             </div>
-            <br />
+          ) : (
+            <>
+              {list.length === 0 ? (
+                <>
+                  <div className="flex  flex-col items-center justify-center gap-4 rounded-lg bg-gray-100 py-16">
+                    <Typography textColor="neutral.500">
+                      You do not have any apps
+                    </Typography>
 
-            <Table>
-              <div className="header row bg-gray-200">
-                {COLS.map((i) => {
-                  return <div className="cell font-medium">{i.label}</div>;
-                })}
-              </div>
+                    <Link href={'/apps/create'} className="no-underline">
+                      <Button variant="outlined" startDecorator={<FaPlus />}>
+                        Create new app
+                      </Button>
+                    </Link>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="overflow-hidden rounded-lg bg-white ">
+                    <Table>
+                      <thead>
+                        <tr>
+                          {COLS.map((i) => {
+                            return <th key={i.id}>{i.label}</th>;
+                          })}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {list.map((i) => {
+                          return (
+                            <tr>
+                              <td>{i.id}</td>
+                              <td>{i.name}</td>
+                              <td>{i.app_count}</td>
+                              <td>{i.member_count}</td>
+                              <td>
+                                <div className="actions cell flex gap-1">
+                                  <IconButton variant="outlined">
+                                    <FaEdit />
+                                  </IconButton>
+                                  <IconButton variant="plain">
+                                    <HiDotsVertical />
+                                  </IconButton>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colSpan={COLS.length}>
+                            <TablePagination
+                              {...{ limit, page, total }}
+                              onPage={setPage}
+                              onLimit={setLimit}
+                            />
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </Table>
+                  </div>
+                </>
+              )}
+            </>
+          )}
 
-              <div className="body">
-                {DATA.map((i) => {
-                  return (
-                    <div className="row">
-                      <div className="name cell font-semibold">
-                        <Link href={'/apps/1'} className="text-gray-900">
-                          {i.name}
-                        </Link>
-                      </div>
-                      <div className="name cell">FREE</div>
-                      <div className="name cell">{i.users}</div>
-                      <div className="actions cell flex justify-end gap-1">
-                        <IconButton variant="outlined">
-                          <FaEdit />
-                        </IconButton>
-                        <IconButton variant="plain">
-                          <HiDotsVertical />
-                        </IconButton>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </Table>
-          </div>
           {/* 
           <div>
             <Link
@@ -139,27 +200,27 @@ export default function Apps() {
   );
 }
 
-const Table = styled.div`
-  width: 100%;
-  border-radius: 8px;
-  overflow: hidden;
+// const Table = styled.div`
+//   width: 100%;
+//   border-radius: 8px;
+//   overflow: hidden;
 
-  .row {
-    display: flex;
-    & > div:first-child {
-      flex: 1;
-    }
-  }
-  .body {
-    & > div:not(:last-child) {
-      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    }
-  }
+//   .row {
+//     display: flex;
+//     & > div:first-of-type {
+//       flex: 1;
+//     }
+//   }
+//   .body {
+//     & > div:not(:last-child) {
+//       border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+//     }
+//   }
 
-  .cell {
-    min-width: 20%;
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-  }
-`;
+//   .cell {
+//     min-width: 20%;
+//     padding: 1rem;
+//     display: flex;
+//     align-items: center;
+//   }
+// `;

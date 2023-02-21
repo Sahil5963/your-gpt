@@ -1,5 +1,6 @@
 'use client';
 import {
+  Alert,
   Button,
   Checkbox,
   FormControl,
@@ -9,19 +10,20 @@ import {
   Typography,
 } from '@mui/joy';
 import SocialLoginBtns from 'app/components/SocialLoginBtn';
-import { useAuth } from 'context/AuthContext';
 import { loginApi } from 'network/api/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { log } from 'utils/helpers';
 
 export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { onLoginSuccess } = useAuth();
+  const [error, setError] = useState('');
 
   const onSubmit = async (event: any) => {
     event.preventDefault();
+    setError('');
     const formElements = event.currentTarget.elements;
     const data = {
       email: formElements.email.value,
@@ -29,7 +31,10 @@ export default function Login() {
       persistent: formElements.persistent.checked,
     };
 
+    console.log('DATA', data);
+
     setLoading(true);
+
     try {
       const res = await loginApi({
         email: data.email,
@@ -37,12 +42,12 @@ export default function Login() {
       });
       setLoading(false);
 
-      if (res.type === 'RXSUCCESS') {
-        onLoginSuccess({ data: res.data, persist: true });
+      if (res.type === 'RXERROR') {
+        setError(res.message);
       }
-    } catch (err) {
-      setLoading(false);
+    } catch (err: any) {
       console.log('Err', err);
+      setLoading(false);
     }
   };
 
@@ -77,17 +82,24 @@ export default function Login() {
               alignItems: 'center',
             }}
           >
-            {/* <Checkbox
+            <Checkbox
               size="sm"
               label="Remember for 30 days"
               name="persistent"
               defaultChecked
-            /> */}
+            />
 
             <Link href="#replace-with-a-link" className="text-sm">
               Forgot password?
             </Link>
           </Sheet>
+
+          {error && (
+            <Alert color="danger" variant="soft">
+              {error}
+            </Alert>
+          )}
+
           <Button type="submit" fullWidth loading={loading}>
             Sign in
           </Button>

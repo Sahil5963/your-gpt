@@ -2,10 +2,21 @@ import { post } from 'network';
 import { SocialLoginD } from 'types/auth';
 import { osName, deviceType } from 'react-device-detect';
 
-export const loginApi = async (raw: { email: string; password: string }) => {
+export const loginApi = async ({
+  source = osName,
+  version = 1,
+  device_info = deviceType,
+  ...raw
+}: {
+  email: string;
+  password: string;
+  source?: string;
+  version?: number;
+  device_info?: string;
+}) => {
   return post({
     route: '/api/v1/login',
-    data: JSON.stringify(raw),
+    data: JSON.stringify({ source, version, device_info, ...raw }),
     config: {
       headers: {
         'Content-type': 'application/json',

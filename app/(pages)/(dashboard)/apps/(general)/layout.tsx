@@ -29,7 +29,7 @@ export default function GeneralLayout({
 
   return (
     <Sheet className="min-h-screen bg-gray-100">
-      <div className="flex h-[56px] items-center justify-between  bg-white px-4 shadow-sm ">
+      <div className="sticky top-0 z-10 flex  h-[56px] items-center justify-between bg-white px-4 shadow-sm ">
         <Link href={'/apps'}>
           <img src="/images/svg/logo.svg" className="h-6" />
         </Link>
@@ -59,8 +59,10 @@ export default function GeneralLayout({
         </div>
       </div>
 
-      <div className="mx-auto mt-8 max-w-3xl rounded-lg bg-white  px-4 py-4 shadow-md">
-        {children}
+      <div className="pb-8">
+        <div className="mx-auto mt-8 max-w-3xl rounded-lg bg-white  px-4 py-4 shadow-md">
+          {children}
+        </div>
       </div>
     </Sheet>
   );
