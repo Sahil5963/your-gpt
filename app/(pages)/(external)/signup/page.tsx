@@ -46,9 +46,16 @@ export default function Login() {
     }
 
     try {
-      // const res = await signupApi({});
+      const res = await signupApi({
+        email: data.email,
+        name: data.name,
+        organization: data.organisation,
+        password: data.password,
+      });
+
+      // if()
     } catch (err) {
-      console.log('Err');
+      console.log('Err', err);
     }
   };
 

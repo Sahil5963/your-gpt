@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/joy';
 import SocialLoginBtns from 'app/components/SocialLoginBtn';
+import { useAuth } from 'context/AuthContext';
 import { loginApi } from 'network/api/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -17,6 +18,7 @@ import React, { useState } from 'react';
 export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { onLoginSuccess } = useAuth();
 
   const onSubmit = async (event: any) => {
     event.preventDefault();
@@ -27,11 +29,19 @@ export default function Login() {
       persistent: formElements.persistent.checked,
     };
 
-    console.log('DATA', data);
-
+    setLoading(true);
     try {
-      // const res = await loginApi({});
+      const res = await loginApi({
+        email: data.email,
+        password: data.password,
+      });
+      setLoading(false);
+
+      if (res.type === 'RXSUCCESS') {
+        onLoginSuccess({ data: res.data, persist: true });
+      }
     } catch (err) {
+      setLoading(false);
       console.log('Err', err);
     }
   };
@@ -67,12 +77,12 @@ export default function Login() {
               alignItems: 'center',
             }}
           >
-            <Checkbox
+            {/* <Checkbox
               size="sm"
               label="Remember for 30 days"
               name="persistent"
               defaultChecked
-            />
+            /> */}
 
             <Link href="#replace-with-a-link" className="text-sm">
               Forgot password?

@@ -1,6 +1,6 @@
 import { SocialLoginD } from './auth';
 
-export type loginApiResD = {
+export type LoginApiResD = {
   id: number;
   name: string;
   email: string;

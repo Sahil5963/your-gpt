@@ -2,14 +2,16 @@ import { post } from 'network';
 import { SocialLoginD } from 'types/auth';
 import { osName, deviceType } from 'react-device-detect';
 
-export const loginApi = async ({
-  username,
-  password,
-}: {
-  username: string;
-  password: string;
-}) => {
-  // return post({ route: 'z' });
+export const loginApi = async (raw: { email: string; password: string }) => {
+  return post({
+    route: '/api/v1/login',
+    data: JSON.stringify(raw),
+    config: {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    },
+  });
 };
 export const socialLoginApi = async ({
   source = osName,
@@ -38,11 +40,26 @@ export const socialLoginApi = async ({
 };
 
 export const signupApi = async ({
-  username,
-  password,
+  source = osName,
+  version = 1,
+  device_info = deviceType,
+  ...raw
 }: {
-  username: string;
-  password: string;
+  name: string;
+  email: string;
+  organization: 'myorg';
+  password: 'Mypass';
+  source?: string;
+  version?: number;
+  device_info?: string;
 }) => {
-  // return post({ route: 'z' });
+  return post({
+    route: '/api/v1/register',
+    data: JSON.stringify({ source, version, device_info, ...raw }),
+    config: {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    },
+  });
 };

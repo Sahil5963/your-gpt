@@ -1,11 +1,18 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import { STORAGE_KEYS } from 'constants/app';
+import React, {
+  createContext,
+  useContext,
+  useLayoutEffect,
+  useState,
+} from 'react';
+import { LoginApiResD } from 'types/apiResponse';
 
 type AuthContextTypeD = {
   token: string;
   user: any;
-  onLoginSuccess: (d: { data: object; persist: boolean }) => any;
+  onLoginSuccess: (d: { data: LoginApiResD; persist: boolean }) => any;
 };
 
 const AuthContext = createContext<AuthContextTypeD>({} as AuthContextTypeD);
@@ -26,8 +33,19 @@ export default function AuthProvider({
     persist = true,
   }: {
     persist: boolean;
-    data: Object;
-  }) => {};
+    data: LoginApiResD;
+  }) => {
+    setToken(data.token);
+    localStorage.setItem(STORAGE_KEYS.token, data.token);
+  };
+
+  useLayoutEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (localStorage.getItem(STORAGE_KEYS.token)) {
+        setToken(localStorage.getItem(STORAGE_KEYS.token) || '');
+      }
+    }
+  }, []);
 
   return (
     <AuthContext.Provider
