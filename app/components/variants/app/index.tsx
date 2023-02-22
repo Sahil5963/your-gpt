@@ -1,12 +1,13 @@
 import { tv } from 'tailwind-variants';
 
 export const appContent = tv({
-  base: 'max-w-7xl mx-auto py-8 pb-16 px-2 sm:px-4',
-  //   variants: {
-  //     color: {
-  //       primary: "bg-blue-500 text-white",
-  //       secondary: "bg-purple-500 text-white",
-  //     },
+  base: 'max-w-7xl mx-auto px-2 sm:px-4 py-8 pb-16',
+  variants: {
+    padding: {
+      noY: 'py-0',
+      noX: '',
+    },
+  },
   //     size: {
   //       sm: "text-sm",
   //       md: "text-base",

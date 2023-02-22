@@ -12,7 +12,13 @@ import {
 } from '@mui/joy';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FaArrowRight, FaEdit, FaPlus, FaPlusCircle } from 'react-icons/fa';
+import {
+  FaArrowRight,
+  FaEdit,
+  FaEye,
+  FaPlus,
+  FaPlusCircle,
+} from 'react-icons/fa';
 import { HiDotsVertical } from 'react-icons/hi';
 import { BsThreeDots } from 'react-icons/bs';
 import styled from '@emotion/styled';
@@ -24,19 +30,23 @@ import { log } from 'utils/helpers';
 const COLS = [
   {
     id: 1,
-    label: 'Name',
+    label: 'ID',
   },
   {
     id: 2,
-    label: 'Plan',
+    label: 'Name',
   },
   {
     id: 3,
-    label: 'Users',
+    label: 'Apps',
   },
   {
     id: 4,
-    label: '',
+    label: 'Members',
+  },
+  {
+    id: 5,
+    label: 'Actions',
   },
 ];
 
@@ -150,9 +160,11 @@ export default function Apps() {
                                   <IconButton variant="outlined">
                                     <FaEdit />
                                   </IconButton>
-                                  <IconButton variant="plain">
-                                    <HiDotsVertical />
-                                  </IconButton>
+                                  <Link href={`/apps/${i.id}`}>
+                                    <IconButton variant="outlined">
+                                      <FaEye />
+                                    </IconButton>
+                                  </Link>
                                 </div>
                               </td>
                             </tr>

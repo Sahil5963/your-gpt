@@ -11,8 +11,10 @@ export default function AppLayout(p: { children: React.ReactNode } & any) {
         appId: p?.params?.appId,
       }}
     >
-      <AppNavbar />
-      <div>{p.children}</div>
+      <div className=" flex min-h-screen flex-col">
+        <AppNavbar />
+        <div className="flex-1">{p.children}</div>
+      </div>
     </AppContext.Provider>
   );
 }

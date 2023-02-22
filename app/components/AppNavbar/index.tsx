@@ -35,6 +35,11 @@ const LINKS = [
   },
   {
     id: 5,
+    link: 'plugins',
+    label: 'Plugins',
+  },
+  {
+    id: 6,
     link: 'setting',
     label: 'Settings',
   },
