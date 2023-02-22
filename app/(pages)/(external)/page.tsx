@@ -11,7 +11,7 @@ export default function Page() {
       <div className="flex  flex-col-reverse items-center justify-center gap-4 md:flex-row">
         <div className="left flex flex-1 flex-col justify-start">
           <div className="relative mb-8  flex  h-16 justify-start sm:h-24">
-            <Image alt="Your GPT" src={'/images/svg/logo.svg'} fill />
+            <Image alt="Your GPT" src={'/images/svg/logo-white.svg'} fill />
           </div>
           <h2 className="mb-8 text-3xl font-bold leading-[3.2rem]  text-gray-50 sm:text-4xl sm:leading-[3.2rem]">
             Develop your personalised

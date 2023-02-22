@@ -42,12 +42,13 @@ export default function Login() {
         email: data.email,
         password: data.password,
       });
-      setLoading(false);
 
       if (res.type === 'RXSUCCESS') {
         onLoginSuccess({ data: res.data, persist: true });
         router.push('/apps');
+        return;
       }
+      setLoading(false);
 
       if (res.type === 'RXERROR') {
         setError(res.message);

@@ -163,9 +163,7 @@ export default function AppFiles() {
 
             <tfoot>
               <tr>
-                <td colSpan={COLS.length}>
-                  <TablePagination />
-                </td>
+                <td colSpan={COLS.length}>{/* <TablePagination /> */}</td>
               </tr>
             </tfoot>
           </Table>

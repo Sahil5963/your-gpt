@@ -40,7 +40,7 @@ export default function CreateApp() {
   const router = useRouter();
   const [loadingOrg, setLoadingOrg] = useState(false);
   const [organisations, setOrganisations] = useState<any[]>([]);
-  const [org, setOrg] = useState<{ id: number; name: string }>(ORG[0]);
+  const [org, setOrg] = useState<{ id: number; name: string }[]>([ORG[0]]);
   const [creating, setCreating] = useState(false);
   const { token } = useAuth();
 
@@ -55,7 +55,7 @@ export default function CreateApp() {
       setCreating(true);
       const res = await createAppApi({
         token,
-        organization_id: org.id.toString(),
+        organization_id: org[0].id.toString(),
         name,
       });
       console.log('RES', res);
