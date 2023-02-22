@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@mui/joy';
 import SocialLoginBtns from 'app/components/SocialLoginBtn';
+import { useAuth } from 'context/AuthContext';
 import { loginApi } from 'network/api/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -20,6 +21,7 @@ export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const { onLoginSuccess } = useAuth();
 
   const onSubmit = async (event: any) => {
     event.preventDefault();
@@ -41,6 +43,11 @@ export default function Login() {
         password: data.password,
       });
       setLoading(false);
+
+      if (res.type === 'RXSUCCESS') {
+        onLoginSuccess({ data: res.data, persist: true });
+        router.push('/apps');
+      }
 
       if (res.type === 'RXERROR') {
         setError(res.message);
