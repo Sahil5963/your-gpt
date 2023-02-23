@@ -2,6 +2,18 @@ import { post } from 'network';
 import { SocialLoginD } from 'types/auth';
 import { osName, deviceType } from 'react-device-detect';
 
+export const subscribeApi = async ({ email }: { email: string }) => {
+  return post({
+    route: '/api/v1/subscribeMe',
+    data: JSON.stringify({ email }),
+    config: {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    },
+  });
+};
+
 export const getAppsApi = async ({
   token,
   limit,

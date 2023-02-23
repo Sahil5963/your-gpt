@@ -4,8 +4,42 @@ import Image from 'next/image';
 import Lottie from 'lottie-react';
 
 import aiAnim from '../../../assets/animations/chatbot4.json';
+import { useState } from 'react';
+import { subscribeApi } from 'network/api/app';
+import { Button, Input } from '@mui/joy';
+import { FaCheck } from 'react-icons/fa';
+import { IoMail } from 'react-icons/io5';
 
 export default function Page() {
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [email, setEmail] = useState('');
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      const res = await subscribeApi({
+        email,
+      });
+      setLoading(false);
+
+      console.log('Set', res);
+      // if (res.type === 'RXSUCCESS') {
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        setEmail('');
+      }, 4000);
+
+      // }
+    } catch (err) {
+      console.log('Err', err);
+    }
+  };
+
   return (
     <div className="flex h-screen w-full items-center justify-center bg-black bg-opacity-90">
       <div className="flex  flex-col-reverse items-center justify-center gap-4 md:flex-row">
@@ -21,28 +55,25 @@ export default function Page() {
           </h2>
 
           <p className="mb-4 text-base text-gray-500 sm:text-2xl">
-            Coming soon!
+            Subscribe for early access!
           </p>
 
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log('ERRR', e.target);
-            }}
-            className="flex w-full gap-2"
-          >
-            <input
+          <form onSubmit={onSubmit} className="flex w-full gap-2">
+            <Input
               type="email"
               required
-              className="flex-1 rounded-lg border border-transparent bg-white bg-opacity-10 py-3 px-4  text-white outline-none focus:border-blue-500"
               placeholder="Enter your email"
+              sx={{ flex: 1 }}
+              onChange={(event) => setEmail(event.target.value)}
+              value={email}
             />
-            <button
+            <Button
               type="submit"
-              className="rounded-lg bg-blue-500 px-6 text-white hover:bg-blue-600 "
+              startDecorator={success ? <FaCheck /> : null}
+              color={success ? 'success' : 'primary'}
             >
-              Notify me
-            </button>
+              {success ? 'Subscribed' : 'Subscribe'}
+            </Button>
           </form>
         </div>
 

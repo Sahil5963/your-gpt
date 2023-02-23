@@ -3,6 +3,7 @@
 import { TextareaAutosize } from '@mui/base';
 import {
   Autocomplete,
+  Button,
   FormControl,
   FormLabel,
   IconButton,
@@ -56,39 +57,60 @@ export default function AppPlayground() {
       <div
         className={`${appContent({
           padding: 'noY',
-          class: 'py-2',
-        })}  box-border grid gap-2`}
-        style={{
-          height: `calc(100vh - ${THEME.appNavbarHeight}px)`,
-          gridTemplateColumns: '1fr min-content',
-          gridTemplateRows: '1fr min-content',
-        }}
+        })}  box-border flex overflow-hidden `}
       >
-        <div className="left col-start-1 col-end-2 flex flex-1 flex-col gap-2 overflow-auto ">
-          <div className="flex-1 rounded-lg bg-gray-100 ">
-            <MessageList list={messages} />
+        <div
+          className="left relative flex flex-1 flex-col overflow-hidden"
+          style={{
+            height: `calc(100vh - ${THEME.appNavbarHeight}px)`,
+          }}
+        >
+          <div className=" flex-1 flex-col  overflow-auto">
+            <div className="flex-1">
+              <MessageList list={messages} />
+            </div>
+
+            <div className="flex h-44 w-full "></div>
+          </div>
+
+          {/* ACTIONBAR  */}
+          <div
+            className="absolute bottom-0 flex w-full flex-col gap-1"
+            style={{
+              background: `linear-gradient(360deg, rgba(255,255,255,1) 71%, rgba(255,255,255,0.7441570378151261) 90%, rgba(255,255,255,0) 100%)`,
+            }}
+          >
+            <div className="self-center">
+              <Button variant="soft" color="neutral" size="sm">
+                Regenerate response
+              </Button>
+            </div>
+
+            <div className="py-4 px-4">
+              <div className="relative flex  items-center self-stretch">
+                <TextareaAutosize
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      onSend();
+                    }
+                  }}
+                  maxRows={3}
+                  autoFocus
+                  className="w-full resize-none rounded-lg border-solid border-gray-200 border-r-gray-200 py-3 px-3 text-base shadow-md outline-none transition-all  active:border-gray-200"
+                  style={{ fontFamily: 'inherit' }}
+                />
+                <div className="absolute right-3 text-gray-500">
+                  <IoSend />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="flex gap-1">
-          <TextareaAutosize
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                onSend();
-              }
-            }}
-            maxRows={3}
-            className="flex-1 resize-none rounded-md border-solid border-gray-200 border-r-gray-200 py-2 px-2 text-base shadow-md transition-all focus:border-blue-500"
-            style={{ fontFamily: 'inherit' }}
-          />
 
-          <IconButton>
-            <IoSend />
-          </IconButton>
-        </div>
-        <div className="right col-start-2 row-span-2 row-start-1 w-[280px] rounded-lg bg-gray-200 px-3 py-4">
+        <div className="right  w-[280px] bg-gray-200 px-3 py-4">
           <div>
             <Typography fontWeight={'lg'}>Settings</Typography>
           </div>
