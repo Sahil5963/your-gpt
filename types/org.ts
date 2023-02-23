@@ -3,5 +3,5 @@ export type OrganisationItemD = {
   user_id: number;
   name: string;
   member_count: string;
-  app_count: string;
+  project_count: string;
 };

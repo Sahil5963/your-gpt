@@ -6,6 +6,9 @@ import {
   Chip,
   CircularProgress,
   IconButton,
+  Input,
+  Option,
+  Select,
   Table,
   Tooltip,
   Typography,
@@ -22,81 +25,47 @@ import {
 import { HiDotsVertical } from 'react-icons/hi';
 import { BsThreeDots } from 'react-icons/bs';
 import styled from '@emotion/styled';
-import { getAppsApi } from 'network/api/app';
+import { getProjectsApi } from 'network/api/app';
 import TablePagination from 'app/components/TablePagination';
 import { useAuth } from 'context/AuthContext';
 import { log } from 'utils/helpers';
+import { ProjectItemD } from 'types/project';
+import { SortD } from 'types';
+import { useDebounce } from 'use-debounce';
+import { useListingApi } from 'hooks/useListingApi';
 
 const COLS = [
   {
     id: 1,
-    label: 'ID',
-  },
-  {
-    id: 2,
     label: 'Name',
   },
   {
+    id: 2,
+    label: 'ID',
+  },
+
+  {
     id: 3,
-    label: 'Apps',
+    label: 'Organisation',
   },
   {
     id: 4,
-    label: 'Members',
-  },
-  {
-    id: 5,
     label: 'Actions',
   },
 ];
 
-const DATA = [
-  {
-    id: 1,
-    name: 'Amazecall ',
-    users: '12.5K',
-  },
-  {
-    id: 2,
-    name: 'LetsQA ',
-    users: '1.5K',
-  },
-];
-
-export default function Apps() {
-  const [list, setList] = useState<any[]>([]);
+export default function Projects() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [total, setTotal] = useState(0);
-  const { token } = useAuth();
-  const [loading, setLoading] = useState(false);
+  const [sort, setSort] = useState<SortD>('desc');
+  const [search, setSearch] = useState('');
 
-  const fetchApps = useCallback(async () => {
-    try {
-      if (!token) {
-        return;
-      }
-
-      setLoading(true);
-      const res = await getAppsApi({ token: token, page, limit });
-      setLoading(false);
-
-      if (res.type === 'RXSUCCESS') {
-        if (page === 1) {
-          setList(res.data.rows);
-        } else {
-          setList((s) => [...s, res.data.rows]);
-        }
-      }
-    } catch (err) {
-      setLoading(false);
-      console.log('Err', err);
-    }
-  }, [token, page, limit]);
-
-  useEffect(() => {
-    fetchApps();
-  }, [fetchApps]);
+  const {
+    data: list,
+    loading,
+    apiError,
+    total,
+  } = useListingApi({ type: 'project', limit, page, search, sort });
 
   return (
     <div>
@@ -104,15 +73,39 @@ export default function Apps() {
         <div>
           <div className="mb-6 flex items-center justify-between">
             <Typography level="h6" fontWeight={'md'}>
-              Your apps
+              Your projects
             </Typography>
 
             <div className="">
-              <Link href={'/apps/create'} className="no-underline">
+              <Link href={'/projects/create'} className="no-underline">
                 <Button variant="outlined" startDecorator={<FaPlus />}>
-                  Add App
+                  Add Project
                 </Button>
               </Link>
+            </div>
+          </div>
+
+          <div className="mb-2 flex items-center justify-between">
+            <div>
+              <Input
+                type={'search'}
+                size="sm"
+                placeholder="Search project"
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+              />
+            </div>
+
+            <div>
+              <Select
+                size="sm"
+                placeholder="Sort"
+                value={sort}
+                onChange={(_, val) => setSort(val)}
+              >
+                <Option value={'asc'}>ASC</Option>
+                <Option value={'desc'}>DESC</Option>
+              </Select>
             </div>
           </div>
 
@@ -124,17 +117,27 @@ export default function Apps() {
             <>
               {list.length === 0 ? (
                 <>
-                  <div className="flex  flex-col items-center justify-center gap-4 rounded-lg bg-gray-100 py-16">
-                    <Typography textColor="neutral.500">
-                      You do not have any apps
-                    </Typography>
+                  {search ? (
+                    <>
+                      <div className="flex  flex-col items-center justify-center gap-4 rounded-lg bg-gray-100 py-16">
+                        <Typography textColor="neutral.500">
+                          No Project found
+                        </Typography>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex  flex-col items-center justify-center gap-4 rounded-lg bg-gray-100 py-16">
+                      <Typography textColor="neutral.500">
+                        You do not have any project
+                      </Typography>
 
-                    <Link href={'/apps/create'} className="no-underline">
-                      <Button variant="outlined" startDecorator={<FaPlus />}>
-                        Create new app
-                      </Button>
-                    </Link>
-                  </div>
+                      <Link href={'/projects/create'} className="no-underline">
+                        <Button variant="outlined" startDecorator={<FaPlus />}>
+                          Create new project
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
                 </>
               ) : (
                 <>
@@ -151,16 +154,24 @@ export default function Apps() {
                         {list.map((i) => {
                           return (
                             <tr>
+                              <td>
+                                <Link
+                                  href={`/projects/${i.id}`}
+                                  className="text-black no-underline "
+                                >
+                                  <Typography fontWeight={'lg'}>
+                                    {i.name}
+                                  </Typography>
+                                </Link>
+                              </td>
                               <td>{i.id}</td>
-                              <td>{i.name}</td>
-                              <td>{i.app_count}</td>
-                              <td>{i.member_count}</td>
+                              <td>{'N/A'}</td>
                               <td>
                                 <div className="actions cell flex gap-1">
                                   <IconButton variant="outlined">
                                     <FaEdit />
                                   </IconButton>
-                                  <Link href={`/apps/${i.id}`}>
+                                  <Link href={`/projects/${i.id}`}>
                                     <IconButton variant="outlined">
                                       <FaEye />
                                     </IconButton>
@@ -192,7 +203,7 @@ export default function Apps() {
           {/* 
           <div>
             <Link
-              href={'/apps/12121'}
+              href={'/projects/12121'}
               className="item hover:bg-gray-150 flex items-center justify-between rounded-md bg-gray-100 px-2 py-2 no-underline"
             >
               <Typography fontWeight={'lg'} sx={{}}>

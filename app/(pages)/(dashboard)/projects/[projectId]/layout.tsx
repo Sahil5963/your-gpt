@@ -8,7 +8,7 @@ export default function AppLayout(p: { children: React.ReactNode } & any) {
   return (
     <AppContext.Provider
       value={{
-        appId: p?.params?.appId,
+        projectId: p?.params?.projectId,
       }}
     >
       <div className=" flex min-h-screen flex-col">

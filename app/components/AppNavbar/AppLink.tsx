@@ -20,11 +20,11 @@ export default function AppLink({
   const segment = useSelectedLayoutSegment();
 
   const isActive = href === segment;
-  const { appId } = useApp();
+  const { projectId } = useApp();
 
   return (
     <Link
-      href={`/apps/${appId}/${href || ''}`}
+      href={`/projects/${projectId}/${href || ''}`}
       className={`${className} rounded-md py-2 px-4 ${clsx(
         { 'bg-blue-700  text-white': isActive },
         { 'bg-transparent text-blue-300': !isActive },

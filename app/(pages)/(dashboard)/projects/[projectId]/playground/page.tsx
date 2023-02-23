@@ -26,7 +26,23 @@ export default function AppPlayground() {
       text: string;
       sent: boolean;
     }[]
-  >([]);
+  >([
+    {
+      id: 1,
+      sent: true,
+      text: 'Hello',
+    },
+    {
+      id: 2,
+      sent: false,
+      text: 'To learn more about slots and how to use them, check out the Slots page.',
+    },
+    {
+      id: 3,
+      sent: true,
+      text: 'How are you feeling',
+    },
+  ]);
 
   const onSend = () => {
     setMessages((s) => [

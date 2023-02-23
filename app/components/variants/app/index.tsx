@@ -26,7 +26,7 @@ export const appContent = tv({
   //   }
 });
 
-export const appTablePaper = tv({
+export const projectTablePaper = tv({
   base: '',
 });
 

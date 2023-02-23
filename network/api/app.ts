@@ -1,6 +1,7 @@
 import { post } from 'network';
 import { SocialLoginD } from 'types/auth';
 import { osName, deviceType } from 'react-device-detect';
+import { SortD } from 'types';
 
 export const subscribeApi = async ({ email }: { email: string }) => {
   return post({
@@ -14,18 +15,19 @@ export const subscribeApi = async ({ email }: { email: string }) => {
   });
 };
 
-export const getAppsApi = async ({
+export const getProjectsApi = async ({
   token,
-  limit,
-  page,
+  ...raw
 }: {
   token: string;
   limit: number;
   page: number;
+  orderBy?: SortD;
+  search: string;
 }) => {
   return post({
-    route: '/api/v1/getMyAllApps',
-    data: JSON.stringify({ limit, page }),
+    route: '/api/v1/getMyProjects',
+    data: JSON.stringify(raw),
     config: {
       headers: {
         Authorization: 'Bearer ' + token,
@@ -34,7 +36,7 @@ export const getAppsApi = async ({
     },
   });
 };
-export const createAppApi = async ({
+export const createProjectApi = async ({
   token,
   ...raw
 }: {
@@ -43,7 +45,7 @@ export const createAppApi = async ({
   organization_id: string;
 }) => {
   return post({
-    route: '/api/v1/createApp',
+    route: '/api/v1/createProject',
     data: JSON.stringify(raw),
     config: {
       headers: {

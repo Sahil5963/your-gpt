@@ -11,6 +11,8 @@ import {
   Input,
   Modal,
   ModalClose,
+  Option,
+  Select,
   Sheet,
   Table,
   Tabs,
@@ -23,7 +25,7 @@ import { FaArrowRight, FaEdit, FaPlus, FaPlusCircle } from 'react-icons/fa';
 import { HiDotsVertical } from 'react-icons/hi';
 import { BsFillGearFill, BsThreeDots } from 'react-icons/bs';
 import styled from '@emotion/styled';
-import { getAppsApi } from 'network/api/app';
+import { getProjectsApi } from 'network/api/app';
 import TablePagination from 'app/components/TablePagination';
 import { useAuth } from 'context/AuthContext';
 import { log } from 'utils/helpers';
@@ -33,6 +35,9 @@ import { IoPersonAdd } from 'react-icons/io5';
 import Edit from './Edit';
 import { AiFillDelete } from 'react-icons/ai';
 import { getOrganisationApi } from 'network/api/organisation';
+import { SortD } from 'types';
+import { useDebounce } from 'use-debounce';
+import { useListingApi } from 'hooks/useListingApi';
 
 const COLS = [
   {
@@ -58,12 +63,22 @@ const COLS = [
 ];
 
 export default function Organisation() {
-  const [list, setList] = useState<OrganisationItemD[]>([]);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [total, setTotal] = useState(0);
-  const { token } = useAuth();
-  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState<SortD>('desc');
+
+  const {
+    data: list,
+    loading,
+    apiError,
+    total,
+  }: {
+    data: OrganisationItemD[];
+    loading: boolean;
+    apiError: string;
+    total: number;
+  } = useListingApi({ type: 'org', limit, page, search, sort });
 
   //GENERAL
   const [activeOrg, setActiveOrg] = useState<OrganisationItemD>(
@@ -76,35 +91,6 @@ export default function Organisation() {
   //Add Mmember
   const [addMemberOpen, setAddMemberOpen] = useState(false);
 
-  const fetchOrgs = useCallback(async () => {
-    try {
-      if (!token) {
-        return;
-      }
-
-      setLoading(true);
-      const res = await getOrganisationApi({ token: token, page, limit });
-      setLoading(false);
-
-      if (res.type === 'RXSUCCESS') {
-        setTotal(res.total);
-
-        if (page === 1) {
-          setList(res.data);
-        } else {
-          setList((s) => [...s, res.data]);
-        }
-      }
-    } catch (err) {
-      setLoading(false);
-      console.log('Err', err);
-    }
-  }, [token, page, limit]);
-
-  useEffect(() => {
-    fetchOrgs();
-  }, [fetchOrgs]);
-
   return (
     <div>
       <div className="">
@@ -116,7 +102,7 @@ export default function Organisation() {
 
             <div className="">
               {/* <Link
-                href={'/apps/organisations/create'}
+                href={'/projects/organisations/create'}
                 className="no-underline"
               > */}
               <Button
@@ -129,6 +115,29 @@ export default function Organisation() {
               {/* </Link> */}
             </div>
           </div>
+          <div className="mb-2 flex items-center justify-between">
+            <div>
+              <Input
+                type={'search'}
+                size="sm"
+                placeholder="Search project"
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+              />
+            </div>
+
+            <div>
+              <Select
+                size="sm"
+                placeholder="Sort"
+                value={sort}
+                onChange={(_, val) => setSort(val)}
+              >
+                <Option value={'asc'}>ASC</Option>
+                <Option value={'desc'}>DESC</Option>
+              </Select>
+            </div>
+          </div>
 
           {loading ? (
             <div className="flex  flex-col items-center justify-center gap-4 rounded-lg bg-gray-100 py-16">
@@ -138,20 +147,30 @@ export default function Organisation() {
             <>
               {list.length === 0 ? (
                 <>
-                  <div className="flex  flex-col items-center justify-center gap-4 rounded-lg bg-gray-100 py-16">
-                    <Typography textColor="neutral.500">
-                      You do not have any orgasnisations
-                    </Typography>
+                  {search ? (
+                    <>
+                      <div className="flex  flex-col items-center justify-center gap-4 rounded-lg bg-gray-100 py-16">
+                        <Typography textColor="neutral.500">
+                          No organizations found
+                        </Typography>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex  flex-col items-center justify-center gap-4 rounded-lg bg-gray-100 py-16">
+                      <Typography textColor="neutral.500">
+                        You do not have any orgasnisations
+                      </Typography>
 
-                    <Link
-                      href={'/apps/organisations/create'}
-                      className="no-underline"
-                    >
-                      <Button variant="outlined" startDecorator={<FaPlus />}>
-                        Create new organisation
-                      </Button>
-                    </Link>
-                  </div>
+                      <Link
+                        href={'/projects/organisations/create'}
+                        className="no-underline"
+                      >
+                        <Button variant="outlined" startDecorator={<FaPlus />}>
+                          Create new organisation
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
                 </>
               ) : (
                 <>
@@ -170,7 +189,7 @@ export default function Organisation() {
                             <tr>
                               <td>{i.id}</td>
                               <td>{i.name}</td>
-                              <td>{i.app_count}</td>
+                              <td>{i.project_count}</td>
                               <td>{i.member_count}</td>
                               <td>
                                 <div className="actions cell flex gap-1">

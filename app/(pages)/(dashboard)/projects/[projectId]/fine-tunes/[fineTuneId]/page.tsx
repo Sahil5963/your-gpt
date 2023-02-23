@@ -29,7 +29,7 @@ import Result from './Result';
 import Training from './Training';
 
 export default function FileTuneDetail() {
-  const { appId } = useApp();
+  const { projectId } = useApp();
   const router = useRouter();
 
   const params = useSelectedLayoutSegment();

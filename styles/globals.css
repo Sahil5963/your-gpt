@@ -6,8 +6,12 @@ body {
   margin: 0;
 }
 
-button {
+/* button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  background: unset;
   background: unset;
   border: none;
   outline: none;
-}
+} */

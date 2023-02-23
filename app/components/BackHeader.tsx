@@ -8,7 +8,7 @@ export default function BackHeader({ title }: { title: string }) {
   const router = useRouter();
 
   return (
-    <div className="mb-4 flex items-center gap-3">
+    <div className="mb-4 flex items-center gap-2">
       <IconButton
         color="neutral"
         variant="plain"
@@ -19,7 +19,7 @@ export default function BackHeader({ title }: { title: string }) {
         <HiArrowLeft />
       </IconButton>
 
-      <Typography textColor={'neutral.400'} fontWeight={'lg'}>
+      <Typography textColor={'neutral.800'} fontWeight={'lg'}>
         {title}
       </Typography>
     </div>

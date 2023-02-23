@@ -1,19 +1,21 @@
 import { post } from 'network';
 import { SocialLoginD } from 'types/auth';
 import { osName, deviceType } from 'react-device-detect';
+import { SortD } from 'types';
 
 export const getOrganisationApi = async ({
   token,
-  limit,
-  page,
+  ...raw
 }: {
   token: string;
   limit: number;
   page: number;
+  search?: string;
+  orderBy?: SortD;
 }) => {
   return post({
     route: '/api/v1/getMyOrganizations',
-    data: JSON.stringify({ limit, page }),
+    data: JSON.stringify(raw),
     config: {
       headers: {
         Authorization: 'Bearer ' + token,

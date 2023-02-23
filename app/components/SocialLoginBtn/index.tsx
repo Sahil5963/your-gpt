@@ -66,7 +66,7 @@ export default function SocialLoginBtns() {
 
       if (res.type === 'RXUCCESS') {
         onLoginSuccess({ data: res.data, persist: true });
-        router.push('/apps');
+        router.push('/projects');
       }
     } catch (err: any) {
       console.log('Err', err);

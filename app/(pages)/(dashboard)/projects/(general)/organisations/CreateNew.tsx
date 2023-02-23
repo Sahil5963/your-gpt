@@ -35,7 +35,7 @@ export default function CreateNew({
       setCreating(false);
       if (res.type === 'RXSUCCESS') {
         onCreate({
-          app_count: '0',
+          project_count: '0',
           id: res.data.id,
           member_count: '0',
           name: res.data.name,

@@ -26,7 +26,7 @@ import { FiArrowDown, FiChevronLeft } from 'react-icons/fi';
 import Data from './Data';
 
 export default function FileDetail() {
-  const { appId } = useApp();
+  const { projectId } = useApp();
   const router = useRouter();
 
   const params = useSelectedLayoutSegment();
