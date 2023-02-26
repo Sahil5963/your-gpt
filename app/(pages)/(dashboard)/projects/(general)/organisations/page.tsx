@@ -25,7 +25,7 @@ import { FaArrowRight, FaEdit, FaPlus, FaPlusCircle } from 'react-icons/fa';
 import { HiDotsVertical } from 'react-icons/hi';
 import { BsFillGearFill, BsThreeDots } from 'react-icons/bs';
 import styled from '@emotion/styled';
-import { getProjectsApi } from 'network/api/app';
+import { getProjectsApi } from 'network/api/project';
 import TablePagination from 'app/components/TablePagination';
 import { useAuth } from 'context/AuthContext';
 import { log } from 'utils/helpers';
@@ -73,11 +73,15 @@ export default function Organisation() {
     loading,
     apiError,
     total,
+    setData: setList,
+    setTotal,
   }: {
     data: OrganisationItemD[];
     loading: boolean;
     apiError: string;
     total: number;
+    setTotal: any;
+    setData: any;
   } = useListingApi({ type: 'org', limit, page, search, sort });
 
   //GENERAL

@@ -25,7 +25,7 @@ import {
 import { HiDotsVertical } from 'react-icons/hi';
 import { BsThreeDots } from 'react-icons/bs';
 import styled from '@emotion/styled';
-import { getProjectsApi } from 'network/api/app';
+import { getProjectsApi } from 'network/api/project';
 import TablePagination from 'app/components/TablePagination';
 import { useAuth } from 'context/AuthContext';
 import { log } from 'utils/helpers';
@@ -65,6 +65,11 @@ export default function Projects() {
     loading,
     apiError,
     total,
+  }: {
+    data: ProjectItemD[];
+    loading: boolean;
+    apiError: string;
+    total: number;
   } = useListingApi({ type: 'project', limit, page, search, sort });
 
   return (
@@ -165,12 +170,14 @@ export default function Projects() {
                                 </Link>
                               </td>
                               <td>{i.id}</td>
-                              <td>{'N/A'}</td>
+                              <td>{i.organization?.name}</td>
                               <td>
                                 <div className="actions cell flex gap-1">
-                                  <IconButton variant="outlined">
-                                    <FaEdit />
-                                  </IconButton>
+                                  <Link href={`/projects/manage/${i.id}`}>
+                                    <IconButton variant="outlined">
+                                      <FaEdit />
+                                    </IconButton>
+                                  </Link>
                                   <Link href={`/projects/${i.id}`}>
                                     <IconButton variant="outlined">
                                       <FaEye />

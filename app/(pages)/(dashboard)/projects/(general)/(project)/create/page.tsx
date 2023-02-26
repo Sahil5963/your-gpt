@@ -13,7 +13,7 @@ import {
 import BackHeader from 'app/components/BackHeader';
 import { appContent } from 'app/components/variants/app';
 import { useAuth } from 'context/AuthContext';
-import { createProjectApi } from 'network/api/app';
+import { createProjectApi } from 'network/api/project';
 import { getOrganisationApi } from 'network/api/organisation';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -95,8 +95,10 @@ export default function CreateProject() {
 
   const onOrgChange = (e) => {
     // setOrgInpuVal(e);
-    setLoadingOrg(true);
-    delaySearch(e.target.value);
+
+    // setLoadingOrg(true);
+
+    e.target?.value && delaySearch(e.target.value);
   };
 
   useEffect(() => {}, []);
@@ -152,8 +154,7 @@ export default function CreateProject() {
               placeholder="Select oragnisation"
               loading={loadingOrg}
               value={org}
-              onChange={(e, val) => {
-                console.log(val);
+              onChange={(e, val: any) => {
                 setOrg(val);
               }}
               onInputChange={onOrgChange}

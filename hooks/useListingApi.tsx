@@ -1,5 +1,5 @@
 import { useAuth } from 'context/AuthContext';
-import { getProjectsApi } from 'network/api/app';
+import { getProjectsApi } from 'network/api/project';
 import { getOrganisationApi } from 'network/api/organisation';
 import { useEffect, useState } from 'react';
 import { SortD } from 'types';
@@ -83,5 +83,7 @@ export function useListingApi({
     loading,
     data,
     total,
+    setTotal,
+    setData,
   };
 }

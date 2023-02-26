@@ -4,7 +4,7 @@ export type ProjectItemD = {
   createdAt: string;
   id: number;
   name: string;
-  //   organization: any;
+  organization: { name: string; user_id: number };
   organization_id: number;
   user_id: number;
 };

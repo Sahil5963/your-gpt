@@ -11,7 +11,7 @@ const LINKS = [
   {
     id: 1,
     link: '/projects',
-    label: 'Apps',
+    label: 'Projects',
   },
   {
     id: 2,

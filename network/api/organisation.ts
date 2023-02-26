@@ -1,6 +1,4 @@
 import { post } from 'network';
-import { SocialLoginD } from 'types/auth';
-import { osName, deviceType } from 'react-device-detect';
 import { SortD } from 'types';
 
 export const getOrganisationApi = async ({
