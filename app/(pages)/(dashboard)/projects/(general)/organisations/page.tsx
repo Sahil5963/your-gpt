@@ -88,7 +88,6 @@ export default function Organisation() {
   const [activeOrg, setActiveOrg] = useState<OrganisationItemD>(
     {} as OrganisationItemD,
   );
-
   //Create
   const [createOpen, setCreateOpen] = useState(false);
 
