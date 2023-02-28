@@ -5,7 +5,6 @@ import Navbar from 'app/components/Navbar';
 export default function Page() {
   return (
     <div>
-      <Navbar />
       <HeroBanner />
       <Help />
     </div>

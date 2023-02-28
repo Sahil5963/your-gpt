@@ -45,7 +45,7 @@ export default function Login() {
 
       if (res.type === 'RXSUCCESS') {
         onLoginSuccess({ data: res.data, persist: true });
-        router.push('/projects');
+        router.push('/console/projects');
         return;
       }
       setLoading(false);

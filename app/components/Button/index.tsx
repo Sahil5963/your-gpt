@@ -28,7 +28,7 @@ export const SolidButton = (props: ButtonD) => {
 };
 
 const Button = styled.button`
-  padding: 1rem 3rem;
+  padding: 0.8rem 2.4rem;
   outline: none;
   border: none;
   font-size: 16px;

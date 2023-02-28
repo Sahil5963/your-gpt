@@ -12,7 +12,7 @@ module.exports = {
       colors: {},
     },
     colors: {
-      paperColor: 'rgba(255, 255, 255, 0.94)',
+      paperColor: '#fff',
       primary: '#29292999',
       secondary: '#000000aa',
       primaryGradient: '#4E55F1',

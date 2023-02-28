@@ -31,6 +31,10 @@ import { AiFillDelete, AiFillEye } from 'react-icons/ai';
 import { usePathname, useRouter } from 'next/navigation';
 import { IoWarning } from 'react-icons/io5';
 import TablePagination from 'app/components/dashboard/TablePagination';
+import { useListingApi } from 'hooks/useListingApi';
+import { SortD } from 'types';
+import { useApp } from 'context/AppContext';
+import ConfirmModal from 'app/components/dashboard/ConfirmModal';
 
 const COLS = [
   {
@@ -72,8 +76,23 @@ const DATA = [
 export default function AppFiles() {
   const router = useRouter();
   const pathname = usePathname();
-
   const [deleteId, setDeleteId] = useState('');
+
+  const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const [sort, setSort] = useState<SortD>('desc');
+
+  const { projectId } = useApp();
+
+  const { data, total, apiError, loading, setData, setTotal } = useListingApi({
+    limit,
+    page,
+    search,
+    sort,
+    type: 'projectFiles',
+    project_id: projectId,
+  });
 
   return (
     <div className={appContent()}>
@@ -170,47 +189,16 @@ export default function AppFiles() {
         </Sheet>
       </div>
 
-      <Modal open={deleteId ? true : false} onClose={() => setDeleteId('')}>
-        <ModalDialog
-          variant="outlined"
-          role="alertdialog"
-          aria-labelledby="alert-dialog-modal-title"
-          aria-describedby="alert-dialog-modal-description"
-        >
-          <Typography
-            id="alert-dialog-modal-title"
-            component="h2"
-            startDecorator={<IoWarning />}
-          >
-            Confirmation
-          </Typography>
-          <Divider />
-          <Typography
-            id="alert-dialog-modal-description"
-            textColor="text.tertiary"
-          >
-            Are you sure you want to delete this file?
-          </Typography>
-          <Box
-            sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end', pt: 2 }}
-          >
-            <Button
-              variant="plain"
-              color="neutral"
-              onClick={() => setDeleteId('')}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="solid"
-              color="danger"
-              onClick={() => setDeleteId('')}
-            >
-              Delete file
-            </Button>
-          </Box>
-        </ModalDialog>
-      </Modal>
+      <ConfirmModal
+        open={deleteId ? true : false}
+        onClose={() => setDeleteId('')}
+        danger
+        confirmTitle="Delete file"
+        loading={false}
+        onConfirm={() => {}}
+        desc="This action in not reversible"
+        // title='Delete this file '
+      />
     </div>
   );
 }

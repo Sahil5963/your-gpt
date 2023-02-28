@@ -24,7 +24,7 @@ export default function AppLink({
 
   return (
     <Link
-      href={`/projects/${projectId}/${href || ''}`}
+      href={`/console/project/${projectId}/${href || ''}`}
       className={`${className} rounded-md py-2 px-4 ${clsx(
         { 'bg-blue-700  text-white': isActive },
         { 'bg-transparent text-blue-300': !isActive },
