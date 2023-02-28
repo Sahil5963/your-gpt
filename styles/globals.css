@@ -2,16 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 body {
+  margin: 0;
+  font-family: 'Public Sans', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+button {
+  font-family: 'Public Sans', sans-serif;
+}
+
+h1,
+h2,
+h3 {
   margin: 0;
 }
 
-/* button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
-  background: unset;
-  background: unset;
-  border: none;
-  outline: none;
-} */
+.p1 {
+  font-size: 18px;
+}
+
+.h1 {
+  font-size: 48px;
+}
+
+.fixed-container {
+  max-width: 1366px;
+  margin: auto;
+}
+
+.text-gradient {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
+.bg-gradient {
+  background: linear-gradient(180deg, #4e55f1 0%, #9d3cff 100%);
+}

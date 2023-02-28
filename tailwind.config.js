@@ -11,5 +11,12 @@ module.exports = {
     extend: {
       colors: {},
     },
+    colors: {
+      paperColor: '#fff',
+      primary: '#29292999',
+      secondary: '#000000aa',
+      primaryGradient: '#4E55F1',
+      secondaryGradient: '#9D3CFF',
+    },
   },
 };
