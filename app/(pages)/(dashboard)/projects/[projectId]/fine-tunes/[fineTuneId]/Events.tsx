@@ -1,5 +1,5 @@
 import { Table, Typography } from '@mui/joy';
-import TablePagination from 'app/components/TablePagination';
+import TablePagination from 'app/components/dashboard/TablePagination';
 import React from 'react';
 
 const COLS = [

@@ -10,7 +10,7 @@ import {
   Select,
   Typography,
 } from '@mui/joy';
-import BackHeader from 'app/components/BackHeader';
+import BackHeader from 'app/components/dashboard/BackHeader';
 import { appContent } from 'app/components/dashboard/variants/app';
 import { useAuth } from 'context/AuthContext';
 import { createProjectApi } from 'network/api/project';

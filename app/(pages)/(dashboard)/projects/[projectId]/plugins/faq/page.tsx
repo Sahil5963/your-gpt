@@ -2,7 +2,7 @@
 
 import { ClickAwayListener } from '@mui/base';
 import { Button, FormControl, FormLabel, Input, Typography } from '@mui/joy';
-import BackHeader from 'app/components/BackHeader';
+import BackHeader from 'app/components/dashboard/BackHeader';
 import { appContent } from 'app/components/dashboard/variants/app';
 import Link from 'next/link';
 import React, { useState } from 'react';

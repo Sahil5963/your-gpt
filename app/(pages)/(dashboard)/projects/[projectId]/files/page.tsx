@@ -30,7 +30,7 @@ import { BsPlus } from 'react-icons/bs';
 import { AiFillDelete, AiFillEye } from 'react-icons/ai';
 import { usePathname, useRouter } from 'next/navigation';
 import { IoWarning } from 'react-icons/io5';
-import TablePagination from 'app/components/TablePagination';
+import TablePagination from 'app/components/dashboard/TablePagination';
 
 const COLS = [
   {

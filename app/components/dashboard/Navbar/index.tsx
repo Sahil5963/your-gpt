@@ -15,7 +15,7 @@ import {
   FaList,
   FaUser,
 } from 'react-icons/fa';
-import ThemeToggle from '../ThemeToggle';
+import ThemeToggle from '../../ThemeToggle';
 
 const Popup = styled(PopperUnstyled)({
   zIndex: 1000,

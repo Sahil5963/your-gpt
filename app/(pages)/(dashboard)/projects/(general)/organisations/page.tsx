@@ -26,7 +26,7 @@ import { HiDotsVertical } from 'react-icons/hi';
 import { BsFillGearFill, BsThreeDots } from 'react-icons/bs';
 import styled from '@emotion/styled';
 import { getProjectsApi } from 'network/api/project';
-import TablePagination from 'app/components/TablePagination';
+import TablePagination from 'app/components/dashboard/TablePagination';
 import { useAuth } from 'context/AuthContext';
 import { log } from 'utils/helpers';
 import { OrganisationItemD } from 'types/org';
