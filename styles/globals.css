@@ -41,6 +41,10 @@ h3 {
   -moz-text-fill-color: transparent;
 }
 
+:root {
+  --primary-gradient: linear-gradient(180deg, #4e55f1 0%, #9d3cff 100%);
+}
+
 .bg-gradient {
   background: linear-gradient(180deg, #4e55f1 0%, #9d3cff 100%);
 }
