@@ -52,7 +52,10 @@ export default function AppNavbar() {
       className="sticky top-0 z-20 flex bg-blue-800 px-8"
     >
       <div className="flex flex-1 items-center">
-        <Link href={'/projects'} className="font-bold text-white no-underline ">
+        <Link
+          href={'/console/projects'}
+          className="font-bold text-white no-underline "
+        >
           <img src="/images/svg/logo-white.svg" className="h-6" />
         </Link>
 

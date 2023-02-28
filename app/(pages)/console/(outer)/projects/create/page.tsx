@@ -116,7 +116,7 @@ export default function CreateProject() {
       console.log('RES', res);
 
       if (res.type === 'RXSUCCESS') {
-        router.push('/projects');
+        router.push('/console/projects');
       }
       setCreating(false);
     } catch (err) {

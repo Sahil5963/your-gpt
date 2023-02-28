@@ -5,36 +5,31 @@ import {
   Button,
   Chip,
   CircularProgress,
-  FormControl,
-  FormLabel,
   IconButton,
   Input,
-  Modal,
-  ModalClose,
   Option,
   Select,
-  Sheet,
   Table,
-  Tabs,
   Tooltip,
   Typography,
 } from '@mui/joy';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FaArrowRight, FaEdit, FaPlus, FaPlusCircle } from 'react-icons/fa';
+import {
+  FaArrowRight,
+  FaEdit,
+  FaEye,
+  FaPlus,
+  FaPlusCircle,
+} from 'react-icons/fa';
 import { HiDotsVertical } from 'react-icons/hi';
-import { BsFillGearFill, BsThreeDots } from 'react-icons/bs';
+import { BsThreeDots } from 'react-icons/bs';
 import styled from '@emotion/styled';
 import { getProjectsApi } from 'network/api/project';
 import TablePagination from 'app/components/dashboard/TablePagination';
 import { useAuth } from 'context/AuthContext';
 import { log } from 'utils/helpers';
-import { OrganisationItemD } from 'types/org';
-import CreateNew from './CreateNew';
-import { IoPersonAdd } from 'react-icons/io5';
-import Edit from './Edit';
-import { AiFillDelete } from 'react-icons/ai';
-import { getOrganisationApi } from 'network/api/organisation';
+import { ProjectItemD } from 'types/project';
 import { SortD } from 'types';
 import { useDebounce } from 'use-debounce';
 import { useListingApi } from 'hooks/useListingApi';
@@ -42,19 +37,16 @@ import { useListingApi } from 'hooks/useListingApi';
 const COLS = [
   {
     id: 1,
-    label: 'ID',
-  },
-  {
-    id: 2,
     label: 'Name',
   },
   {
-    id: 3,
-    label: 'Apps',
+    id: 2,
+    label: 'ID',
   },
+
   {
-    id: 4,
-    label: 'Memebers',
+    id: 3,
+    label: 'Organisation',
   },
   {
     id: 4,
@@ -62,37 +54,23 @@ const COLS = [
   },
 ];
 
-export default function Organisation() {
+export default function Projects() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState('');
   const [sort, setSort] = useState<SortD>('desc');
+  const [search, setSearch] = useState('');
 
   const {
     data: list,
     loading,
     apiError,
     total,
-    setData: setList,
-    setTotal,
   }: {
-    data: OrganisationItemD[];
+    data: ProjectItemD[];
     loading: boolean;
     apiError: string;
     total: number;
-    setTotal: any;
-    setData: any;
-  } = useListingApi({ type: 'org', limit, page, search, sort });
-
-  //GENERAL
-  const [activeOrg, setActiveOrg] = useState<OrganisationItemD>(
-    {} as OrganisationItemD,
-  );
-  //Create
-  const [createOpen, setCreateOpen] = useState(false);
-
-  //Add Mmember
-  const [addMemberOpen, setAddMemberOpen] = useState(false);
+  } = useListingApi({ type: 'project', limit, page, search, sort });
 
   return (
     <div>
@@ -100,24 +78,18 @@ export default function Organisation() {
         <div>
           <div className="mb-6 flex items-center justify-between">
             <Typography level="h6" fontWeight={'md'}>
-              Your organisations
+              Your projects
             </Typography>
 
             <div className="">
-              {/* <Link
-                href={'/projects/organisations/create'}
-                className="no-underline"
-              > */}
-              <Button
-                variant="outlined"
-                startDecorator={<FaPlus />}
-                onClick={() => setCreateOpen(true)}
-              >
-                Add organisation
-              </Button>
-              {/* </Link> */}
+              <Link href={'/console/projects/create'} className="no-underline">
+                <Button variant="outlined" startDecorator={<FaPlus />}>
+                  Add Project
+                </Button>
+              </Link>
             </div>
           </div>
+
           <div className="mb-2 flex items-center justify-between">
             <div>
               <Input
@@ -154,22 +126,22 @@ export default function Organisation() {
                     <>
                       <div className="flex  flex-col items-center justify-center gap-4 rounded-lg bg-gray-100 py-16">
                         <Typography textColor="neutral.500">
-                          No organizations found
+                          No Project found
                         </Typography>
                       </div>
                     </>
                   ) : (
                     <div className="flex  flex-col items-center justify-center gap-4 rounded-lg bg-gray-100 py-16">
                       <Typography textColor="neutral.500">
-                        You do not have any orgasnisations
+                        You do not have any project
                       </Typography>
 
                       <Link
-                        href={'/projects/organisations/create'}
+                        href={'/console/projects/create'}
                         className="no-underline"
                       >
                         <Button variant="outlined" startDecorator={<FaPlus />}>
-                          Create new organisation
+                          Create new project
                         </Button>
                       </Link>
                     </div>
@@ -190,27 +162,32 @@ export default function Organisation() {
                         {list.map((i) => {
                           return (
                             <tr>
+                              <td>
+                                <Link
+                                  href={`/console/project/${i.id}`}
+                                  className="text-black no-underline "
+                                >
+                                  <Typography fontWeight={'lg'}>
+                                    {i.name}
+                                  </Typography>
+                                </Link>
+                              </td>
                               <td>{i.id}</td>
-                              <td>{i.name}</td>
-                              <td>{i.project_count}</td>
-                              <td>{i.member_count}</td>
+                              <td>{i.organization?.name}</td>
                               <td>
                                 <div className="actions cell flex gap-1">
-                                  <Tooltip title="Manage" variant="solid">
-                                    <IconButton
-                                      variant="outlined"
-                                      onClick={() => {
-                                        setActiveOrg(i);
-                                        setAddMemberOpen(true);
-                                      }}
-                                    >
-                                      {/* <IoPersonAdd /> */}
+                                  <Link
+                                    href={`/console/projects/manage/${i.id}`}
+                                  >
+                                    <IconButton variant="outlined">
                                       <FaEdit />
                                     </IconButton>
-                                  </Tooltip>
-                                  <IconButton variant="outlined" color="danger">
-                                    <AiFillDelete />
-                                  </IconButton>
+                                  </Link>
+                                  <Link href={`/console/project/${i.id}`}>
+                                    <IconButton variant="outlined">
+                                      <FaEye />
+                                    </IconButton>
+                                  </Link>
                                 </div>
                               </td>
                             </tr>
@@ -234,31 +211,26 @@ export default function Organisation() {
               )}
             </>
           )}
+
+          {/* 
+          <div>
+            <Link
+              href={'/projects/12121'}
+              className="item hover:bg-gray-150 flex items-center justify-between rounded-md bg-gray-100 px-2 py-2 no-underline"
+            >
+              <Typography fontWeight={'lg'} sx={{}}>
+                Default
+              </Typography>
+
+              <div>
+                <IconButton>
+                  <FaEdit />
+                </IconButton>
+              </div>
+            </Link>
+          </div> */}
         </div>
       </div>
-
-      {createOpen && (
-        <CreateNew
-          onCreate={(res) => {
-            setTotal((s) => s + 1);
-            setList((s) => [res, ...s]);
-          }}
-          open={createOpen}
-          onClose={() => setCreateOpen(false)}
-        />
-      )}
-
-      {addMemberOpen && (
-        <Edit
-          open={addMemberOpen}
-          onClose={() => setAddMemberOpen(false)}
-          onUpdate={(d) => {
-            setList((s) => s.map((i) => (i.id === d.id ? { ...i, ...d } : i)));
-            setAddMemberOpen(false);
-          }}
-          {...activeOrg}
-        />
-      )}
     </div>
   );
 }

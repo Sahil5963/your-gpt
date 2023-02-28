@@ -10,12 +10,12 @@ import { IoLogOut } from 'react-icons/io5';
 const LINKS = [
   {
     id: 1,
-    link: '/projects',
+    link: '/console/projects',
     label: 'Projects',
   },
   {
     id: 2,
-    link: '/projects/organisations',
+    link: '/console/organisations',
     label: 'Organisations',
   },
 ];
@@ -30,7 +30,7 @@ export default function GeneralLayout({
   return (
     <Sheet className="min-h-screen bg-gray-100">
       <div className="sticky top-0 z-10 flex  h-[56px] items-center justify-between bg-white px-4 shadow-sm ">
-        <Link href={'/projects'}>
+        <Link href={'/console/projects'}>
           <img src="/images/svg/logo.svg" className="h-6" />
         </Link>
 
