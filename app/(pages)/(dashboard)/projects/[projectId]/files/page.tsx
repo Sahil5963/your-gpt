@@ -16,7 +16,7 @@ import {
   Table,
   Typography,
 } from '@mui/joy';
-import { appContent } from 'app/components/variants/app';
+import { appContent } from 'app/components/dashboard/variants/app';
 import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import {

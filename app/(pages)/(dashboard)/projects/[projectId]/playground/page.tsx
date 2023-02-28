@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/joy';
 import { maxHeight } from '@mui/system';
-import { appContent } from 'app/components/variants/app';
+import { appContent } from 'app/components/dashboard/variants/app';
 import { THEME } from 'constants/ui';
 import React, { useState } from 'react';
 import { IoSend } from 'react-icons/io5';

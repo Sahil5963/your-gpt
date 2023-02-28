@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/joy';
 import BackHeader from 'app/components/BackHeader';
-import { appContent } from 'app/components/variants/app';
+import { appContent } from 'app/components/dashboard/variants/app';
 import { useAuth } from 'context/AuthContext';
 import { createProjectApi } from 'network/api/project';
 import { getOrganisationApi } from 'network/api/organisation';

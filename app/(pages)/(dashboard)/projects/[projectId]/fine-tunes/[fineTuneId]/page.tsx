@@ -14,7 +14,11 @@ import {
   Table,
   Typography,
 } from '@mui/joy';
-import { appContent, listItem, listItems } from 'app/components/variants/app';
+import {
+  appContent,
+  listItem,
+  listItems,
+} from 'app/components/dashboard/variants/app';
 import { useApp } from 'context/AppContext';
 import Link from 'next/link';
 import {

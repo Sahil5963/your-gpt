@@ -10,7 +10,7 @@ import {
   Select,
   Typography,
 } from '@mui/joy';
-import { appContent } from 'app/components/variants/app';
+import { appContent } from 'app/components/dashboard/variants/app';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FiChevronLeft } from 'react-icons/fi';

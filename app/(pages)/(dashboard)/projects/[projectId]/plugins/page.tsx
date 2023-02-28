@@ -1,7 +1,7 @@
 'use client';
 
 import { Typography } from '@mui/joy';
-import { appContent } from 'app/components/variants/app';
+import { appContent } from 'app/components/dashboard/variants/app';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';

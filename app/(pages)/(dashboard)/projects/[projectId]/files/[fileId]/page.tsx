@@ -13,7 +13,7 @@ import {
   ListItemContent,
   Typography,
 } from '@mui/joy';
-import { appContent } from 'app/components/variants/app';
+import { appContent } from 'app/components/dashboard/variants/app';
 import { useApp } from 'context/AppContext';
 import Link from 'next/link';
 import {
