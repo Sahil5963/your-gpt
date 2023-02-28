@@ -28,12 +28,12 @@ export default function Navbar() {
   return (
     <Root className={clsx({ atTop })}>
       <div
-        className={`bg-white m-auto flex max-w-screen-2xl items-center justify-between bg-opacity-95`}
+        className={`m-auto flex max-w-screen-2xl items-center justify-between bg-white bg-opacity-95`}
       >
         <div>
           <img src="/images/navbar/logo.svg" alt="" />
         </div>
-        <div>
+        <div className="hidden sm:block">
           <ul className="nav-lists flex gap-14">
             <li className="font-medium text-primary">Use cases</li>
             <li className="font-medium text-primary">Blogs</li>
@@ -58,7 +58,6 @@ const Root = styled.div`
   position: sticky;
   top: 0px;
   backdrop-filter: blur(10px);
-
   box-shadow: 0px 2px 6px 6px rgba(0, 0, 0, 0.02);
   &.atTop {
     box-shadow: none;
