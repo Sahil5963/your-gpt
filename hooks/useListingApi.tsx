@@ -4,8 +4,9 @@ import { getOrganisationApi } from 'network/api/organisation';
 import { useEffect, useState } from 'react';
 import { SortD } from 'types';
 import { useDebounce } from 'use-debounce';
+import { getProjectFilesApi } from 'network/api/project/file';
 
-type ApiType = 'org' | 'member' | 'project';
+type ApiType = 'org' | 'member' | 'project' | 'projectFiles';
 
 export function useListingApi({
   type,
@@ -13,12 +14,14 @@ export function useListingApi({
   search,
   page,
   limit,
+  project_id,
 }: {
   type: ApiType;
   search: string;
   sort: SortD;
   page: number;
   limit: number;
+  project_id?: string;
 }) {
   const [apiError, setApiError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -55,6 +58,9 @@ export function useListingApi({
           case 'project':
             res = await getProjectsApi(dat);
             break;
+          case 'projectFiles':
+            res = await getProjectFilesApi({ ...dat, project_id });
+            break;
           default:
         }
 
@@ -66,6 +72,7 @@ export function useListingApi({
         } else {
           setData([]);
           setTotal(0);
+          setApiError(res.message);
         }
       } catch (err) {
         setLoading(false);
@@ -74,9 +81,13 @@ export function useListingApi({
     };
 
     if (token) {
-      fe();
+      if (type === 'projectFiles' && project_id) {
+        fe();
+      } else {
+        fe();
+      }
     }
-  }, [page, limit, delaySearch, limit, token, sort]);
+  }, [page, limit, delaySearch, limit, token, sort, project_id]);
 
   return {
     apiError,
