@@ -6,7 +6,7 @@ const Help = () => {
   return (
     <Root className="bg-gradient-to-b from-primaryGradient to-secondaryGradient">
       <div className="fixed-container">
-        <div className="flex justify-between gap-10">
+        <div className="flex justify-between   gap-10">
           <div className="flex flex-1 flex-col justify-between">
             <div>
               <h2>
