@@ -2,10 +2,11 @@
 
 import styled from '@emotion/styled';
 import React from 'react';
+import { externalAppContent } from '../variants';
 
 const HeroBanner = () => {
   return (
-    <Root className="fixed-container">
+    <Root className={externalAppContent()}>
       <div className="mt-12 flex flex-col items-center justify-center gap-10">
         <h1 className="h1 text-center font-black">
           Develop Your Own{' '}

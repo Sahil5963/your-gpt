@@ -54,25 +54,25 @@ export default function ContactUs() {
     <div className="">
       <div style={{ background: 'var(--primary-gradient)' }}>
         <div className={externalAppContent()}>
-          <div className="banner flex flex-col items-center justify-center py-12">
+          <div className="banner flex flex-col items-center justify-center py-8 sm:py-12">
             <div className="mb-4 text-center ">
-              <h3 className="mt-0 mb-2 text-2xl font-semibold text-white">
+              <h3 className="mt-0 mb-2 text-xl font-semibold text-white sm:text-2xl">
                 Top questions about YourGPT
               </h3>
-              <p className="text-white text-opacity-50">
+              <p className="text-sm text-white text-opacity-50 sm:text-base ">
                 Need something cleared up? Here are our most frequently asked
                 question
               </p>
             </div>
 
             <div className="relative flex items-center self-stretch sm:self-center  ">
-              <div className="absolute left-5  aspect-square text-white/60">
-                <ImSearch color="currentColor" size={22} />
+              <div className="absolute left-5 flex aspect-square items-center  justify-center text-white/60">
+                <ImSearch color="currentColor" size={20} />
               </div>
               <input
                 type="text"
                 placeholder="Enter your search...."
-                className="color-white w-full rounded-xl border-solid border-white/40 bg-white bg-opacity-0 px-4 py-3 pl-16  text-base  text-white placeholder-white/40  outline-none transition-all hover:border-opacity-60  hover:bg-opacity-10 hover:pl-14 focus:bg-opacity-10"
+                className="color-white rounded-xl border-solid border-white/40 bg-white bg-opacity-0 px-4 py-2 pl-14 text-base  text-white  placeholder-white/40 outline-none  transition-all hover:border-opacity-60 hover:bg-opacity-10  hover:pl-12 focus:bg-opacity-10 sm:py-3"
               />
             </div>
           </div>
@@ -93,6 +93,14 @@ export default function ContactUs() {
             <Item
               title="What is YourGPT and how does it work?"
               desc="YourGPT is a subscription-based app that uses advanced AI technology powered by OpenAI to build a custom chatbot for your business. It works by ingesting your data and information, including your content and knowledgebases, and using this information to train a generative AI model that can respond to customer inquiries and perform various tasks. The result is a personalized AI-powered chatbot that is unique to your business and understands all the details of your products, services, and customers. With YourGPT, you can improve your customer support, lead generation, marketing automation, and other business processes in a more efficient and effective way."
+            />
+            <Item
+              title="How does YourGPT use my data to build a custom chatGPT-type chatbot?"
+              desc="YourGPT uses your data to build a custom chatbot by ingesting the information you provide into our system. This information can include your company’s knowledge base, product information, customer data, and other relevant content. Our AI algorithms then use this information to train a unique generative AI model specifically tailored to your needs. The result is a custom chatGPT-style bot that can have a deep understanding of your business and customers, allowing it to provide personalized and accurate responses to a wide range of inquiries. "
+            />
+            <Item
+              title="How does YourGPT use my data to build a custom chatGPT-type chatbot?"
+              desc="YourGPT uses your data to build a custom chatbot by ingesting the information you provide into our system. This information can include your company’s knowledge base, product information, customer data, and other relevant content. Our AI algorithms then use this information to train a unique generative AI model specifically tailored to your needs. The result is a custom chatGPT-style bot that can have a deep understanding of your business and customers, allowing it to provide personalized and accurate responses to a wide range of inquiries. "
             />
             <Item
               title="How does YourGPT use my data to build a custom chatGPT-type chatbot?"

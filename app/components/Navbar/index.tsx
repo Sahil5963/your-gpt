@@ -1,6 +1,7 @@
 'use client';
 import styled from '@emotion/styled';
 import clsx from 'clsx';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { EXTERNAL_THEME } from 'utils/ui';
 import { OutlineButton, SolidButton } from '../Button';
@@ -28,18 +29,38 @@ export default function Navbar() {
   return (
     <Root className={clsx({ atTop })}>
       <div
-        className={`m-auto flex max-w-screen-2xl items-center justify-between bg-white bg-opacity-95`}
+        className={`m-auto flex max-w-screen-2xl items-center justify-between bg-white/50`}
       >
         <div>
           <img src="/images/navbar/logo.svg" alt="" />
         </div>
         <div className="hidden sm:block">
-          <ul className="nav-lists flex gap-14">
-            <li className="font-medium text-primary">Use cases</li>
-            <li className="font-medium text-primary">Blogs</li>
-            <li className="font-medium text-primary">FAQ</li>
-            <li className="font-medium text-primary">Contact us</li>
-          </ul>
+          <div className="nav-lists flex gap-14">
+            {[
+              { label: 'Use cases', link: '/' },
+              {
+                label: 'Blogs',
+                link: '/',
+              },
+              {
+                label: 'FAQ',
+                link: '/faq',
+              },
+              {
+                label: 'Contact us',
+                link: '/contact',
+              },
+            ].map((i) => {
+              return (
+                <Link
+                  href={i.link}
+                  className="font-medium text-primary no-underline hover:text-black "
+                >
+                  {i.label}
+                </Link>
+              );
+            })}
+          </div>
         </div>
         <div className="flex gap-5">
           <div>
@@ -56,6 +77,7 @@ export default function Navbar() {
 
 const Root = styled.div`
   position: sticky;
+  z-index: 20;
   top: 0px;
   backdrop-filter: blur(10px);
   box-shadow: 0px 2px 6px 6px rgba(0, 0, 0, 0.02);

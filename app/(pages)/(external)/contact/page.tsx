@@ -10,6 +10,7 @@ import {
   Select,
   Textarea,
 } from '@mui/joy';
+import { externalAppContent } from 'app/components/variants';
 import React, { useEffect, useState } from 'react';
 import { FiAlignRight, FiArrowRight } from 'react-icons/fi';
 import { tv } from 'tailwind-variants';
@@ -31,7 +32,11 @@ export default function ContactUs() {
   const inputVariant = 'soft';
 
   return (
-    <div className="mx-auto max-w-screen-md">
+    <div
+      className={externalAppContent({
+        class: 'mx-auto max-w-screen-md',
+      })}
+    >
       <div className="py-12">
         <div className="header">
           <h4 className="mt-0 mb-6 text-2xl  font-semibold sm:mb-14 sm:text-3xl sm:font-normal">
