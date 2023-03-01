@@ -25,7 +25,7 @@ export default function ContactUs() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [interest, setInterest] = useState<string | null>(null);
-  const [budget, setBudget] = useState<number | null>(null);
+  const [budget, setBudget] = useState<string | null>(null);
   const [message, setMessage] = useState('');
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -95,14 +95,13 @@ export default function ContactUs() {
               <Select
                 placeholder="Select..."
                 value={interest}
-                onChange={(e) => {
-                  console.log('raw', e);
-                  // setInterest(e.target.value);
+                onChange={(e, val) => {
+                  setInterest(val);
                 }}
               >
-                <Option value="Business">Bisiness</Option>
-                <Option value="Study">Study</Option>
-                <Option value="Research">Research</Option>
+                <Option value="business">Business</Option>
+                <Option value="study">Study</Option>
+                <Option value="research">Research</Option>
               </Select>
             </FormControl>
             <FormControl sx={{ flex: 1 }} required>
@@ -110,14 +109,13 @@ export default function ContactUs() {
               <Select
                 placeholder="Select your project budget"
                 value={budget}
-                onChange={(e) => {
-                  console.log('raw', e);
-                  // setBudget(e.target.value)
+                onChange={(e, val) => {
+                  setBudget(val);
                 }}
               >
-                <Option value={1}>Bisiness</Option>
-                <Option value={2}>Study</Option>
-                <Option value={3}>Research</Option>
+                <Option value="1">Low</Option>
+                <Option value="12">Medium</Option>
+                <Option value="123">High</Option>
               </Select>
             </FormControl>
           </div>

@@ -17,7 +17,7 @@ export const contactApi = async (raw: {
   email: string;
   message: string;
   intrested_in: string;
-  project_budget: number;
+  project_budget: string;
 }) => {
   return post({
     route: '/api/v1/contact',
