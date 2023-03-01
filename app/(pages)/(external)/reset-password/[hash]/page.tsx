@@ -16,7 +16,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { log, logErr } from 'utils/helpers';
 import { EXTERNAL_THEME } from 'utils/ui';
 
-export default function page() {
+export default function page({ params }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -27,6 +27,10 @@ export default function page() {
     e.preventDefault();
     setError('');
     setErrors({ rePassword: '' });
+
+    if (!params?.hash) {
+      return;
+    }
 
     const formElements = e.currentTarget.elements;
     const data = {
@@ -45,7 +49,7 @@ export default function page() {
       setLoading(true);
       const res = await resetPasswordApi({
         password: data?.password,
-        hash: '',
+        hash: params?.hash,
       });
       log('res', res);
 
@@ -78,7 +82,7 @@ export default function page() {
               color: 'text.secondary',
             }}
           >
-            Enter a new password below to reset the password
+            Enter a new password below to reset your password
             {/* Your new password should be different from the previous one */}
           </Typography>
         </div>
