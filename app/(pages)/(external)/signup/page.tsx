@@ -37,16 +37,16 @@ export default function Login() {
       name: formElements.name.value,
       email: formElements.email.value,
       password: formElements.password.value,
-      rePassword: formElements.rePassword.value,
+      // rePassword: formElements.rePassword.value,
       organisation: formElements.organisation.value,
     };
 
-    if (data.password !== data.rePassword) {
-      setErrors({
-        rePassword: 'Password not matched',
-      });
-      return;
-    }
+    // if (data.password !== data.rePassword) {
+    //   setErrors({
+    //     rePassword: 'Password not matched',
+    //   });
+    //   return;
+    // }
 
     setLoading(true);
     try {
