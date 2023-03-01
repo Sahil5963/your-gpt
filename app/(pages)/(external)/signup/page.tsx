@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { EXTERNAL_THEME } from 'utils/ui';
 
 export default function Login() {
   const router = useRouter();
@@ -74,7 +75,10 @@ export default function Login() {
   };
 
   return (
-    <Sheet className="flex min-h-screen w-full items-center justify-center">
+    <Sheet
+      className="flex min-h-screen w-full items-center justify-center"
+      style={{ minHeight: `calc(100vh - ${EXTERNAL_THEME.navBarHeight}px)` }}
+    >
       <div>
         <Typography fontWeight="xl" level="h4">
           Singup
