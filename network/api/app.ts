@@ -11,3 +11,21 @@ export const subscribeApi = async ({ email }: { email: string }) => {
     },
   });
 };
+
+export const contactApi = async (raw: {
+  name: string;
+  email: string;
+  message: string;
+  intrested_in: string;
+  project_budget: number;
+}) => {
+  return post({
+    route: '/api/v1/contact',
+    data: JSON.stringify(raw),
+    config: {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    },
+  });
+};
