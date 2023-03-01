@@ -13,6 +13,7 @@ import {
 import { externalAppContent } from 'app/components/variants';
 import { contactApi } from 'network/api/app';
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { FiAlignRight, FiArrowRight } from 'react-icons/fi';
 import { tv } from 'tailwind-variants';
 
@@ -31,6 +32,11 @@ export default function ContactUs() {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!interest || !budget) {
+      toast.error('Please fill all fields');
+      return;
+    }
+
     try {
       setLoading(true);
       const raw = {
@@ -40,14 +46,16 @@ export default function ContactUs() {
         intrested_in: interest,
         project_budget: budget,
       };
-      console.log('raw', raw);
       await contactApi(raw);
+
       setName('');
       setEmail('');
       setMessage('');
       setLoading(false);
+      toast.success('Sent! We will contact you shortly.');
     } catch (err) {
       setLoading(false);
+      toast.error('Something went wrong!');
       console.log('Err', err);
     }
   };
