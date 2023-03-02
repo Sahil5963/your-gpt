@@ -4,6 +4,7 @@ import React from 'react';
 import { appContent } from '../dashboard/variants/app';
 import ArtificialIntelligence from '../icons/ArtificialIntelligence';
 import ChatbotIcon from '../icons/ChatbotIcon';
+import { externalAppContent } from '../variants';
 
 const CARD_DATA = [
   {
@@ -29,7 +30,7 @@ const CARD_DATA = [
 const Help = () => {
   return (
     <Root className="bg-gradient-to-b from-primaryGradient to-secondaryGradient py-20">
-      <div className={appContent()}>
+      <div className={externalAppContent()}>
         <div className="flex justify-between  gap-10">
           <div className="flex flex-1 flex-col justify-between">
             <div className="flex flex-col gap-4">
@@ -57,18 +58,18 @@ const Help = () => {
           </div>
           <div className="flex-[1.6]">
             <div>
-              <p className="p1 text-lg text-white/60">YourGPT</p>
+              <p className="text-lg text-white/60">YourGPT</p>
               <h4 className="mb-8 text-3xl font-semibold text-white">
                 Use cases
               </h4>
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 xl:gap-6">
               {CARD_DATA.map(({ src, label, text }) => {
                 return (
-                  <div className="card flex flex-col gap-4 border-solid border-white/10 p-7 ">
+                  <div className="card flex flex-col gap-2 border border-solid border-white/10 p-5 lg:gap-4 xl:p-7 ">
                     <div className="icon">{src}</div>
-                    <div className="label font-semibold">{label}</div>
-                    <p className="p2">{text}</p>
+                    <div className="label text-xl font-semibold">{label}</div>
+                    <p className="p2 text-lg">{text}</p>
                   </div>
                 );
               })}
