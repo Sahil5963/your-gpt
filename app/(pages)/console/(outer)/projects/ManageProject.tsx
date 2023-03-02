@@ -33,12 +33,12 @@ export default function ManageProjectModal({
   open,
   onClose,
   onUpdate,
-  projectId,
+  projectKey,
 }: {
   open: boolean;
   onClose: () => any;
   onUpdate: (d: ProjectItemD) => any;
-  projectId: number;
+  projectKey: number;
 }) {
   return (
     <Modal
@@ -63,7 +63,7 @@ export default function ManageProjectModal({
       >
         <ModalClose variant="outlined" />
 
-        <ManageProject onUpdate={onUpdate} projectId={projectId} />
+        <ManageProject onUpdate={onUpdate} projectKey={projectKey} />
       </Sheet>
     </Modal>
   );
@@ -71,10 +71,10 @@ export default function ManageProjectModal({
 
 export function ManageProject({
   onUpdate,
-  projectId,
+  projectKey,
 }: {
   onUpdate?: (d: ProjectItemD) => any;
-  projectId: number;
+  projectKey: number;
 }) {
   const { token } = useAuth();
   const [updating, setUpdating] = useState(false);
@@ -89,7 +89,7 @@ export function ManageProject({
         console.log('Err', err);
       }
     };
-  }, [projectId]);
+  }, [projectKey]);
 
   const update = async (e: any) => {
     const n = e.currentTarget.elements?.name?.value;
@@ -99,7 +99,7 @@ export function ManageProject({
       const res = await updateProjectApi({
         token,
         name: n,
-        project_id: p.id.toString(),
+        project_key: p.id.toString(),
       });
       setUpdating(false);
       if (res.type === 'RXSUCCESS') {

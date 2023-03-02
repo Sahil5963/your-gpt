@@ -20,24 +20,57 @@ import {
   listItems,
 } from 'app/components/dashboard/variants/app';
 import { useApp } from 'context/AppContext';
+import { useAuth } from 'context/AuthContext';
+import { getFineTuneDetailApi } from 'network/api/project/model';
 import Link from 'next/link';
 import {
   useRouter,
   useSelectedLayoutSegment,
   useSelectedLayoutSegments,
 } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiArrowDown, FiChevronLeft } from 'react-icons/fi';
+import { FineTuneItemD } from 'types/fineTune';
+import { ModelItemD } from 'types/model';
+import { formatDateTime } from 'utils/helpers';
 import Events from './Events';
 import Result from './Result';
 import Training from './Training';
 
-export default function FileTuneDetail() {
-  const { projectId } = useApp();
+export default function FileTuneDetail(route: any) {
   const router = useRouter();
+  const { projectKey } = useApp();
+  const { token } = useAuth();
+  const [loading, setLoading] = useState(true);
 
-  const params = useSelectedLayoutSegment();
-  const params1 = useSelectedLayoutSegments();
+  const modelId = route.params?.fineTuneId || '';
+
+  const [fineTune, setFineTune] = useState<FineTuneItemD>({} as FineTuneItemD);
+
+  useEffect(() => {
+    const fetchDetail = async () => {
+      try {
+        setLoading(true);
+        const res = await getFineTuneDetailApi({
+          token,
+          project_key: projectKey,
+          id: modelId,
+        });
+        setLoading(false);
+
+        if (res.type === 'RXSUCCESS') {
+          setFineTune(res.data);
+        }
+      } catch (err) {
+        setLoading(false);
+        console.log('ERR', err);
+      }
+    };
+
+    if (token && projectKey && modelId) {
+      fetchDetail();
+    }
+  }, [token, projectKey, modelId]);
 
   return (
     <div className="bg-gray-50">
@@ -62,13 +95,13 @@ export default function FileTuneDetail() {
         <div className="mb-4 flex flex-col gap-2">
           <div>
             <Typography level="h5" fontWeight={'md'}>
-              davinci:ft-personal:bank-faq-2023-02-13-13-47-07
+              {fineTune.fine_tuned_model}
             </Typography>
-            <Typography>ft-yQqPelvUh15XdmnAoC1m0OWo</Typography>
+            <Typography>{fineTune.id}</Typography>
           </div>
           <div>
             <Chip size="sm" color="success" onClick={function () {}}>
-              succeeded
+              {fineTune.status}
             </Chip>
           </div>
         </div>
@@ -95,19 +128,19 @@ export default function FileTuneDetail() {
               <tbody>
                 <tr>
                   <td>Base Model</td>
-                  <td>davinci</td>
+                  <td>{fineTune.model}</td>
                 </tr>
                 <tr>
                   <td>Fine-tuned model</td>
-                  <td>159</td>
+                  <td>{1}</td>
                 </tr>
                 <tr>
                   <td>Created at</td>
-                  <td>Feb 13, 2023 4:51 pm</td>
+                  <td>{formatDateTime(fineTune.created_at)}</td>
                 </tr>
                 <tr>
                   <td>Updated at</td>
-                  <td>Feb 13, 2023 4:51 pm</td>
+                  <td>{formatDateTime(fineTune.updated_at)}</td>
                 </tr>
                 <tr>
                   <td>Nr. of epochs</td>

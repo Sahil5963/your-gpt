@@ -14,6 +14,7 @@ type AuthContextTypeD = {
   token: string;
   user: any;
   onLoginSuccess: (d: { data: LoginApiResD; persist: boolean }) => any;
+  logout: () => any;
 };
 
 const AuthContext = createContext<AuthContextTypeD>({} as AuthContextTypeD);
@@ -40,6 +41,11 @@ export default function AuthProvider({
     localStorage.setItem(STORAGE_KEYS.token, data.token);
   };
 
+  const logout = async () => {
+    setToken('');
+    localStorage.removeItem(STORAGE_KEYS.token);
+  };
+
   useLayoutEffect(() => {
     if (typeof window !== 'undefined') {
       if (localStorage.getItem(STORAGE_KEYS.token)) {
@@ -54,6 +60,7 @@ export default function AuthProvider({
         token,
         user: {},
         onLoginSuccess,
+        logout,
       }}
     >
       {children}

@@ -1,11 +1,11 @@
 import { createContext, useContext } from 'react';
 
 type AppContextD = {
-  projectId: any;
+  projectKey: any;
 };
 
 export const AppContext = createContext<AppContextD>({
-  projectId: null,
+  projectKey: null,
 });
 
 export const useApp = () => {

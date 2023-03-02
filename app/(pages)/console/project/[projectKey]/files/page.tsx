@@ -3,6 +3,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Divider,
   FormControl,
   FormLabel,
@@ -35,6 +36,8 @@ import { useListingApi } from 'hooks/useListingApi';
 import { SortD } from 'types';
 import { useApp } from 'context/AppContext';
 import ConfirmModal from 'app/components/dashboard/ConfirmModal';
+import { ProjectFileItemD } from 'types/project';
+import { formatDateTime } from 'utils/helpers';
 
 const COLS = [
   {
@@ -83,15 +86,29 @@ export default function AppFiles() {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortD>('desc');
 
-  const { projectId } = useApp();
+  const { projectKey } = useApp();
 
-  const { data, total, apiError, loading, setData, setTotal } = useListingApi({
+  const {
+    data,
+    total,
+    apiError,
+    loading,
+    setData,
+    setTotal,
+  }: {
+    data: ProjectFileItemD[];
+    total: number;
+    apiError: string;
+    loading: boolean;
+    setData: any;
+    setTotal: any;
+  } = useListingApi({
     limit,
     page,
     search,
     sort,
     type: 'projectFiles',
-    project_id: projectId,
+    project_key: projectKey,
   });
 
   return (
@@ -135,57 +152,75 @@ export default function AppFiles() {
 
       <div>
         <Sheet>
-          <Table aria-label="basic table">
-            <thead>
-              <tr>
-                {COLS.map((i) => {
+          {loading ? (
+            <div className="flex h-20 items-center justify-center">
+              <CircularProgress size="md" />
+            </div>
+          ) : (
+            <Table aria-label="basic table">
+              <thead>
+                <tr>
+                  {COLS.map((i) => {
+                    return (
+                      <th style={{ width: !i.label ? 100 : 'auto' }}>
+                        {i.label}
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((i) => {
                   return (
-                    <th style={{ width: !i.label ? 100 : 'auto' }}>
-                      {i.label}
-                    </th>
+                    <tr>
+                      <td>{i.filename}</td>
+                      <td>{i.id}</td>
+                      <td>{formatDateTime(i.created_at)}</td>
+                      <td>{i.purpose}</td>
+                      <td>{i.status}</td>
+                      <td>
+                        <div className="flex gap-1">
+                          <IconButton
+                            variant="outlined"
+                            color="danger"
+                            onClick={() => setDeleteId('1')}
+                          >
+                            <AiFillDelete />
+                          </IconButton>
+                          <IconButton
+                            variant="solid"
+                            onClick={() => {
+                              router.push(pathname + '/' + i.id);
+                            }}
+                          >
+                            <AiFillEye />
+                          </IconButton>
+                        </div>
+                      </td>
+                    </tr>
                   );
                 })}
-              </tr>
-            </thead>
-            <tbody>
-              {DATA.map((i) => {
-                return (
-                  <tr>
-                    <td>{i.name}</td>
-                    <td>{i.id}</td>
-                    <td>{i.createdAt}</td>
-                    <td>{i.purpose}</td>
-                    <td>{i.status}</td>
-                    <td>
-                      <div className="flex gap-1">
-                        <IconButton
-                          variant="outlined"
-                          color="danger"
-                          onClick={() => setDeleteId('1')}
-                        >
-                          <AiFillDelete />
-                        </IconButton>
-                        <IconButton
-                          variant="solid"
-                          onClick={() => {
-                            router.push(pathname + '/' + 1212);
-                          }}
-                        >
-                          <AiFillEye />
-                        </IconButton>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
+              </tbody>
 
-            <tfoot>
-              <tr>
-                <td colSpan={COLS.length}>{/* <TablePagination /> */}</td>
-              </tr>
-            </tfoot>
-          </Table>
+              <tfoot>
+                <tr>
+                  <td colSpan={COLS.length}>
+                    <TablePagination
+                      {...{
+                        limit,
+                        onLimit: (e) => {
+                          setLimit(e);
+                        },
+                        page,
+                        total,
+                        onPage: (e) => setPage(e),
+                      }}
+                    />
+                  </td>
+                </tr>
+              </tfoot>
+            </Table>
+          )}
         </Sheet>
       </div>
 

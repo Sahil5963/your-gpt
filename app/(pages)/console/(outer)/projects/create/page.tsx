@@ -20,6 +20,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { OrganisationItemD } from 'types/org';
 import { useDebouncedCallback } from 'use-debounce';
+import { tv } from 'tailwind-variants';
+import { ProjectTypeD } from 'types/project';
 
 const ORG = [
   {
@@ -40,6 +42,10 @@ const ORG = [
   },
 ];
 
+// const typeV = tv({
+//   base:'p-4 flex items-center'
+// })
+
 export default function CreateProject() {
   const router = useRouter();
   const [loadingOrg, setLoadingOrg] = useState(false);
@@ -49,6 +55,8 @@ export default function CreateProject() {
   const { token } = useAuth();
   // const [orgInpuVal, setOrgInpuVal] = useState('');
   const [orgSearch, setOrgSearch] = useState('');
+
+  const [type, setType] = useState<ProjectTypeD>('basic');
 
   const fetchOrg = useCallback(async () => {
     let active = true;
@@ -112,6 +120,7 @@ export default function CreateProject() {
         token,
         organization_id: org?.id.toString(),
         name,
+        type,
       });
       console.log('RES', res);
 
@@ -142,6 +151,14 @@ export default function CreateProject() {
           <FormControl required>
             <FormLabel>Name</FormLabel>
             <Input placeholder="Name of your project" name="name" />
+          </FormControl>
+          <FormControl required>
+            <FormLabel>App type</FormLabel>
+
+            <Select value={type} onChange={(e, v) => setType(v)} name="type">
+              <Option value={'basic'}>Basic</Option>
+              <Option value={'advance'}>Advance</Option>
+            </Select>
           </FormControl>
 
           <FormControl required>

@@ -4,9 +4,10 @@ import { getOrganisationApi } from 'network/api/organisation';
 import { useEffect, useState } from 'react';
 import { SortD } from 'types';
 import { useDebounce } from 'use-debounce';
-import { getProjectFilesApi } from 'network/api/project/file';
+import { getFilesApi } from 'network/api/project/file';
+import { getModalsApi } from 'network/api/project/model';
 
-type ApiType = 'org' | 'member' | 'project' | 'projectFiles';
+type ApiType = 'org' | 'member' | 'project' | 'projectFiles' | 'models';
 
 export function useListingApi({
   type,
@@ -14,14 +15,14 @@ export function useListingApi({
   search,
   page,
   limit,
-  project_id,
+  project_key,
 }: {
   type: ApiType;
   search: string;
   sort: SortD;
   page: number;
   limit: number;
-  project_id?: string;
+  project_key?: string;
 }) {
   const [apiError, setApiError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -59,7 +60,10 @@ export function useListingApi({
             res = await getProjectsApi(dat);
             break;
           case 'projectFiles':
-            res = await getProjectFilesApi({ ...dat, project_id });
+            res = await getFilesApi({ ...dat, project_key });
+            break;
+          case 'models':
+            res = await getModalsApi({ ...dat, project_key });
             break;
           default:
         }
@@ -81,13 +85,13 @@ export function useListingApi({
     };
 
     if (token) {
-      if (type === 'projectFiles' && project_id) {
+      if ((type === 'projectFiles' || type === 'models') && project_key) {
         fe();
       } else {
         fe();
       }
     }
-  }, [page, limit, delaySearch, limit, token, sort, project_id]);
+  }, [page, limit, delaySearch, limit, token, sort, project_key]);
 
   return {
     apiError,

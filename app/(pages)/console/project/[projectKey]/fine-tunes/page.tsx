@@ -3,6 +3,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Divider,
   FormControl,
   FormLabel,
@@ -31,6 +32,12 @@ import { AiFillDelete, AiFillEye } from 'react-icons/ai';
 import { usePathname, useRouter } from 'next/navigation';
 import { IoWarning } from 'react-icons/io5';
 import TablePagination from 'app/components/dashboard/TablePagination';
+import { SortD } from 'types';
+import { useApp } from 'context/AppContext';
+import { useListingApi } from 'hooks/useListingApi';
+import { ModelItemD } from 'types/model';
+import { FineTuneItemD } from 'types/fineTune';
+import { formatDateTime } from 'utils/helpers';
 
 const COLS = [
   {
@@ -39,22 +46,18 @@ const COLS = [
   },
   {
     id: 2,
-    label: 'Model',
+    label: 'Modal',
   },
   {
     id: 3,
-    label: 'Created date',
+    label: 'Created at',
   },
   {
     id: 4,
-    label: 'Training file',
-  },
-  {
-    id: 5,
     label: 'Status',
   },
   {
-    id: 6,
+    id: 5,
     label: '',
   },
 ];
@@ -72,8 +75,37 @@ const DATA = [
 export default function AppFineTunes() {
   const router = useRouter();
   const pathname = usePathname();
-
   const [deleteId, setDeleteId] = useState('');
+
+  const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const [sort, setSort] = useState<SortD>('desc');
+
+  const { projectKey } = useApp();
+
+  const {
+    data,
+    total,
+    apiError,
+    loading,
+    setData,
+    setTotal,
+  }: {
+    data: FineTuneItemD[];
+    total: number;
+    apiError: string;
+    loading: boolean;
+    setData: any;
+    setTotal: any;
+  } = useListingApi({
+    limit,
+    page,
+    search,
+    sort,
+    type: 'models',
+    project_key: projectKey,
+  });
 
   return (
     <div className={appContent()}>
@@ -116,57 +148,73 @@ export default function AppFineTunes() {
 
       <div>
         <Sheet>
-          <Table aria-label="basic table">
-            <thead>
-              <tr>
-                {COLS.map((i) => {
+          {loading ? (
+            <div className="flex h-20 items-center justify-center">
+              <CircularProgress size="md" />
+            </div>
+          ) : (
+            <Table aria-label="basic table">
+              <thead>
+                <tr>
+                  {COLS.map((i) => {
+                    return (
+                      <th style={{ width: !i.label ? 100 : 'auto' }}>
+                        {i.label}
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
+
+              <tbody>
+                {data.map((i) => {
                   return (
-                    <th style={{ width: !i.label ? 100 : 'auto' }}>
-                      {i.label}
-                    </th>
+                    <tr>
+                      <td>{i.id}</td>
+                      <td>{i.model}</td>
+                      <td>{formatDateTime(i.created_at)}</td>
+                      <td>{i.status}</td>
+                      <td>
+                        <div className="flex gap-1">
+                          <IconButton
+                            variant="outlined"
+                            color="danger"
+                            onClick={() => setDeleteId('1')}
+                          >
+                            <AiFillDelete />
+                          </IconButton>
+                          <IconButton
+                            variant="solid"
+                            onClick={() => {
+                              router.push(pathname + '/' + i.id);
+                            }}
+                          >
+                            <AiFillEye />
+                          </IconButton>
+                        </div>
+                      </td>
+                    </tr>
                   );
                 })}
-              </tr>
-            </thead>
-            <tbody>
-              {DATA.map((i) => {
-                return (
-                  <tr>
-                    <td>{i.id}</td>
-                    <td>{i.model}</td>
-                    <td>{i.createdAt}</td>
-                    <td>{i.trainingFile}</td>
-                    <td>{i.status}</td>
-                    <td>
-                      <div className="flex gap-1">
-                        <IconButton
-                          variant="outlined"
-                          color="danger"
-                          onClick={() => setDeleteId('1')}
-                        >
-                          <AiFillDelete />
-                        </IconButton>
-                        <IconButton
-                          variant="solid"
-                          onClick={() => {
-                            router.push(pathname + '/' + 1212);
-                          }}
-                        >
-                          <AiFillEye />
-                        </IconButton>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
+              </tbody>
 
-            <tfoot>
-              <tr>
-                <td colSpan={COLS.length}>{/* <TablePagination /> */}</td>
-              </tr>
-            </tfoot>
-          </Table>
+              <tfoot>
+                <tr>
+                  <td colSpan={COLS.length}>
+                    <TablePagination
+                      {...{
+                        limit,
+                        onLimit: (e) => setLimit(e),
+                        page,
+                        onPage: (e) => setPage(e),
+                        total,
+                      }}
+                    />
+                  </td>
+                </tr>
+              </tfoot>
+            </Table>
+          )}
         </Sheet>
       </div>
 

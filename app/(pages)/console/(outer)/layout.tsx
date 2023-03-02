@@ -2,8 +2,9 @@
 
 import { Button, Sheet } from '@mui/joy';
 import clsx from 'clsx';
+import { useAuth } from 'context/AuthContext';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import { IoLogOut } from 'react-icons/io5';
 
@@ -26,6 +27,9 @@ export default function GeneralLayout({
   children: React.ReactNode;
 }) {
   const path = usePathname();
+  const router = useRouter();
+
+  const { logout } = useAuth();
 
   return (
     <Sheet className="min-h-screen bg-gray-100">
@@ -53,7 +57,15 @@ export default function GeneralLayout({
         </div>
 
         <div>
-          <Button color="neutral" variant="plain" startDecorator={<IoLogOut />}>
+          <Button
+            color="neutral"
+            variant="plain"
+            startDecorator={<IoLogOut />}
+            onClick={() => {
+              logout();
+              router.push('/');
+            }}
+          >
             Logout
           </Button>
         </div>

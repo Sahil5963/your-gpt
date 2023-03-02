@@ -41,7 +41,7 @@ const COLS = [
   },
   {
     id: 2,
-    label: 'ID',
+    label: 'Key',
   },
 
   {
@@ -172,18 +172,20 @@ export default function Projects() {
                                   </Typography>
                                 </Link>
                               </td>
-                              <td>{i.id}</td>
+                              <td>{i.project_key}</td>
                               <td>{i.organization?.name}</td>
                               <td>
                                 <div className="actions cell flex gap-1">
                                   <Link
-                                    href={`/console/projects/manage/${i.id}`}
+                                    href={`/console/projects/manage/${i.project_key}`}
                                   >
                                     <IconButton variant="outlined">
                                       <FaEdit />
                                     </IconButton>
                                   </Link>
-                                  <Link href={`/console/project/${i.id}`}>
+                                  <Link
+                                    href={`/console/project/${i.project_key}`}
+                                  >
                                     <IconButton variant="outlined">
                                       <FaEye />
                                     </IconButton>

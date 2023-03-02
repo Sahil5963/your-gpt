@@ -1,6 +1,6 @@
 import { post } from 'network';
 
-export const getFilesApi = async ({
+export const getModalsApi = async ({
   token,
   ...raw
 }: {
@@ -11,7 +11,7 @@ export const getFilesApi = async ({
   project_key: string;
 }) => {
   return post({
-    route: '/api/v1/basictuning/getAllFiles',
+    route: '/api/v1/basictuning/getFineTunes',
     data: JSON.stringify(raw),
     config: {
       headers: {
@@ -21,16 +21,16 @@ export const getFilesApi = async ({
     },
   });
 };
-export const getFileDetailApi = async ({
+export const getFineTuneDetailApi = async ({
   token,
   ...raw
 }: {
   token: string;
   project_key: string;
-  file_id: string;
+  id: string;
 }) => {
   return post({
-    route: '/api/v1/basictuning/getFileDetail',
+    route: '/api/v1/basictuning/getFineTuneDetail',
     data: JSON.stringify(raw),
     config: {
       headers: {

@@ -53,8 +53,6 @@ export default function SocialLoginBtns() {
       const user = result.user;
       // IdP data available using getAdditionalUserInfo(result)
 
-      console.log('REES', credential, token, user);
-
       const res = await socialLoginApi({
         email: user.email || '',
         firebase_uid: user.uid,
@@ -62,9 +60,7 @@ export default function SocialLoginBtns() {
         type: type,
       });
 
-      log('RES', res);
-
-      if (res.type === 'RXUCCESS') {
+      if (res.type === 'RXSUCCESS') {
         onLoginSuccess({ data: res.data, persist: true });
         router.push('/console/projects');
       }
