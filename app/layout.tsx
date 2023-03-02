@@ -25,7 +25,6 @@ export default function RootLayout({
         <title>YourGPT - Personalized ChatGPT for your business</title>
       </head>
       <body>
-        {/* <body className={publicSans.className}> */}
         <ClientProvider>{children}</ClientProvider>
       </body>
     </html>
