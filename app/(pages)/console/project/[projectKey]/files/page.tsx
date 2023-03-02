@@ -18,7 +18,7 @@ import {
   Typography,
 } from '@mui/joy';
 import { appContent } from 'app/components/dashboard/variants/app';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import {
   FiChevronDown,
@@ -38,43 +38,7 @@ import { useApp } from 'context/AppContext';
 import ConfirmModal from 'app/components/dashboard/ConfirmModal';
 import { ProjectFileItemD } from 'types/project';
 import { formatDateTime } from 'utils/helpers';
-
-const COLS = [
-  {
-    id: 1,
-    label: 'Filename',
-  },
-  {
-    id: 2,
-    label: 'ID',
-  },
-  {
-    id: 3,
-    label: 'Created date',
-  },
-  {
-    id: 4,
-    label: 'Purpose',
-  },
-  {
-    id: 5,
-    label: 'Status',
-  },
-  {
-    id: 6,
-    label: '',
-  },
-];
-
-const DATA = [
-  {
-    name: 'compiled_results.csv',
-    id: 'file-QZxukTp0Zre5iHI19DlCm0C0',
-    createdAt: 'Feb 13, 2023 7:17 pm',
-    purpose: 'fine-tune-results',
-    status: 'processed',
-  },
-];
+import DataTable from 'react-data-table-component';
 
 export default function AppFiles() {
   const router = useRouter();
@@ -110,6 +74,66 @@ export default function AppFiles() {
     type: 'projectFiles',
     project_key: projectKey,
   });
+
+  const COLS: {
+    name: string;
+    wrap: boolean;
+    selector: (d: ProjectFileItemD) => any;
+  }[] = useMemo(
+    () => [
+      {
+        name: 'Filename',
+        wrap: true,
+        selector: (i) => i.filename,
+      },
+      {
+        name: 'ID',
+        wrap: true,
+        selector: (i) => i.id,
+      },
+      {
+        name: 'Created date',
+        wrap: true,
+        selector: (i) => formatDateTime(i.created_at),
+      },
+      {
+        name: 'Purpose',
+        wrap: true,
+        selector: (i) => i.purpose,
+      },
+      {
+        name: 'Status',
+        wrap: true,
+        selector: (i) => i.status,
+      },
+      {
+        name: 'Actions',
+        wrap: true,
+        selector: (i) => (
+          <>
+            <div className="flex gap-1">
+              <IconButton
+                variant="outlined"
+                color="danger"
+                onClick={() => setDeleteId(i.id)}
+              >
+                <AiFillDelete />
+              </IconButton>
+              <IconButton
+                variant="solid"
+                onClick={() => {
+                  router.push(pathname + '/' + i.id);
+                }}
+              >
+                <AiFillEye />
+              </IconButton>
+            </div>
+          </>
+        ),
+      },
+    ],
+    [],
+  );
 
   return (
     <div className={appContent()}>
@@ -157,69 +181,13 @@ export default function AppFiles() {
               <CircularProgress size="md" />
             </div>
           ) : (
-            <Table aria-label="basic table">
-              <thead>
-                <tr>
-                  {COLS.map((i) => {
-                    return (
-                      <th style={{ width: !i.label ? 100 : 'auto' }}>
-                        {i.label}
-                      </th>
-                    );
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((i) => {
-                  return (
-                    <tr>
-                      <td>{i.filename}</td>
-                      <td>{i.id}</td>
-                      <td>{formatDateTime(i.created_at)}</td>
-                      <td>{i.purpose}</td>
-                      <td>{i.status}</td>
-                      <td>
-                        <div className="flex gap-1">
-                          <IconButton
-                            variant="outlined"
-                            color="danger"
-                            onClick={() => setDeleteId('1')}
-                          >
-                            <AiFillDelete />
-                          </IconButton>
-                          <IconButton
-                            variant="solid"
-                            onClick={() => {
-                              router.push(pathname + '/' + i.id);
-                            }}
-                          >
-                            <AiFillEye />
-                          </IconButton>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-
-              <tfoot>
-                <tr>
-                  <td colSpan={COLS.length}>
-                    <TablePagination
-                      {...{
-                        limit,
-                        onLimit: (e) => {
-                          setLimit(e);
-                        },
-                        page,
-                        total,
-                        onPage: (e) => setPage(e),
-                      }}
-                    />
-                  </td>
-                </tr>
-              </tfoot>
-            </Table>
+            <DataTable
+              columns={COLS}
+              data={data}
+              pagination
+              paginationRowsPerPageOptions={[10, 50, 100]}
+              paginationPerPage={10}
+            />
           )}
         </Sheet>
       </div>

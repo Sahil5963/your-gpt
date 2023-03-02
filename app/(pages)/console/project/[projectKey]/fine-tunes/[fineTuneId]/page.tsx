@@ -30,7 +30,7 @@ import {
 } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { FiArrowDown, FiChevronLeft } from 'react-icons/fi';
-import { FineTuneItemD } from 'types/fineTune';
+import { FineTuneD, FineTuneItemD } from 'types/fineTune';
 import { ModelItemD } from 'types/model';
 import { formatDateTime } from 'utils/helpers';
 import Events from './Events';
@@ -42,10 +42,8 @@ export default function FileTuneDetail(route: any) {
   const { projectKey } = useApp();
   const { token } = useAuth();
   const [loading, setLoading] = useState(true);
-
   const modelId = route.params?.fineTuneId || '';
-
-  const [fineTune, setFineTune] = useState<FineTuneItemD>({} as FineTuneItemD);
+  const [fineTune, setFineTune] = useState<FineTuneD>({} as FineTuneD);
 
   useEffect(() => {
     const fetchDetail = async () => {
@@ -132,7 +130,7 @@ export default function FileTuneDetail(route: any) {
                 </tr>
                 <tr>
                   <td>Fine-tuned model</td>
-                  <td>{1}</td>
+                  <td>{fineTune.fine_tuned_model}</td>
                 </tr>
                 <tr>
                   <td>Created at</td>
@@ -144,19 +142,19 @@ export default function FileTuneDetail(route: any) {
                 </tr>
                 <tr>
                   <td>Nr. of epochs</td>
-                  <td>4</td>
+                  <td>{fineTune.hyperparams?.n_epochs}</td>
                 </tr>
                 <tr>
                   <td>Batch size</td>
-                  <td>2</td>
+                  <td>{fineTune.hyperparams?.batch_size}</td>
                 </tr>
                 <tr>
                   <td>Prompt loss weight</td>
-                  <td>0.01</td>
+                  <td>{fineTune.hyperparams?.prompt_loss_weight}</td>
                 </tr>
                 <tr>
                   <td>Learning rate multiplier</td>
-                  <td>0.1</td>
+                  <td>{fineTune.hyperparams?.learning_rate_multiplier}</td>
                 </tr>
               </tbody>
             </Table>
@@ -165,14 +163,14 @@ export default function FileTuneDetail(route: any) {
           </div>
 
           <div className="flex-1">
-            <Events />
+            <Events events={fineTune.events} />
           </div>
         </div>
 
         {/* DATASTART  */}
 
-        <Training />
-        <Result />
+        <Training trainingFiles={fineTune.training_files} />
+        <Result resultFiles={fineTune.result_files} />
       </div>
     </div>
   );

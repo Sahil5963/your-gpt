@@ -11,6 +11,8 @@ import {
 } from 'next/navigation';
 import React from 'react';
 import AppLink from './AppLink';
+import { Button } from '@mui/joy';
+import { RiArrowGoBackLine } from 'react-icons/ri';
 
 const LINKS = [
   {
@@ -54,9 +56,10 @@ export default function AppNavbar() {
       <div className="flex flex-1 items-center">
         <Link
           href={'/console/projects'}
-          className="font-bold text-white no-underline "
+          className=" flex items-center gap-2 rounded-lg bg-black/20 p-3 text-white/60 no-underline transition-all hover:bg-black/30 hover:text-white"
         >
-          <img src="/images/svg/logo-white.svg" className="h-6" />
+          <RiArrowGoBackLine />
+          <div>Go to console</div>
         </Link>
 
         <div className=" flex flex-1 items-center justify-center">

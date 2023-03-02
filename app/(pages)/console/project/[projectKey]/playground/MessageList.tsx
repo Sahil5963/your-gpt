@@ -2,7 +2,7 @@ import React from 'react';
 import { tv } from 'tailwind-variants';
 
 const messageItem = tv({
-  base: 'px-3 py-4  flex gap-2  items-center',
+  base: 'px-3 py-4  flex gap-2  items-center whitespace-pre',
   variants: {
     type: {
       sent: 'bg-transparent',

@@ -13,12 +13,19 @@ import {
 import { maxHeight } from '@mui/system';
 import { appContent } from 'app/components/dashboard/variants/app';
 import { THEME } from 'constants/ui';
+import { useApp } from 'context/AppContext';
+import { useAuth } from 'context/AuthContext';
+import { playgroundApi } from 'network/api/project';
 import React, { useState } from 'react';
 import { IoSend } from 'react-icons/io5';
+import { log } from 'utils/helpers';
 import MessageList from './MessageList';
 
 export default function AppPlayground() {
   const [text, setText] = useState('');
+  const { token } = useAuth();
+
+  const { projectKey } = useApp();
 
   const [messages, setMessages] = useState<
     {
@@ -44,7 +51,23 @@ export default function AppPlayground() {
     },
   ]);
 
-  const onSend = () => {
+  const onSend = async () => {
+    try {
+      const res = await playgroundApi({
+        token,
+        prompt: text,
+        max_tokens: '',
+        model: '',
+        name: '',
+        project_key: projectKey,
+        temprature: '0',
+      });
+
+      log(res);
+    } catch (err) {
+      console.log('Err', err);
+    }
+
     setMessages((s) => [
       ...s,
       {

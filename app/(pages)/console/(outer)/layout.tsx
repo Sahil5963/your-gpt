@@ -1,12 +1,15 @@
 'use client';
 
-import { Button, Sheet } from '@mui/joy';
+import { Button, Menu, MenuItem, Sheet, Typography } from '@mui/joy';
 import clsx from 'clsx';
 import { useAuth } from 'context/AuthContext';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
+import { FiChevronDown } from 'react-icons/fi';
+import { HiUserCircle } from 'react-icons/hi';
 import { IoLogOut } from 'react-icons/io5';
+import { RiUser6Fill } from 'react-icons/ri';
 
 const LINKS = [
   {
@@ -27,6 +30,9 @@ export default function GeneralLayout({
   children: React.ReactNode;
 }) {
   const path = usePathname();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
   const router = useRouter();
 
   const { logout } = useAuth();
@@ -56,19 +62,43 @@ export default function GeneralLayout({
           })}
         </div>
 
-        <div>
-          <Button
-            color="neutral"
-            variant="plain"
-            startDecorator={<IoLogOut />}
+        <div
+          className="flex cursor-pointer items-center gap-2 rounded-lg  py-2 px-2 hover:bg-gray-200 focus:bg-gray-200"
+          onClick={(e) => setAnchorEl(e.currentTarget)}
+        >
+          <HiUserCircle size={24} />
+
+          <Typography>Profile</Typography>
+
+          <FiChevronDown />
+        </div>
+
+        <Menu
+          id="profile-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={() => setAnchorEl(null)}
+          aria-labelledby="profile-menu"
+          placement="bottom-end"
+          sx={{ minWidth: 200 }}
+        >
+          <MenuItem
+            component={Link}
+            href={'/console/settings/account'}
+            onClick={() => {}}
+          >
+            Settings
+          </MenuItem>
+          <MenuItem
+            color="danger"
             onClick={() => {
               logout();
               router.push('/');
             }}
           >
             Logout
-          </Button>
-        </div>
+          </MenuItem>
+        </Menu>
       </div>
 
       <div className="pb-8">

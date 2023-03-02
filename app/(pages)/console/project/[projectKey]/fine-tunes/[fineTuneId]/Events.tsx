@@ -1,42 +1,38 @@
 import { Table, Typography } from '@mui/joy';
 import TablePagination from 'app/components/dashboard/TablePagination';
 import React from 'react';
+import { FineTuneEventD } from 'types/fineTune';
+import DataTable from 'react-data-table-component';
 
-const COLS = [
+const columns = [
   {
-    id: 1,
-    label: 'Timestamp',
+    name: 'Timestamp',
+    selector: (row: FineTuneEventD) => row.created_at,
   },
   {
-    id: 2,
-    label: 'Message',
+    name: 'Message',
+    selector: (row: FineTuneEventD) => row.message,
+    wrap: true,
   },
 ];
 
-const DATA = [
-  {
-    timestamp: 'Feb 13, 2023 7:17 pm',
-    message: 'Fine-tune succeeded',
-  },
-  {
-    timestamp: 'Feb 13, 2023 7:17 pm',
-    message: 'Fine-tune is in the queue. Queue number: 0',
-  },
-  {
-    timestamp: 'Feb 13, 2023 7:17 pm',
-    message: 'Fine-tune is in the queue. Queue number: 0',
-  },
-];
-
-export default function Events() {
+export default function Events({ events }: { events?: FineTuneEventD[] }) {
   return (
     <div className="mb-8 bg-white p-4 shadow-sm">
       <div>
         <Typography level="h5">Events</Typography>
-        <Typography level="body2">123 results</Typography>
+        <Typography level="body2">{events?.length} results</Typography>
       </div>
 
       <div>
+        <DataTable
+          columns={columns}
+          data={events}
+          pagination
+          paginationRowsPerPageOptions={[5, 10, 100]}
+          paginationPerPage={5}
+        />
+        {/* 
         <Table aria-label="basic table">
           <thead>
             <tr>
@@ -60,10 +56,12 @@ export default function Events() {
 
           <tfoot>
             <tr>
-              <td colSpan={COLS.length}>{/* <TablePagination /> */}</td>
+              <td colSpan={COLS.length}>
+                <TablePagination />
+                </td>
             </tr>
           </tfoot>
-        </Table>
+        </Table> */}
       </div>
     </div>
   );

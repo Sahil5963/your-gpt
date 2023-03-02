@@ -6,11 +6,22 @@ export type FineTuneItemD = {
   model: string;
   training_files: TrainingFileD[];
   validation_files: any[];
-  result_files: File[];
+  result_files: ResultFileD[];
   created_at: number;
   updated_at: number;
   status: string;
   fine_tuned_model: string;
+};
+
+export type FineTuneD = FineTuneItemD & {
+  events?: FineTuneEventD[];
+};
+
+export type FineTuneEventD = {
+  object: string;
+  level: string;
+  message: string;
+  created_at: number;
 };
 
 export type HyperparamsD = {
@@ -29,4 +40,15 @@ export type TrainingFileD = {
   created_at: number;
   status: string;
   status_details: null;
+};
+
+export type ResultFileD = {
+  object: string;
+  id: string;
+  purpose: string;
+  filename: string;
+  bytes: number;
+  created_at: number;
+  status: string;
+  status_details: any;
 };

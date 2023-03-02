@@ -18,7 +18,7 @@ import {
   Typography,
 } from '@mui/joy';
 import { appContent } from 'app/components/dashboard/variants/app';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import {
   FiChevronDown,
@@ -38,44 +38,14 @@ import { useListingApi } from 'hooks/useListingApi';
 import { ModelItemD } from 'types/model';
 import { FineTuneItemD } from 'types/fineTune';
 import { formatDateTime } from 'utils/helpers';
-
-const COLS = [
-  {
-    id: 1,
-    label: 'ID',
-  },
-  {
-    id: 2,
-    label: 'Modal',
-  },
-  {
-    id: 3,
-    label: 'Created at',
-  },
-  {
-    id: 4,
-    label: 'Status',
-  },
-  {
-    id: 5,
-    label: '',
-  },
-];
-
-const DATA = [
-  {
-    id: 'file-QZxukTp0Zre5iHI19DlCm0C0',
-    model: 'davinci:ft-personal:bank-faq-2023-02-13-12-38-28',
-    createdAt: 'Feb 13, 2023 7:17 pm',
-    trainingFile: 'bankFAQ.jsonl',
-    status: 'succeeded',
-  },
-];
+import DataTable from 'react-data-table-component';
+import ConfirmModal from 'app/components/dashboard/ConfirmModal';
 
 export default function AppFineTunes() {
   const router = useRouter();
   const pathname = usePathname();
   const [deleteId, setDeleteId] = useState('');
+  const [deleting, setDeleting] = useState(false);
 
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('');
@@ -107,12 +77,74 @@ export default function AppFineTunes() {
     project_key: projectKey,
   });
 
+  const COLS: {
+    name: string;
+    wrap: boolean;
+    selector: (d: FineTuneItemD) => any;
+  }[] = useMemo(
+    () => [
+      {
+        name: 'ID',
+        selector: (row) => row.id,
+        wrap: true,
+      },
+      {
+        name: 'Modal',
+        selector: (row) => row.model,
+        wrap: true,
+      },
+      {
+        name: 'Created at',
+        selector: (row) => formatDateTime(row.created_at),
+        wrap: true,
+      },
+      {
+        name: 'Status',
+        selector: (row) => row.status,
+        wrap: true,
+      },
+      {
+        name: 'Actions',
+        selector: (row) => (
+          <>
+            <div className="flex gap-1">
+              <IconButton
+                variant="outlined"
+                color="danger"
+                onClick={() => setDeleteId(row.id)}
+              >
+                <AiFillDelete />
+              </IconButton>
+              <IconButton
+                variant="solid"
+                onClick={() => {
+                  router.push(pathname + '/' + row.id);
+                }}
+              >
+                <AiFillEye />
+              </IconButton>
+            </div>
+          </>
+        ),
+        wrap: true,
+      },
+    ],
+    [],
+  );
+
+  const onDelete = async () => {
+    try {
+    } catch (err) {
+      console.log('Err', err);
+    }
+  };
+
   return (
     <div className={appContent()}>
       <div className="flex justify-between">
         <div className="right">
           <Typography level="h6">Your App's Fine-tunes</Typography>
-          <Typography level="body2">12 results</Typography>
+          <Typography level="body2">{data?.length} results</Typography>
         </div>
 
         <div className="right flex items-center gap-2">
@@ -153,112 +185,29 @@ export default function AppFineTunes() {
               <CircularProgress size="md" />
             </div>
           ) : (
-            <Table aria-label="basic table">
-              <thead>
-                <tr>
-                  {COLS.map((i) => {
-                    return (
-                      <th style={{ width: !i.label ? 100 : 'auto' }}>
-                        {i.label}
-                      </th>
-                    );
-                  })}
-                </tr>
-              </thead>
-
-              <tbody>
-                {data.map((i) => {
-                  return (
-                    <tr>
-                      <td>{i.id}</td>
-                      <td>{i.model}</td>
-                      <td>{formatDateTime(i.created_at)}</td>
-                      <td>{i.status}</td>
-                      <td>
-                        <div className="flex gap-1">
-                          <IconButton
-                            variant="outlined"
-                            color="danger"
-                            onClick={() => setDeleteId('1')}
-                          >
-                            <AiFillDelete />
-                          </IconButton>
-                          <IconButton
-                            variant="solid"
-                            onClick={() => {
-                              router.push(pathname + '/' + i.id);
-                            }}
-                          >
-                            <AiFillEye />
-                          </IconButton>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-
-              <tfoot>
-                <tr>
-                  <td colSpan={COLS.length}>
-                    <TablePagination
-                      {...{
-                        limit,
-                        onLimit: (e) => setLimit(e),
-                        page,
-                        onPage: (e) => setPage(e),
-                        total,
-                      }}
-                    />
-                  </td>
-                </tr>
-              </tfoot>
-            </Table>
+            <>
+              <DataTable
+                columns={COLS}
+                data={data}
+                pagination
+                paginationRowsPerPageOptions={[10, 50, 100]}
+                paginationPerPage={10}
+              />
+            </>
           )}
         </Sheet>
       </div>
 
-      <Modal open={deleteId ? true : false} onClose={() => setDeleteId('')}>
-        <ModalDialog
-          variant="outlined"
-          role="alertdialog"
-          aria-labelledby="alert-dialog-modal-title"
-          aria-describedby="alert-dialog-modal-description"
-        >
-          <Typography
-            id="alert-dialog-modal-title"
-            component="h2"
-            startDecorator={<IoWarning />}
-          >
-            Confirmation
-          </Typography>
-          <Divider />
-          <Typography
-            id="alert-dialog-modal-description"
-            textColor="text.tertiary"
-          >
-            Are you sure you want to delete this Fine-tune?
-          </Typography>
-          <Box
-            sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end', pt: 2 }}
-          >
-            <Button
-              variant="plain"
-              color="neutral"
-              onClick={() => setDeleteId('')}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="solid"
-              color="danger"
-              onClick={() => setDeleteId('')}
-            >
-              Delete this Fine-tune
-            </Button>
-          </Box>
-        </ModalDialog>
-      </Modal>
+      <ConfirmModal
+        loading={true}
+        onClose={() => setDeleteId('')}
+        onConfirm={() => {}}
+        open={deleteId ? true : false}
+        title="Confirmation"
+        desc="Are you sure you want to delete this Fine-tune?"
+        danger
+        confirmTitle="     Delete this Fine-tune"
+      />
     </div>
   );
 }
