@@ -35,6 +35,9 @@ const Button = styled.button`
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+  @media screen and (max-width: 450px) {
+    padding: 0.7rem 1.5rem;
+  }
 `;
 
 const OutlineBtn = styled.div`

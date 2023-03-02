@@ -4,6 +4,7 @@ import React from 'react';
 import { appContent } from '../dashboard/variants/app';
 import ArtificialIntelligence from '../icons/ArtificialIntelligence';
 import ChatbotIcon from '../icons/ChatbotIcon';
+import { externalAppContent } from '../variants';
 
 const CARD_DATA = [
   {
@@ -28,21 +29,23 @@ const CARD_DATA = [
 
 const Help = () => {
   return (
-    <Root className="bg-gradient-to-b from-primaryGradient to-secondaryGradient py-20">
-      <div className={appContent()}>
-        <div className="flex justify-between  gap-10">
-          <div className="flex flex-1 flex-col justify-between">
+    <Root className="relative bg-gradient-to-b from-primaryGradient to-secondaryGradient py-10 md:py-20">
+      <div className={externalAppContent()}>
+        <div className="flex flex-col justify-between gap-10 md:flex-row">
+          <div className="relative z-[1] flex flex-1 flex-col justify-between">
             <div className="flex flex-col gap-4">
-              <h2 className="text-6xl font-normal text-white">
+              <h2 className="text-4xl font-normal text-white md:text-6xl">
                 We're <br /> here to help
               </h2>
               <p className="text-white/60">
                 YourGPT is very easy to setup and use
               </p>
               <div>
-                <div className="help-btn inline-flex cursor-pointer gap-2 transition-all hover:gap-3 ">
+                <div className="help-btn mb-4 inline-flex cursor-pointer gap-2 transition-all hover:gap-3 md:mb-0">
                   <img src="/images/home/power.svg" alt="" />
-                  <button className="btn">Powered with ChatGPT</button>
+                  <button className="btn cursor-pointer">
+                    Powered with ChatGPT
+                  </button>
                 </div>
               </div>
             </div>
@@ -57,24 +60,33 @@ const Help = () => {
           </div>
           <div className="flex-[1.6]">
             <div>
-              <p className="p1 text-lg text-white/60">YourGPT</p>
+              <p className="text-lg text-white/60">YourGPT</p>
               <h4 className="mb-8 text-3xl font-semibold text-white">
                 Use cases
               </h4>
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 xl:gap-6">
               {CARD_DATA.map(({ src, label, text }) => {
                 return (
-                  <div className="card flex flex-col gap-4 border-solid border-white/10 p-7 ">
-                    <div className="icon">{src}</div>
-                    <div className="label font-semibold">{label}</div>
-                    <p className="p2">{text}</p>
+                  <div className="card flex flex-col gap-2 rounded-2xl border border-solid border-white/10 p-4 md:rounded-[35px] md:p-5 lg:gap-4 xl:p-7">
+                    <div className="icon w-[44px] md:w-[50px]">{src}</div>
+                    <div className="label text-lg font-semibold md:text-xl">
+                      {label}
+                    </div>
+                    <p className="p2 text-base md:text-lg">{text}</p>
                   </div>
                 );
               })}
             </div>
           </div>
         </div>
+      </div>
+      <div className="brain-img pointer-events-none absolute z-0">
+        <img
+          className="max-w-[80%] xl:max-w-full"
+          src="/images/home/brain.png"
+          alt="brain image"
+        />
       </div>
     </Root>
   );
@@ -97,10 +109,8 @@ const Root = styled.div`
     }
   }
   .card {
-    border-radius: 35px;
     cursor: pointer;
     .icon {
-      width: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -131,6 +141,18 @@ const Root = styled.div`
         color: rgba(0, 0, 0, 0.4);
         transition: all 0.2s;
       }
+    }
+  }
+  .brain-img {
+    left: -610px;
+    top: -29%;
+    height: 100%;
+    width: 90%;
+    opacity: 12%;
+    @media screen and (max-width: 1279px) {
+      left: -48%;
+      left: -38%;
+      top: -4%;
     }
   }
 `;
