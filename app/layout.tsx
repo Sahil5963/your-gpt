@@ -4,6 +4,7 @@ import React from 'react';
 
 import { Public_Sans } from '@next/font/google';
 import ClientProvider from './ClientProvider';
+import Navbar from './components/Navbar';
 
 // If loading a variable font, you don't need to specify the font weight
 
@@ -25,8 +26,11 @@ export default function RootLayout({
         <title>YourGPT - Personalized ChatGPT for your business</title>
       </head>
       <body>
-        {/* <body className={publicSans.className}> */}
-        {children}
+        <div className="">
+          <Navbar />
+
+          <main className="mt-12">{children}</main>
+        </div>
       </body>
     </html>
   );
