@@ -43,7 +43,9 @@ const Help = () => {
               <div>
                 <div className="help-btn mb-4 inline-flex cursor-pointer gap-2 transition-all hover:gap-3 md:mb-0">
                   <img src="/images/home/power.svg" alt="" />
-                  <button className="btn">Powered with ChatGPT</button>
+                  <button className="btn cursor-pointer">
+                    Powered with ChatGPT
+                  </button>
                 </div>
               </div>
             </div>
