@@ -13,7 +13,6 @@ export default function ClientProvider({
     <AuthProvider>
       <CssVarsProvider defaultMode="light" modeStorageKey="joyTheme">
         <Toaster />
-        {children}
       </CssVarsProvider>
     </AuthProvider>
   );
