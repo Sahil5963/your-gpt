@@ -75,9 +75,10 @@ export default function Navbar() {
               return (
                 <Link
                   href={i.link}
+                  passHref
                   className="font-medium text-primary no-underline hover:text-black "
                 >
-                  <a>{i.label}</a>
+                  {i.label}
                 </Link>
               );
             })}
