@@ -65,7 +65,7 @@ export default function ContactUs() {
               </p>
             </div>
 
-            <div className="relative flex items-center self-stretch sm:self-center  ">
+            <div className="relative m-auto flex items-center self-stretch sm:self-center  ">
               <div className="absolute left-5 flex aspect-square items-center  justify-center text-white/60">
                 <ImSearch color="currentColor" size={20} />
               </div>

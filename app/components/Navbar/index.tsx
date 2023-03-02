@@ -2,7 +2,7 @@
 import styled from '@emotion/styled';
 import clsx from 'clsx';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
 import { EXTERNAL_THEME } from 'utils/ui';
@@ -27,6 +27,8 @@ const MENU_LIST = [
 export default function Navbar() {
   const [atTop, setAtTop] = useState(false);
   const [active, setActive] = useState(false);
+  const sidebarRef = useRef(null);
+  const menuRef = useRef(null);
 
   const handleScroll = () => {
     if (window.scrollY <= 2) {
@@ -35,6 +37,18 @@ export default function Navbar() {
       setAtTop(false);
     }
   };
+
+  useEffect(() => {
+    document.addEventListener('click', (e) => {
+      if (
+        !sidebarRef.current?.contains(e.target) &&
+        !menuRef.current?.contains(e.target)
+      ) {
+        setActive(false);
+        // document.body.style.overflow = "auto";
+      }
+    });
+  }, [sidebarRef, menuRef]);
 
   useEffect(() => {
     handleScroll();
@@ -46,13 +60,15 @@ export default function Navbar() {
   }, []);
 
   return (
-    <Root className={`${clsx({ atTop })}`}>
+    <Root className={`${clsx({ atTop })} bg-white/50`}>
       <div
-        className={`relative m-auto flex max-w-screen-2xl items-center justify-between bg-white/50 px-3`}
+        className={`relative m-auto flex max-w-screen-2xl items-center justify-between px-3`}
       >
-        <div className="ml-10 lg:ml-0">
-          <img src="/images/navbar/logo.svg" alt="" />
-        </div>
+        <Link href="/">
+          <div className="ml-10 lg:ml-0">
+            <img src="/images/navbar/logo.svg" alt="" />
+          </div>
+        </Link>
         <div className="hidden lg:block">
           <div className="nav-lists flex gap-14">
             {MENU_LIST.map((i) => {
@@ -68,21 +84,24 @@ export default function Navbar() {
           </div>
         </div>
         <div className="flex gap-2 md:gap-5">
-          <div>
+          <Link href="/login">
             <OutlineButton text="Login" />
-          </div>
-          <div>
+          </Link>
+          <Link href="signup">
             <SolidButton text="Signup" />
-          </div>
+          </Link>
         </div>
-        <div className={`sidebar-wrapper ${clsx({ active })}`}>
+        <div className={`sidebar-wrapper ${clsx({ active })}`} ref={sidebarRef}>
           <div className="flex flex-col">
             {MENU_LIST.map((i) => {
               return (
                 <span className="mobile-menu my-2 inline-block px-2 py-1 text-center">
                   <Link
                     href={i.link}
-                    className="text-lg font-medium text-white no-underline"
+                    onClick={() => {
+                      setActive(false);
+                    }}
+                    className="p-3 text-lg font-medium text-white no-underline"
                   >
                     {i.label}
                   </Link>
@@ -91,29 +110,27 @@ export default function Navbar() {
             })}
           </div>
         </div>
-        <div
-          className={`menu-icon icon block text-3xl leading-[0] lg:hidden ${clsx(
-            {
+        <div className="icon block overflow-hidden lg:hidden" ref={menuRef}>
+          <div
+            className={`menu-icon  text-3xl leading-[0]  ${clsx({
               active,
-            },
-          )}`}
-          onClick={() => {
-            setActive(true);
-          }}
-        >
-          <HiMenu />
-        </div>
-        <div
-          className={`close-icon icon block text-3xl leading-[0] lg:hidden ${clsx(
-            {
+            })}`}
+            onClick={() => {
+              setActive(true);
+            }}
+          >
+            <HiMenu />
+          </div>
+          <div
+            className={`close-icon text-3xl leading-[0] ${clsx({
               active,
-            },
-          )}`}
-          onClick={() => {
-            setActive(false);
-          }}
-        >
-          <AiOutlineClose />
+            })}`}
+            onClick={() => {
+              setActive(false);
+            }}
+          >
+            <AiOutlineClose />
+          </div>
         </div>
       </div>
     </Root>
@@ -140,9 +157,11 @@ const Root = styled.div`
   .sidebar-wrapper {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
+    width: 100%;
+    max-width: 500px;
     margin-top: ${EXTERNAL_THEME.navBarHeight}px;
-    width: 250px;
+    /* width: 250px; */
     height: 0;
     /* background-color: red; */
     background-color: #fff;
@@ -173,20 +192,25 @@ const Root = styled.div`
     top: 50%;
     transform: translateY(-50%);
     left: 10px;
+    height: 30px;
   }
   .menu-icon {
-    left: 20;
+    /* left: 20; */
+    transform: translateY(0);
     transition: all 0.4s;
     &.active {
-      left: -80px;
+      transform: translateY(-50px);
+      /* left: -80px; */
       transition: all 0.4s;
     }
   }
   .close-icon {
-    left: -80px;
+    /* left: -80px; */
+    transform: translateY(0);
     transition: all 0.4s;
     &.active {
-      left: 10px;
+      transform: translateY(-30px);
+      /* left: 10px; */
       transition: all 0.4s;
     }
   }

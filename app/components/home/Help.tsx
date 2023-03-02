@@ -32,7 +32,7 @@ const Help = () => {
     <Root className="relative bg-gradient-to-b from-primaryGradient to-secondaryGradient py-10 md:py-20">
       <div className={externalAppContent()}>
         <div className="flex flex-col justify-between gap-10 md:flex-row">
-          <div className="flex flex-1 flex-col justify-between">
+          <div className="relative z-[1] flex flex-1 flex-col justify-between">
             <div className="flex flex-col gap-4">
               <h2 className="text-4xl font-normal text-white md:text-6xl">
                 We're <br /> here to help
@@ -68,10 +68,12 @@ const Help = () => {
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 xl:gap-6">
               {CARD_DATA.map(({ src, label, text }) => {
                 return (
-                  <div className="card flex flex-col gap-2 border border-solid border-white/10 p-5 lg:gap-4 xl:p-7 ">
-                    <div className="icon">{src}</div>
-                    <div className="label text-xl font-semibold">{label}</div>
-                    <p className="p2 text-lg">{text}</p>
+                  <div className="card flex flex-col gap-2 rounded-2xl border border-solid border-white/10 p-4 md:rounded-[35px] md:p-5 lg:gap-4 xl:p-7">
+                    <div className="icon w-[44px] md:w-[50px]">{src}</div>
+                    <div className="label text-lg font-semibold md:text-xl">
+                      {label}
+                    </div>
+                    <p className="p2 text-base md:text-lg">{text}</p>
                   </div>
                 );
               })}
@@ -79,7 +81,7 @@ const Help = () => {
           </div>
         </div>
       </div>
-      <div className="brain-img">
+      <div className="brain-img pointer-events-none absolute z-0">
         <img
           className="max-w-[80%] xl:max-w-full"
           src="/images/home/brain.png"
@@ -107,10 +109,8 @@ const Root = styled.div`
     }
   }
   .card {
-    border-radius: 35px;
     cursor: pointer;
     .icon {
-      width: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -144,7 +144,6 @@ const Root = styled.div`
     }
   }
   .brain-img {
-    position: absolute;
     left: -610px;
     top: -29%;
     height: 100%;
