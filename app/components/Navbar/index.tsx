@@ -16,11 +16,11 @@ const MENU_LIST = [
   },
   {
     label: 'FAQ',
-    link: 'faq',
+    link: '/faq',
   },
   {
     label: 'Contact us',
-    link: 'contact',
+    link: '/contact',
   },
 ];
 
@@ -77,7 +77,7 @@ export default function Navbar() {
                   href={i.link}
                   className="font-medium text-primary no-underline hover:text-black "
                 >
-                  {i.label}
+                  <a>{i.label}</a>
                 </Link>
               );
             })}
