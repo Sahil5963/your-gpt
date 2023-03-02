@@ -26,7 +26,7 @@ export default function RootLayout({
       </head>
       <body>
         {/* <body className={publicSans.className}> */}
-        <ClientProvider>{children}</ClientProvider>
+        {children}
       </body>
     </html>
   );
