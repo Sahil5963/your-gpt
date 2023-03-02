@@ -16,11 +16,11 @@ const MENU_LIST = [
   },
   {
     label: 'FAQ',
-    link: '/faq',
+    link: 'faq',
   },
   {
     label: 'Contact us',
-    link: '/contact',
+    link: 'contact',
   },
 ];
 
