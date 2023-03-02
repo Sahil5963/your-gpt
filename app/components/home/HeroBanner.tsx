@@ -20,7 +20,7 @@ const HeroBanner = () => {
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s.
         </p>
-        <div>
+        <div className="mb-5">
           <img
             className="max-w-full lg:max-w-2xl"
             src="/images/home/hero-banner.png"

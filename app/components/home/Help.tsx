@@ -29,19 +29,19 @@ const CARD_DATA = [
 
 const Help = () => {
   return (
-    <Root className="bg-gradient-to-b from-primaryGradient to-secondaryGradient py-20">
+    <Root className="bg-gradient-to-b from-primaryGradient to-secondaryGradient py-10 md:py-20">
       <div className={externalAppContent()}>
-        <div className="flex justify-between  gap-10">
+        <div className="flex flex-col justify-between gap-10 md:flex-row">
           <div className="flex flex-1 flex-col justify-between">
             <div className="flex flex-col gap-4">
-              <h2 className="text-6xl font-normal text-white">
+              <h2 className="text-4xl font-normal text-white md:text-6xl">
                 We're <br /> here to help
               </h2>
               <p className="text-white/60">
                 YourGPT is very easy to setup and use
               </p>
               <div>
-                <div className="help-btn inline-flex cursor-pointer gap-2 transition-all hover:gap-3 ">
+                <div className="help-btn mb-4 inline-flex cursor-pointer gap-2 transition-all hover:gap-3 md:mb-0">
                   <img src="/images/home/power.svg" alt="" />
                   <button className="btn">Powered with ChatGPT</button>
                 </div>
