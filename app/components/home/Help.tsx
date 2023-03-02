@@ -29,7 +29,7 @@ const CARD_DATA = [
 
 const Help = () => {
   return (
-    <Root className="bg-gradient-to-b from-primaryGradient to-secondaryGradient py-10 md:py-20">
+    <Root className="relative bg-gradient-to-b from-primaryGradient to-secondaryGradient py-10 md:py-20">
       <div className={externalAppContent()}>
         <div className="flex flex-col justify-between gap-10 md:flex-row">
           <div className="flex flex-1 flex-col justify-between">
@@ -78,6 +78,13 @@ const Help = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="brain-img">
+        <img
+          className="max-w-[80%] xl:max-w-full"
+          src="/images/home/brain.png"
+          alt="brain image"
+        />
       </div>
     </Root>
   );
@@ -134,6 +141,19 @@ const Root = styled.div`
         color: rgba(0, 0, 0, 0.4);
         transition: all 0.2s;
       }
+    }
+  }
+  .brain-img {
+    position: absolute;
+    left: -610px;
+    top: -29%;
+    height: 100%;
+    width: 90%;
+    opacity: 12%;
+    @media screen and (max-width: 1279px) {
+      left: -48%;
+      left: -38%;
+      top: -4%;
     }
   }
 `;
