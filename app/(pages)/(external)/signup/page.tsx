@@ -15,14 +15,15 @@ import { signupApi } from 'network/api/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { EXTERNAL_THEME } from 'utils/ui';
 
 export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { onLoginSuccess } = useAuth();
-
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-
   const [errors, setErrors] = useState<any>({
     rePassword: '',
   });
@@ -37,16 +38,16 @@ export default function Login() {
       name: formElements.name.value,
       email: formElements.email.value,
       password: formElements.password.value,
-      rePassword: formElements.rePassword.value,
+      // rePassword: formElements.rePassword.value,
       organisation: formElements.organisation.value,
     };
 
-    if (data.password !== data.rePassword) {
-      setErrors({
-        rePassword: 'Password not matched',
-      });
-      return;
-    }
+    // if (data.password !== data.rePassword) {
+    //   setErrors({
+    //     rePassword: 'Password not matched',
+    //   });
+    //   return;
+    // }
 
     setLoading(true);
     try {
@@ -74,7 +75,10 @@ export default function Login() {
   };
 
   return (
-    <Sheet className="flex min-h-screen w-full items-center justify-center">
+    <Sheet
+      className="flex min-h-screen w-full items-center justify-center"
+      style={{ minHeight: `calc(100vh - ${EXTERNAL_THEME.navBarHeight}px)` }}
+    >
       <div>
         <Typography fontWeight="xl" level="h4">
           Singup
@@ -93,21 +97,37 @@ export default function Login() {
             <FormLabel>Name</FormLabel>
             <Input placeholder="Enter your name" type="text" name="name" />
           </FormControl>
+
           <FormControl required>
             <FormLabel>Email</FormLabel>
             <Input placeholder="Enter your email" type="email" name="email" />
           </FormControl>
+
           <FormControl required>
             <FormLabel>Password</FormLabel>
-            <Input placeholder="•••••••" type="password" name="password" />
+            <Input
+              placeholder="•••••••"
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              endDecorator={
+                <div className="flex cursor-pointer items-center">
+                  {showPassword ? (
+                    <AiFillEye onClick={() => setShowPassword(false)} />
+                  ) : (
+                    <AiFillEyeInvisible onClick={() => setShowPassword(true)} />
+                  )}
+                </div>
+              }
+            />
           </FormControl>
-          <FormControl required error={errors.rePassword ? true : false}>
+
+          {/* <FormControl required error={errors.rePassword ? true : false}>
             <FormLabel>Re-type Password</FormLabel>
             <Input placeholder="•••••••" type="password" name="rePassword" />
             {errors?.rePassword && (
               <FormHelperText>Password not matched</FormHelperText>
             )}
-          </FormControl>
+          </FormControl> */}
 
           <FormControl required>
             <FormLabel>Organisation</FormLabel>
