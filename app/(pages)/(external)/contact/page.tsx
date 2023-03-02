@@ -23,14 +23,18 @@ const row = tv({
 
 export default function ContactUs() {
   const [loading, setLoading] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [interest, setInterest] = useState<string | null>(null);
   const [budget, setBudget] = useState<string | null>(null);
-  const [message, setMessage] = useState('');
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: any) => {
     e.preventDefault();
+
+    const formElements = e.currentTarget.elements;
+    const data = {
+      name: formElements.name.value,
+      email: formElements.email.value,
+      message: formElements.message.value,
+    };
 
     if (!interest || !budget) {
       toast.error('Please fill all fields');
@@ -40,17 +44,14 @@ export default function ContactUs() {
     try {
       setLoading(true);
       const raw = {
-        name,
-        email,
-        message,
+        name: data.name,
+        email: data.email,
+        message: data.message,
         intrested_in: interest,
         project_budget: budget,
       };
       await contactApi(raw);
 
-      setName('');
-      setEmail('');
-      setMessage('');
       setLoading(false);
       toast.success('Sent! We will contact you shortly.');
     } catch (err) {
@@ -80,20 +81,11 @@ export default function ContactUs() {
           <div className={row()}>
             <FormControl sx={{ flex: 1 }} required>
               <FormLabel>Your Name</FormLabel>
-              <Input
-                placeholder="Enter your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+              <Input placeholder="Enter your name" name="name" />
             </FormControl>
             <FormControl sx={{ flex: 1 }} required>
               <FormLabel>Your Email</FormLabel>
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+              <Input type="email" placeholder="Enter your email" name="email" />
             </FormControl>
           </div>
           <div className={row()}>
@@ -106,12 +98,14 @@ export default function ContactUs() {
                 onChange={(e, val) => {
                   setInterest(val);
                 }}
+                name="interest"
               >
                 <Option value="business">Business</Option>
                 <Option value="study">Study</Option>
                 <Option value="research">Research</Option>
               </Select>
             </FormControl>
+
             <FormControl sx={{ flex: 1 }} required>
               <FormLabel>Project Budget</FormLabel>
               <Select
@@ -120,6 +114,7 @@ export default function ContactUs() {
                 onChange={(e, val) => {
                   setBudget(val);
                 }}
+                name="budget"
               >
                 <Option value="1">Low</Option>
                 <Option value="12">Medium</Option>
@@ -136,8 +131,7 @@ export default function ContactUs() {
                 maxRows={4}
                 minRows={4}
                 placeholder="Let us know about your project..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                name="message"
               />
             </FormControl>
           </div>

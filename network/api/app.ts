@@ -29,3 +29,30 @@ export const contactApi = async (raw: {
     },
   });
 };
+
+export const sendResetEmailApi = async ({ email }: { email: string }) => {
+  return post({
+    route: '/api/v1/sendResetEmail',
+    data: JSON.stringify({ email }),
+    config: {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    },
+  });
+};
+
+export const resetPasswordApi = async (raw: {
+  password: string;
+  hash: string;
+}) => {
+  return post({
+    route: '/api/v1/resetPassword',
+    data: JSON.stringify(raw),
+    config: {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    },
+  });
+};
