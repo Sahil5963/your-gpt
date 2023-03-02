@@ -22,6 +22,10 @@ const MENU_LIST = [
     label: 'Contact us',
     link: '/contact',
   },
+  {
+    label: 'Console',
+    link: '/console/projects',
+  },
 ];
 
 export default function Navbar() {
