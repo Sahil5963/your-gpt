@@ -86,11 +86,11 @@ export default function Navbar() {
         <div
           className={`relative m-auto flex max-w-screen-2xl items-center justify-between px-4`}
         >
-          <Link href="/">
-            <div className="ml-14 lg:ml-0">
+          <div className="ml-14 lg:ml-0">
+            <Link href="/">
               <img src="/images/navbar/logo.svg" alt="" />
-            </div>
-          </Link>
+            </Link>
+          </div>
           <div className="hidden lg:block">
             <div className="nav-lists flex gap-14">
               {MENU_LIST.map((i) => {
