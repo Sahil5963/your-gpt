@@ -171,7 +171,7 @@ const Root = styled.div`
   box-shadow: 0px 2px 6px 6px rgba(0, 0, 0, 0.025);
   transition: all 0.4s;
   &.active {
-    transform: translateX(calc(100vw - ${EXTERNAL_THEME.navBarHeight}px));
+    /* transform: translateX(calc(100vw - ${EXTERNAL_THEME.navBarHeight}px)); */
     transition: all 0.4s;
   }
   &.atTop {
@@ -193,10 +193,12 @@ const Root = styled.div`
 `;
 
 const SidebarDiv = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
-  left: calc(-100% - ${EXTERNAL_THEME.navBarHeight}px);
+  /* left: calc(-100% - ${EXTERNAL_THEME.navBarHeight}px); */
+  left: -110%;
   width: calc(100% - ${EXTERNAL_THEME.navBarHeight}px);
+  /* transform: translateX(calc(100vw - ${EXTERNAL_THEME.navBarHeight}px)); */
   max-width: 100%;
   height: 100%;
   background-color: #fff;
@@ -209,5 +211,6 @@ const SidebarDiv = styled.div`
   &.active {
     transition: all 0.4s;
     left: 0;
+    /* transform: translateX(0); */
   }
 `;
