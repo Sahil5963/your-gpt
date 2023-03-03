@@ -26,10 +26,11 @@ const Item = ({ title = '', desc = '' }) => {
 
   return (
     <motion.div
-      className="item  rounded-md border-solid border-black/5  transition-all hover:bg-gray-100"
-      initial={{ opacity: 0, y: 80 }}
+      className="item  rounded-md border-solid border-black/5   hover:bg-gray-100"
+      initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20 }}
+      exit={{ opacity: 0, y: 100 }}
+      transition={{ type: 'spring', stiffness: 150 }}
     >
       <div
         onClick={() => setShow((s) => !s)}

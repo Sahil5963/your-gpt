@@ -14,20 +14,13 @@ export default function RootLayout({
   return (
     <>
       <Navbar />
-      <MainContent
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
-        id="mainContent"
-      >
-        {children}
-      </MainContent>
+      <MainContent id="mainContent">{children}</MainContent>
       <div className="bgDrop fixed top-0 left-0 right-0 z-20 h-screen w-full bg-black/50"></div>
     </>
   );
 }
 
-const MainContent = styled(motion.main)`
+const MainContent = styled.main`
   transition: all 0.4s;
   &.main-offset {
     transform: translateX(calc(100vw - ${EXTERNAL_THEME.navBarHeight}px));

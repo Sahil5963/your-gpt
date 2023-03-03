@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { SortD } from 'types';
 import { useDebounce } from 'use-debounce';
 import { getFilesApi } from 'network/api/project/file';
-import { getModalsApi } from 'network/api/project/model';
+import { getFineTunesApi } from 'network/api/project/model';
 
 type ApiType = 'org' | 'member' | 'project' | 'projectFiles' | 'models';
 
@@ -63,7 +63,7 @@ export function useListingApi({
             res = await getFilesApi({ ...dat, project_key });
             break;
           case 'models':
-            res = await getModalsApi({ ...dat, project_key });
+            res = await getFineTunesApi({ ...dat, project_key });
             break;
           default:
         }

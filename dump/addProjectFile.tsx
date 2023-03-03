@@ -16,7 +16,7 @@ import {
   Sheet,
   Typography,
 } from '@mui/joy';
-import { appContent } from 'app/components/dashboard/variants/app';
+import { appContent } from 'app/(pages)/console/components/variants/app';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';

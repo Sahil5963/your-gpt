@@ -18,7 +18,7 @@ import {
   appContent,
   listItem,
   listItems,
-} from 'app/components/dashboard/variants/app';
+} from 'app/(pages)/console/components/variants/app';
 import { useApp } from 'context/AppContext';
 import { useAuth } from 'context/AuthContext';
 import { getFineTuneDetailApi } from 'network/api/project/model';

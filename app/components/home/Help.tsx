@@ -1,7 +1,6 @@
 'use client';
 import styled from '@emotion/styled';
 import React from 'react';
-import { appContent } from '../dashboard/variants/app';
 import ArtificialIntelligence from '../icons/ArtificialIntelligence';
 import ChatbotIcon from '../icons/ChatbotIcon';
 import { externalAppContent } from '../variants';
@@ -41,8 +40,12 @@ const Help = () => {
                 YourGPT is very easy to setup and use
               </p>
               <div>
-                <div className="help-btn mb-4 inline-flex cursor-pointer gap-2 transition-all hover:gap-3 md:mb-0">
-                  <img src="/images/home/power.svg" alt="" />
+                <div className="help-btn group mb-4 inline-flex cursor-pointer gap-2 transition-all hover:gap-3 md:mb-0">
+                  <img
+                    src="/images/home/power.svg"
+                    alt=""
+                    className="group-hover:animate-slideRight"
+                  />
                   <button className="btn cursor-pointer">
                     Powered with ChatGPT
                   </button>

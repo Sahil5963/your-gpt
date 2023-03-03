@@ -1,5 +1,5 @@
 import { Table, Typography } from '@mui/joy';
-import TablePagination from 'app/components/dashboard/TablePagination';
+import TablePagination from 'app/(pages)/console/components/TablePagination';
 import React from 'react';
 import { FineTuneEventD } from 'types/fineTune';
 import DataTable from 'react-data-table-component';
