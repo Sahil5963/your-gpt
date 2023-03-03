@@ -38,6 +38,9 @@ const Button = styled.button`
   @media screen and (max-width: 450px) {
     padding: 0.7rem 1.5rem;
   }
+  @media screen and (max-width: 375px) {
+    padding: 0.7rem 1.3rem;
+  }
 `;
 
 const OutlineBtn = styled.div`

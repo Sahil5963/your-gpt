@@ -87,7 +87,7 @@ export default function Navbar() {
           className={`relative m-auto flex max-w-screen-2xl items-center justify-between px-4`}
         >
           <Link href="/">
-            <div className="ml-10 lg:ml-0">
+            <div className="ml-14 lg:ml-0">
               <img src="/images/navbar/logo.svg" alt="" />
             </div>
           </Link>
@@ -117,19 +117,33 @@ export default function Navbar() {
           </div>
 
           <div
-            className={`menu-icon absolute block text-3xl leading-[0] lg:hidden`}
+            className={`menu-icon bg-gradient absolute flex aspect-square w-10 items-center justify-center rounded-md text-3xl leading-[0] text-white lg:hidden`}
             onClick={openSidebar}
             ref={menuRef}
           >
             <HiMenu />
           </div>
+          {/* <div
+            className={`menu-icon absolute flex aspect-square w-11 items-center justify-center bg-black/30 text-3xl leading-[0] lg:hidden`}
+            onClick={openSidebar}
+            ref={menuRef}
+          >
+            <HiMenu />
+          </div> */}
         </div>
       </Root>
       <SidebarDiv
         className={`sidebar-wrapper z-30 ${clsx({ active })}`}
         ref={sidebarRef}
       >
-        <div className="ml-auto mt-10 px-10 text-right">
+        <div className="mt-10 flex justify-between px-10 text-right">
+          <div>
+            <Link href="/" onClick={closeSidebar}>
+              <div>
+                <img src="/images/navbar/sidebar-logo.svg" alt="" />
+              </div>
+            </Link>
+          </div>
           <div
             className="inline-flex aspect-square w-10 items-center justify-center rounded-[8px] bg-white"
             onClick={closeSidebar}
@@ -171,7 +185,7 @@ const Root = styled.div`
   box-shadow: 0px 2px 6px 6px rgba(0, 0, 0, 0.025);
   transition: all 0.4s;
   &.active {
-    /* transform: translateX(calc(100vw - ${EXTERNAL_THEME.navBarHeight}px)); */
+    transform: translateX(calc(100vw - ${EXTERNAL_THEME.navBarHeight}px));
     transition: all 0.4s;
   }
   &.atTop {
@@ -188,25 +202,21 @@ const Root = styled.div`
     top: 50%;
     transform: translateY(-50%);
     left: 16px;
-    height: 30px;
   }
 `;
 
 const SidebarDiv = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
-  /* left: calc(-100% - ${EXTERNAL_THEME.navBarHeight}px); */
-  left: -110%;
-  width: calc(100% - ${EXTERNAL_THEME.navBarHeight}px);
-  /* transform: translateX(calc(100vw - ${EXTERNAL_THEME.navBarHeight}px)); */
-  max-width: 100%;
+  left: calc(-100vw - ${EXTERNAL_THEME.navBarHeight}px);
+  width: calc(100vw - ${EXTERNAL_THEME.navBarHeight}px);
   height: 100%;
   background-color: #fff;
   background: linear-gradient(to bottom, #4e55f1, #9d3cff);
   border-radius: 2px;
   backdrop-filter: blur(10px);
   box-shadow: 0px 2px 16px 6px rgba(0, 0, 0, 0.04);
-  overflow: hidden;
+  /* overflow: hidden; */
   transition: all 0.4s;
   &.active {
     transition: all 0.4s;

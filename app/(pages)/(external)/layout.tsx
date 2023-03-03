@@ -21,7 +21,6 @@ export default function RootLayout({
 
 const MainContent = styled.main`
   transition: all 0.4s;
-  /* transform: translateX(0); */
   &.main-offset {
     transform: translateX(calc(100vw - ${EXTERNAL_THEME.navBarHeight}px));
     transition: all 0.4s;
