@@ -15,6 +15,7 @@ import React, { useEffect, useState } from 'react';
 import { FiAlignRight, FiArrowRight, FiChevronDown } from 'react-icons/fi';
 import { ImSearch } from 'react-icons/im';
 import { tv } from 'tailwind-variants';
+import { motion } from 'framer-motion';
 
 const row = tv({
   base: 'flex gap-4 sm:flex-row flex-col',
@@ -24,7 +25,12 @@ const Item = ({ title = '', desc = '' }) => {
   const [show, setShow] = useState(false);
 
   return (
-    <div className="item  rounded-md border-solid border-black/5  transition-all hover:bg-gray-100">
+    <motion.div
+      className="item  rounded-md border-solid border-black/5  transition-all hover:bg-gray-100"
+      initial={{ opacity: 0, y: 80 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+    >
       <div
         onClick={() => setShow((s) => !s)}
         className="flex cursor-pointer gap-2  py-4 px-4 text-base font-semibold sm:text-lg"
@@ -43,7 +49,7 @@ const Item = ({ title = '', desc = '' }) => {
           <p className="m-0 p-4 pt-0 text-base text-black/60">{desc}</p>
         </>
       )}
-    </div>
+    </motion.div>
   );
 };
 
