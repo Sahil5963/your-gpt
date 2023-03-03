@@ -17,6 +17,7 @@ export default function ConfirmModal({
   onClose,
   title,
   desc,
+  loading,
   onConfirm,
   danger = false,
   confirmTitle,
@@ -44,7 +45,7 @@ export default function ConfirmModal({
           component="h2"
           startDecorator={<AiFillWarning />}
         >
-          Confirmation
+          {title}
         </Typography>
         <Divider />
 
@@ -64,6 +65,7 @@ export default function ConfirmModal({
           </Button>
           <Button
             variant="solid"
+            loading={loading}
             color={danger ? 'danger' : 'primary'}
             onClick={onConfirm}
           >

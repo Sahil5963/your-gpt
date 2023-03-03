@@ -1,62 +1,85 @@
-'use client';
 import {
   Autocomplete,
   Button,
+  Divider,
   FormControl,
   FormLabel,
-  IconButton,
   Input,
   Option,
   Select,
   Typography,
 } from '@mui/joy';
-import BackHeader from 'app/(pages)/console/components/BackHeader';
-import { appContent } from 'app/(pages)/console/components/variants/app';
 import { useAuth } from 'context/AuthContext';
-import { createProjectApi } from 'network/api/project';
 import { getOrganisationApi } from 'network/api/organisation';
+import { createProjectApi, getProjectsApi } from 'network/api/project';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
 import { OrganisationItemD } from 'types/org';
+import { ProjectItemD, ProjectTypeD } from 'types/project';
 import { useDebouncedCallback } from 'use-debounce';
-import { tv } from 'tailwind-variants';
-import { ProjectTypeD } from 'types/project';
+import { log } from 'utils/helpers';
+import BackHeader from '../../components/BackHeader';
+import ProjectMemebers from './ProjectMemebers';
 
-const ORG = [
-  {
-    id: 1,
-    name: 'Default',
-  },
-  {
-    id: 2,
-    name: 'Primary',
-  },
-  {
-    id: 3,
-    name: 'Sulphur',
-  },
-  {
-    id: 4,
-    name: 'Zinc',
-  },
-];
-
-// const typeV = tv({
-//   base:'p-4 flex items-center'
-// })
-
-export default function CreateProject() {
+export default function ProjectDetail({ projectId }: { projectId: any }) {
   const router = useRouter();
   const [loadingOrg, setLoadingOrg] = useState(false);
   const [organisations, setOrganisations] = useState<OrganisationItemD[]>([]);
   const [org, setOrg] = useState<OrganisationItemD | null>(null);
+  const [orgId, setOrgId] = useState<number | null>(null);
   const [orgSearch, setOrgSearch] = useState('');
   const [creating, setCreating] = useState(false);
   const { token } = useAuth();
-  // const [orgInpuVal, setOrgInpuVal] = useState('');
+  const [updating, setUpdating] = useState(false);
 
+  const [name, setName] = useState('');
+
+  // const [orgInpuVal, setOrgInpuVal] = useState('');
   const [type, setType] = useState<ProjectTypeD>('basic');
+
+  /**
+   * UPDATE
+   */
+
+  useEffect(() => {
+    if (orgId && organisations.length > 0) {
+      // log(organisations.filter((i) => i.id === orgId)[0])
+      setOrg(organisations.filter((i) => i.id === orgId)[0]);
+    }
+  }, [orgId, organisations]);
+
+  const fillDetails = (res: ProjectItemD) => {
+    setName(res.name);
+    setType(res.type);
+    setOrgId(res.organization_id);
+  };
+
+  const fetchDetail = useCallback(async () => {
+    if (!projectId || !token) {
+      return;
+    }
+
+    try {
+      const res = await getProjectsApi({
+        limit: 1,
+        page: 1,
+        projectId: 1,
+        search: '',
+        token,
+      });
+      log(res);
+
+      if (res.type === 'RXSUCCESS') {
+        fillDetails(res.data[5]);
+      }
+    } catch (err) {
+      console.log('Err', err);
+    }
+  }, [projectId, token]);
+
+  useEffect(() => {
+    fetchDetail();
+  }, [fetchDetail]);
 
   const fetchOrg = useCallback(async () => {
     let active = true;
@@ -102,12 +125,10 @@ export default function CreateProject() {
   }, 300);
 
   const onOrgChange = (e) => {
-    e.target?.value && delaySearch(e.target.value);
+    e?.target?.value && delaySearch(e.target.value);
   };
 
   const onSubmit = async (e) => {
-    const name = e.currentTarget.elements.name?.value;
-
     try {
       setCreating(true);
       const res = await createProjectApi({
@@ -116,7 +137,6 @@ export default function CreateProject() {
         name,
         type,
       });
-      console.log('RES', res);
 
       if (res.type === 'RXSUCCESS') {
         router.push('/console/projects');
@@ -131,8 +151,14 @@ export default function CreateProject() {
   return (
     <div>
       <div className="">
-        <div className="mb-6 flex items-center gap-3">
-          <BackHeader title="Create Project" />
+        <div className="item-start mb-6 flex">
+          <div className="flex flex-1 items-center gap-3">
+            <BackHeader title={projectId ? 'Edit Project' : 'Create Project'} />
+          </div>
+
+          <div className="self-start">
+            <Button loading={updating}>Update</Button>
+          </div>
         </div>
 
         <form
@@ -144,7 +170,12 @@ export default function CreateProject() {
         >
           <FormControl required>
             <FormLabel>Name</FormLabel>
-            <Input placeholder="Name of your project" name="name" />
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Name of your project"
+              name="name"
+            />
           </FormControl>
           <FormControl required>
             <FormLabel>App type</FormLabel>
@@ -175,10 +206,18 @@ export default function CreateProject() {
             />
           </FormControl>
 
-          <Button loading={creating} type="submit">
-            Create App
-          </Button>
+          <div className="my-4">
+            <ProjectMemebers projectId={projectId} />
+          </div>
+
+          {!projectId && (
+            <Button loading={creating} type="submit">
+              Create App
+            </Button>
+          )}
         </form>
+
+        <Button color="danger">Delete this project</Button>
       </div>
     </div>
   );

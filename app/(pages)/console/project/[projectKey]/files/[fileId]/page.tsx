@@ -18,7 +18,7 @@ import { appContent } from 'app/(pages)/console/components/variants/app';
 import { useApp } from 'context/AppContext';
 import { useAuth } from 'context/AuthContext';
 import { getProjectsApi } from 'network/api/project';
-import { getFileDetailApi } from 'network/api/project/file';
+import { getFileContentApi, getFileDetailApi } from 'network/api/project/file';
 import Link from 'next/link';
 import {
   useRouter,
@@ -28,6 +28,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { FiArrowDown, FiChevronLeft } from 'react-icons/fi';
 import { ProjectFileItemD } from 'types/project';
+import { log } from 'utils/helpers';
 import Data from './Data';
 
 export default function FileDetail(route) {
@@ -35,6 +36,7 @@ export default function FileDetail(route) {
   const { token } = useAuth();
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const [fileContent, setFileContent] = useState<any>(null);
 
   const fileId = route.params?.fileId || '';
 
@@ -66,6 +68,32 @@ export default function FileDetail(route) {
       fetchDetail();
     }
   }, [token, projectKey, fileId]);
+
+  /**
+   * File Content
+   */
+
+  useEffect(() => {
+    const fetchFileContent = async () => {
+      try {
+        const res = await getFileContentApi({
+          token,
+          file_id: fileId,
+          project_key: projectKey,
+        });
+
+        if (res.type === 'RXSUCCESS') {
+          setFileContent(res.data);
+        }
+      } catch (err) {
+        console.log('Err', err);
+      }
+    };
+
+    if (token && projectKey && fileId) {
+      fetchFileContent();
+    }
+  }, []);
 
   return (
     <div className="bg-gray-50">
@@ -169,10 +197,7 @@ export default function FileDetail(route) {
                 <Typography level="h6">Raw JSON</Typography>
               </div>
 
-              <div className="text-sm text-gray-500">
-                {`{"prompt":"Do I need to enter ‘#’ after keying in my Card number/ Card expiry date/ CVV number@@@","completion":"Please listen to the recorded message and follow the instructions while entering your card... 
-`}
-              </div>
+              <div className="text-sm text-gray-500">{fileContent}</div>
             </div>
           </>
         )}
