@@ -154,21 +154,15 @@ export default function Navbar() {
         <div className="m-auto mt-8 flex max-w-[400px] flex-col px-10">
           {MENU_LIST.map((i) => {
             return (
-              <span
-                className={`mobile-menu my-1 inline-block rounded-xl px-2 py-3 text-center transition-all ${
-                  pathname === i.link ? 'bg-white/95' : 'bg-white/5'
-                }`}
+              <Link
+                href={i.link}
+                onClick={closeSidebar}
+                className={`my-1 inline-block rounded-xl px-2 py-3 text-center text-lg font-medium capitalize no-underline transition-all ${
+                  pathname === i.link ? 'text-black' : 'text-white'
+                } ${pathname === i.link ? 'bg-white/95' : 'bg-white/5'}`}
               >
-                <Link
-                  href={i.link}
-                  onClick={closeSidebar}
-                  className={`label p-3 text-lg font-medium capitalize no-underline transition-all ${
-                    pathname === i.link ? 'text-black' : 'text-white'
-                  }`}
-                >
-                  {i.label}
-                </Link>
-              </span>
+                {i.label}
+              </Link>
             );
           })}
         </div>
