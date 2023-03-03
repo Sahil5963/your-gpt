@@ -2,9 +2,12 @@
 import styled from '@emotion/styled';
 import clsx from 'clsx';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState, useRef } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
+import { IoMdArrowBack, IoMdArrowRoundBack } from 'react-icons/io';
+import { IoArrowBack } from 'react-icons/io5';
 import { EXTERNAL_THEME } from 'utils/ui';
 import { OutlineButton, SolidButton } from '../Button';
 
@@ -12,7 +15,7 @@ const MENU_LIST = [
   { label: 'Use cases', link: '/' },
   {
     label: 'Blogs',
-    link: '/',
+    link: '/blogs',
   },
   {
     label: 'FAQ',
@@ -29,6 +32,8 @@ export default function Navbar() {
   const [active, setActive] = useState(false);
   const sidebarRef = useRef(null);
   const menuRef = useRef(null);
+  const pathname = usePathname();
+  // console.log(pathname, 'pathnameMM');
 
   const handleScroll = () => {
     if (window.scrollY <= 2) {
@@ -38,21 +43,30 @@ export default function Navbar() {
     }
   };
 
+  const openSidebar = () => {
+    setActive(true);
+    document.getElementById('mainContent').classList.add('main-offset');
+    document.body.style.overflow = 'hidden';
+  };
+  const closeSidebar = () => {
+    setActive(false);
+    document.getElementById('mainContent').classList.remove('main-offset');
+    document.body.style.overflow = 'auto';
+  };
+
   useEffect(() => {
     document.addEventListener('click', (e) => {
       if (
         !sidebarRef.current?.contains(e.target) &&
         !menuRef.current?.contains(e.target)
       ) {
-        setActive(false);
-        // document.body.style.overflow = "auto";
+        closeSidebar();
       }
     });
   }, [sidebarRef, menuRef]);
 
   useEffect(() => {
     handleScroll();
-
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -60,80 +74,92 @@ export default function Navbar() {
   }, []);
 
   return (
-    <Root className={`${clsx({ atTop })} bg-white/50`}>
-      <div
-        className={`relative m-auto flex max-w-screen-2xl items-center justify-between px-3`}
+    <>
+      <Root
+        className={`${clsx(
+          { atTop },
+          {
+            active,
+          },
+        )} bg-white/50`}
       >
-        <Link href="/">
-          <div className="ml-10 lg:ml-0">
-            <img src="/images/navbar/logo.svg" alt="" />
-          </div>
-        </Link>
-        <div className="hidden lg:block">
-          <div className="nav-lists flex gap-14">
-            {MENU_LIST.map((i) => {
-              return (
-                <Link
-                  href={i.link}
-                  className="font-medium text-primary no-underline hover:text-black "
-                >
-                  {i.label}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-        <div className="flex gap-2 md:gap-5">
-          <Link href="/login">
-            <OutlineButton text="Login" />
+        <div
+          className={`relative m-auto flex max-w-screen-2xl items-center justify-between px-4`}
+        >
+          <Link href="/">
+            <div className="ml-10 lg:ml-0">
+              <img src="/images/navbar/logo.svg" alt="" />
+            </div>
           </Link>
-          <Link href="signup">
-            <SolidButton text="Signup" />
-          </Link>
-        </div>
-        <div className={`sidebar-wrapper ${clsx({ active })}`} ref={sidebarRef}>
-          <div className="flex flex-col">
-            {MENU_LIST.map((i) => {
-              return (
-                <span className="mobile-menu my-2 inline-block px-2 py-1 text-center">
+          <div className="hidden lg:block">
+            <div className="nav-lists flex gap-14">
+              {MENU_LIST.map((i) => {
+                return (
                   <Link
                     href={i.link}
-                    onClick={() => {
-                      setActive(false);
-                    }}
-                    className="p-3 text-lg font-medium text-white no-underline"
+                    className={`font-medium no-underline hover:text-black ${
+                      pathname === i.link ? 'text-black' : 'text-primary'
+                    }`}
                   >
                     {i.label}
                   </Link>
-                </span>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
-        <div className="icon block overflow-hidden lg:hidden" ref={menuRef}>
+          <div className="flex gap-2 md:gap-5">
+            <Link href="/login">
+              <OutlineButton text="Login" />
+            </Link>
+            <Link href="signup">
+              <SolidButton text="Signup" />
+            </Link>
+          </div>
+
           <div
-            className={`menu-icon  text-3xl leading-[0]  ${clsx({
-              active,
-            })}`}
-            onClick={() => {
-              setActive(true);
-            }}
+            className={`menu-icon absolute block text-3xl leading-[0] lg:hidden`}
+            onClick={openSidebar}
+            ref={menuRef}
           >
             <HiMenu />
           </div>
+        </div>
+      </Root>
+      <SidebarDiv
+        className={`sidebar-wrapper z-30 ${clsx({ active })}`}
+        ref={sidebarRef}
+      >
+        <div className="ml-auto mt-10 px-10 text-right">
           <div
-            className={`close-icon text-3xl leading-[0] ${clsx({
-              active,
-            })}`}
-            onClick={() => {
-              setActive(false);
-            }}
+            className="inline-flex aspect-square w-10 items-center justify-center rounded-[8px] bg-white"
+            onClick={closeSidebar}
           >
-            <AiOutlineClose />
+            <IoMdArrowRoundBack className="text-xl" />
           </div>
         </div>
-      </div>
-    </Root>
+        <div className="m-auto mt-8 flex max-w-[400px] flex-col px-10">
+          {MENU_LIST.map((i) => {
+            return (
+              <span
+                className={`mobile-menu my-1 inline-block rounded-xl px-2 py-3 text-center transition-all ${
+                  pathname === i.link ? 'bg-white/95' : 'bg-white/5'
+                }`}
+              >
+                <Link
+                  href={i.link}
+                  onClick={closeSidebar}
+                  className={`label p-3 text-lg font-medium capitalize no-underline transition-all ${
+                    pathname === i.link ? 'text-black' : 'text-white'
+                  }`}
+                >
+                  {i.label}
+                </Link>
+              </span>
+            );
+          })}
+        </div>
+      </SidebarDiv>
+    </>
   );
 }
 
@@ -143,6 +169,11 @@ const Root = styled.div`
   top: 0px;
   backdrop-filter: blur(10px);
   box-shadow: 0px 2px 6px 6px rgba(0, 0, 0, 0.025);
+  transition: all 0.4s;
+  &.active {
+    transform: translateX(calc(100vw - ${EXTERNAL_THEME.navBarHeight}px));
+    transition: all 0.4s;
+  }
   &.atTop {
     box-shadow: none;
   }
@@ -153,65 +184,30 @@ const Root = styled.div`
   & > div {
     height: ${EXTERNAL_THEME.navBarHeight}px;
   }
-
-  .sidebar-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    max-width: 500px;
-    margin-top: ${EXTERNAL_THEME.navBarHeight}px;
-    /* width: 250px; */
-    height: 0;
-    /* background-color: red; */
-    background-color: #fff;
-    background: linear-gradient(
-      to bottom right,
-      rgba(78, 86, 241, 0.98),
-      rgba(157, 60, 255, 0.98)
-    );
-    border-radius: 2px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0px 2px 16px 6px rgba(0, 0, 0, 0.04);
-    overflow: hidden;
-    transition: all 0.4s;
-    &.active {
-      height: 208px;
-      transition: all 0.4s;
-    }
-    .mobile-menu:first-child {
-      background: linear-gradient(
-        to bottom right,
-        rgb(65, 73, 209),
-        rgb(134, 48, 220)
-      );
-    }
-  }
-  .icon {
-    position: absolute;
+  .menu-icon {
     top: 50%;
     transform: translateY(-50%);
-    left: 10px;
+    left: 16px;
     height: 30px;
   }
-  .menu-icon {
-    /* left: 20; */
-    transform: translateY(0);
+`;
+
+const SidebarDiv = styled.div`
+  position: fixed;
+  top: 0;
+  left: calc(-100% - ${EXTERNAL_THEME.navBarHeight}px);
+  width: calc(100% - ${EXTERNAL_THEME.navBarHeight}px);
+  max-width: 100%;
+  height: 100%;
+  background-color: #fff;
+  background: linear-gradient(to bottom, #4e55f1, #9d3cff);
+  border-radius: 2px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0px 2px 16px 6px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  transition: all 0.4s;
+  &.active {
     transition: all 0.4s;
-    &.active {
-      transform: translateY(-50px);
-      /* left: -80px; */
-      transition: all 0.4s;
-    }
-  }
-  .close-icon {
-    /* left: -80px; */
-    transform: translateY(0);
-    transition: all 0.4s;
-    &.active {
-      transform: translateY(-30px);
-      /* left: 10px; */
-      transition: all 0.4s;
-    }
+    left: 0;
   }
 `;
