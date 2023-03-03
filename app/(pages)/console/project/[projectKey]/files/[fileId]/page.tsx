@@ -14,7 +14,7 @@ import {
   ListItemContent,
   Typography,
 } from '@mui/joy';
-import { appContent } from 'app/components/dashboard/variants/app';
+import { appContent } from 'app/(pages)/console/components/variants/app';
 import { useApp } from 'context/AppContext';
 import { useAuth } from 'context/AuthContext';
 import { getProjectsApi } from 'network/api/project';

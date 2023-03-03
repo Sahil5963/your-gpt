@@ -1,6 +1,6 @@
 'use client';
 
-import AppNavbar from 'app/components/dashboard/AppNavbar';
+import AppNavbar from 'app/(pages)/console/components/AppNavbar';
 import { AppContext } from 'context/AppContext';
 import React, { createContext, useContext } from 'react';
 

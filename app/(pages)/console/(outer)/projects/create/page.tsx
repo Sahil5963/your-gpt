@@ -10,8 +10,8 @@ import {
   Select,
   Typography,
 } from '@mui/joy';
-import BackHeader from 'app/components/dashboard/BackHeader';
-import { appContent } from 'app/components/dashboard/variants/app';
+import BackHeader from 'app/(pages)/console/components/BackHeader';
+import { appContent } from 'app/(pages)/console/components/variants/app';
 import { useAuth } from 'context/AuthContext';
 import { createProjectApi } from 'network/api/project';
 import { getOrganisationApi } from 'network/api/organisation';
@@ -51,10 +51,10 @@ export default function CreateProject() {
   const [loadingOrg, setLoadingOrg] = useState(false);
   const [organisations, setOrganisations] = useState<OrganisationItemD[]>([]);
   const [org, setOrg] = useState<OrganisationItemD | null>(null);
+  const [orgSearch, setOrgSearch] = useState('');
   const [creating, setCreating] = useState(false);
   const { token } = useAuth();
   // const [orgInpuVal, setOrgInpuVal] = useState('');
-  const [orgSearch, setOrgSearch] = useState('');
 
   const [type, setType] = useState<ProjectTypeD>('basic');
 
@@ -102,10 +102,6 @@ export default function CreateProject() {
   }, 300);
 
   const onOrgChange = (e) => {
-    // setOrgInpuVal(e);
-
-    // setLoadingOrg(true);
-
     e.target?.value && delaySearch(e.target.value);
   };
 

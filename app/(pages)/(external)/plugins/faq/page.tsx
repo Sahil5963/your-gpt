@@ -1,4 +1,4 @@
-import FaqPlugin from 'app/components/dashboard/plugins/Faq';
+import FaqPlugin from 'app/(pages)/console/components/plugins/Faq';
 import React from 'react';
 
 export default function FaqP() {

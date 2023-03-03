@@ -67,7 +67,6 @@ export const playgroundApi = async ({
   ...raw
 }: {
   token: string;
-  name: string;
   project_key: string;
   model: string;
   prompt: string;
@@ -75,7 +74,7 @@ export const playgroundApi = async ({
   temprature: string;
 }) => {
   return post({
-    route: '/api/v1/simpletuning/playground',
+    route: '/api/v1/basictuning/playground',
     data: JSON.stringify(raw),
     config: {
       headers: {

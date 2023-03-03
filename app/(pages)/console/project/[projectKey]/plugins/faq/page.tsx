@@ -2,8 +2,8 @@
 
 import { ClickAwayListener } from '@mui/base';
 import { Button, FormControl, FormLabel, Input, Typography } from '@mui/joy';
-import BackHeader from 'app/components/dashboard/BackHeader';
-import { appContent } from 'app/components/dashboard/variants/app';
+import BackHeader from 'app/(pages)/console/components/BackHeader';
+import { appContent } from 'app/(pages)/console/components/variants/app';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { SketchPicker } from 'react-color';

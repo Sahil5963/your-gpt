@@ -8,7 +8,7 @@ import {
   Table,
   Typography,
 } from '@mui/joy';
-import TablePagination from 'app/components/dashboard/TablePagination';
+import TablePagination from 'app/(pages)/console/components/TablePagination';
 import React from 'react';
 import { AiFillDelete } from 'react-icons/ai';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';

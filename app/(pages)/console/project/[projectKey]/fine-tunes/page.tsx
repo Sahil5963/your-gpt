@@ -17,7 +17,6 @@ import {
   Table,
   Typography,
 } from '@mui/joy';
-import { appContent } from 'app/components/dashboard/variants/app';
 import React, { useMemo, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import {
@@ -31,7 +30,7 @@ import { BsPlus } from 'react-icons/bs';
 import { AiFillDelete, AiFillEye } from 'react-icons/ai';
 import { usePathname, useRouter } from 'next/navigation';
 import { IoWarning } from 'react-icons/io5';
-import TablePagination from 'app/components/dashboard/TablePagination';
+import TablePagination from 'app/(pages)/console/components/TablePagination';
 import { SortD } from 'types';
 import { useApp } from 'context/AppContext';
 import { useListingApi } from 'hooks/useListingApi';
@@ -39,7 +38,8 @@ import { ModelItemD } from 'types/model';
 import { FineTuneItemD } from 'types/fineTune';
 import { formatDateTime } from 'utils/helpers';
 import DataTable from 'react-data-table-component';
-import ConfirmModal from 'app/components/dashboard/ConfirmModal';
+import ConfirmModal from 'app/(pages)/console/components/ConfirmModal';
+import { appContent } from 'app/(pages)/console/components/variants/app';
 
 export default function AppFineTunes() {
   const router = useRouter();
