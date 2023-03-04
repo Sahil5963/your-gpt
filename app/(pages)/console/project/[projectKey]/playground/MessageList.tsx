@@ -10,7 +10,7 @@ const messageItem = tv({
   variants: {
     type: {
       sent: 'bg-transparent',
-      get: ' bg-gray-100 rounded-lg',
+      get: ' bg-blue-100 rounded-lg',
     },
   },
 });

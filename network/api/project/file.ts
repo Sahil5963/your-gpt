@@ -40,3 +40,41 @@ export const getFileDetailApi = async ({
     },
   });
 };
+export const deleteFileApi = async ({
+  token,
+  ...raw
+}: {
+  token: string;
+  file_id: any;
+  project_key: any;
+}) => {
+  return post({
+    route: '/api/v1/basictuning/deleteFile',
+    data: JSON.stringify(raw),
+    config: {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-type': 'application/json',
+      },
+    },
+  });
+};
+export const getFileContentApi = async ({
+  token,
+  ...raw
+}: {
+  token: string;
+  file_id: any;
+  project_key: any;
+}) => {
+  return post({
+    route: '/api/v1/basictuning/getFileContent',
+    data: JSON.stringify(raw),
+    config: {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-type': 'application/json',
+      },
+    },
+  });
+};

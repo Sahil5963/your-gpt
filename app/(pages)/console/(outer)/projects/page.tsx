@@ -57,7 +57,7 @@ const COLS = [
 export default function Projects() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [sort, setSort] = useState<SortD>('desc');
+  const [sort, setSort] = useState<SortD>('');
   const [search, setSearch] = useState('');
 
   const {
@@ -176,9 +176,7 @@ export default function Projects() {
                               <td>{i.organization?.name}</td>
                               <td>
                                 <div className="actions cell flex gap-1">
-                                  <Link
-                                    href={`/console/projects/manage/${i.project_key}`}
-                                  >
+                                  <Link href={`/console/projects/${i.id}`}>
                                     <IconButton variant="outlined">
                                       <FaEdit />
                                     </IconButton>

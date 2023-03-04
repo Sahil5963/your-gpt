@@ -38,6 +38,8 @@ import ConfirmModal from 'app/(pages)/console/components/ConfirmModal';
 import { ProjectFileItemD } from 'types/project';
 import { formatDateTime } from 'utils/helpers';
 import DataTable from 'react-data-table-component';
+import { deleteFileApi } from 'network/api/project/file';
+import { useAuth } from 'context/AuthContext';
 
 export default function AppFiles() {
   const router = useRouter();
@@ -48,6 +50,7 @@ export default function AppFiles() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortD>('desc');
+  const { token } = useAuth();
 
   const { projectKey } = useApp();
 
@@ -63,8 +66,8 @@ export default function AppFiles() {
     total: number;
     apiError: string;
     loading: boolean;
-    setData: any;
-    setTotal: any;
+    setData: React.Dispatch<React.SetStateAction<ProjectFileItemD[]>>;
+    setTotal: React.Dispatch<React.SetStateAction<number>>;
   } = useListingApi({
     limit,
     page,
@@ -73,6 +76,8 @@ export default function AppFiles() {
     type: 'projectFiles',
     project_key: projectKey,
   });
+
+  const [deleting, setDeleting] = useState(false);
 
   const COLS: {
     name: string;
@@ -133,6 +138,28 @@ export default function AppFiles() {
     ],
     [],
   );
+
+  const onDelete = async () => {
+    try {
+      setDeleting(true);
+
+      const res = await deleteFileApi({
+        file_id: deleteId,
+        project_key: projectKey,
+        token,
+      });
+      setDeleting(false);
+
+      if (res.type === 'RXSUCCESS') {
+        setDeleteId('');
+        setData((s) => s.filter((s) => s.id !== deleteId));
+        setTotal((s) => s - 1);
+      }
+    } catch (err) {
+      setDeleting(false);
+      console.log('Err', err);
+    }
+  };
 
   return (
     <div className={appContent()}>
@@ -196,8 +223,8 @@ export default function AppFiles() {
         onClose={() => setDeleteId('')}
         danger
         confirmTitle="Delete file"
-        loading={false}
-        onConfirm={() => {}}
+        loading={deleting}
+        onConfirm={() => onDelete()}
         desc="This action in not reversible"
         // title='Delete this file '
       />

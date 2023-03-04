@@ -1,17 +1,11 @@
 import { post } from 'network';
-import { SortD } from 'types';
+import { ListingApiParams, SortD } from 'types';
 import { ProjectTypeD } from 'types/project';
 
 export const getProjectsApi = async ({
   token,
   ...raw
-}: {
-  token: string;
-  limit: number;
-  page: number;
-  orderBy?: SortD;
-  search: string;
-}) => {
+}: ListingApiParams & { projectId: any }) => {
   return post({
     route: '/api/v1/getMyProjects',
     data: JSON.stringify(raw),

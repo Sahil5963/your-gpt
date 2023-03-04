@@ -48,7 +48,7 @@ export default function AppPlayground() {
 
   const [temprature, setTemprature] = useState(0.5);
   const [model, setModel] = useState<ModelItemD | null>(null);
-  const [maxTokens, setMaxTokens] = useState(300);
+  const [maxTokens, setMaxTokens] = useState(20);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -162,7 +162,7 @@ export default function AppPlayground() {
                   minRows={4}
                   autoFocus
                   placeholder="Type here..."
-                  className="w-full  resize-none rounded-lg border-solid border-gray-200 border-r-gray-200 py-3 px-3 text-base shadow-md outline-none transition-all  active:border-gray-200"
+                  className="w-full  resize-none rounded-lg border-solid border-gray-200 border-r-gray-200 bg-gray-100 py-3 px-3 text-base shadow-md outline-none transition-all  active:border-gray-200"
                   style={{ fontFamily: 'inherit' }}
                 />
                 <div

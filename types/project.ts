@@ -8,6 +8,7 @@ export type ProjectItemD = {
   organization_id: number;
   user_id: number;
   project_key: string;
+  type: ProjectTypeD;
 };
 
 export type ProjectTypeD = 'basic' | 'advance';
