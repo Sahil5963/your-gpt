@@ -119,7 +119,9 @@ export default function AppPlayground() {
         <div
           className="left relative flex flex-1 flex-col overflow-hidden"
           style={{
-            height: `calc(100vh - ${THEME.appNavbarHeight}px)`,
+            height: `calc(100vh - ${
+              THEME.appNavbarHeight + THEME.appNavbar2Height
+            }px)`,
           }}
         >
           <div className=" flex-1 flex-col  overflow-auto">

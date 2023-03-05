@@ -22,53 +22,86 @@ const LINKS = [
   },
   {
     id: 2,
-    link: 'playground',
-    label: 'Playground',
+    link: '',
+    label: 'Train',
   },
   {
     id: 3,
-    link: 'files',
-    label: 'Files',
+    link: '',
+    label: 'Integration',
   },
-  {
-    id: 4,
-    link: 'fine-tunes',
-    label: 'Fine tunes',
-  },
-  {
-    id: 5,
-    link: 'plugins',
-    label: 'Plugins',
-  },
+
   {
     id: 6,
     link: 'setting',
     label: 'Settings',
   },
 ];
+const LINKS2 = [
+  {
+    id: 1,
+    link: 'playground',
+    label: 'Playground',
+  },
+  {
+    id: 2,
+    link: 'files',
+    label: 'Files',
+  },
+  {
+    id: 3,
+    link: 'fine-tunes',
+    label: 'Fine Tune',
+  },
+];
 
 export default function AppNavbar() {
   return (
-    <div
-      style={{ height: THEME.appNavbarHeight }}
-      className="sticky top-0 z-20 flex bg-blue-800 px-8"
-    >
-      <div className="flex flex-1 items-center">
-        <Link
-          href={'/console/projects'}
-          className=" flex items-center gap-2 rounded-lg bg-black/20 p-3 text-white/60 no-underline transition-all hover:bg-black/30 hover:text-white"
-        >
-          <RiArrowGoBackLine />
-          <div>Go to console</div>
-        </Link>
+    <div className="sticky top-0 z-20">
+      <div
+        className=" flex bg-blue-800 px-8"
+        style={{ height: THEME.appNavbarHeight }}
+      >
+        <div className="flex flex-1 items-center">
+          <Link
+            href={'/console/projects'}
+            className="absolute flex items-center gap-2 rounded-lg bg-black/20 p-3 text-white/60 no-underline transition-all hover:bg-black/30 hover:text-white"
+          >
+            <RiArrowGoBackLine />
+            <div>Go to console</div>
+          </Link>
 
+          <div className=" flex flex-1 items-center justify-center">
+            <div className=" flex items-center gap-1">
+              {LINKS.map((i) => {
+                return (
+                  <AppLink
+                    href={i.link}
+                    className=" text-blue-300 no-underline transition-all hover:text-white"
+                    key={i.id}
+                    activeClassName="bg-blue-700  text-white"
+                  >
+                    {i.label}
+                  </AppLink>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        style={{ height: THEME.appNavbar2Height }}
+        className="flex items-center shadow-sm"
+      >
         <div className=" flex flex-1 items-center justify-center">
           <div className=" flex items-center gap-1">
-            {LINKS.map((i) => {
+            {LINKS2.map((i) => {
               return (
                 <AppLink
                   href={i.link}
-                  className=" no-underline transition-all hover:text-white"
+                  className="no-underline transition-all hover:text-black"
+                  activeClassName="text-black"
                   key={i.id}
                 >
                   {i.label}

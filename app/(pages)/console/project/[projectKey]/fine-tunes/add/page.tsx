@@ -143,73 +143,47 @@ export default function FineTuneAdd() {
 
               <Input name={Fields.name} placeholder="Enter Fine-tune name" />
             </FormControl>
-            <div className="grid grid-cols-2 gap-4">
-              <FormControl required>
-                <LabelHeader
-                  label="Training file"
-                  info={
-                    <div className="flex flex-col gap-2">
-                      <p>
-                        The ID of an uploaded file that contains training data.
-                      </p>
+            <FormControl required>
+              <LabelHeader label="Suffix" />
+              <Input
+                name={Fields.suffix}
+                placeholder="Enter suffix"
+                size="sm"
+              />
+            </FormControl>
 
-                      <Link href={'#'}>
-                        See upload file for how to upload a file.
-                      </Link>
-                      <p>
-                        Your dataset must be formatted as a JSONL file, where
-                        each training example is a JSON object with the keys
-                        "prompt" and "completion". Additionally, you must upload
-                        your file with the purpose fine-tune.
-                      </p>
-                    </div>
-                  }
-                />
+            <FormControl required>
+              <LabelHeader
+                label="Training file"
+                info={
+                  <div className="flex flex-col gap-2">
+                    <p>
+                      The ID of an uploaded file that contains training data.
+                    </p>
 
-                <FileSelect
-                  value={trainingFile}
-                  onChange={(e) => {
-                    setTrainingFile(e);
-                  }}
-                  autoSet={false}
-                  name={Fields.trainingFile}
-                />
-              </FormControl>
-              <FormControl>
-                <LabelHeader
-                  label="Validation file"
-                  info={
-                    <div className="flex flex-col gap-1">
-                      <p>
-                        The ID of an uploaded file that contains validation
-                        data.
-                      </p>
-                      <p>
-                        If you provide this file, the data is used to generate
-                        validation metrics periodically during fine-tuning.
-                        These metrics can be viewed in the fine-tuning results
-                        file. Your train and validation data should be mutually
-                        exclusive.
-                      </p>
-                      <p>
-                        Your dataset must be formatted as a JSONL file, where
-                        each validation example is a JSON object with the keys
-                        "prompt" and "completion". Additionally, you must upload
-                        your file with the purpose fine-tune.
-                      </p>
-                    </div>
-                  }
-                />
-                <FileSelect
-                  value={validationFile}
-                  onChange={(e) => {
-                    setValidationFile(e);
-                  }}
-                  name={Fields.validationFile}
-                  autoSet={false}
-                />
-              </FormControl>
-            </div>
+                    <Link href={'#'}>
+                      See upload file for how to upload a file.
+                    </Link>
+                    <p>
+                      Your dataset must be formatted as a JSONL file, where each
+                      training example is a JSON object with the keys "prompt"
+                      and "completion". Additionally, you must upload your file
+                      with the purpose fine-tune.
+                    </p>
+                  </div>
+                }
+              />
+
+              <FileSelect
+                value={trainingFile}
+                onChange={(e) => {
+                  setTrainingFile(e);
+                }}
+                autoSet={false}
+                name={Fields.trainingFile}
+              />
+            </FormControl>
+
             <FormControl required>
               <LabelHeader
                 label="Select model"
@@ -233,14 +207,6 @@ export default function FineTuneAdd() {
                 autoSet={false}
               />
             </FormControl>
-            <FormControl required>
-              <LabelHeader label="Suffix" />
-              <Input
-                name={Fields.suffix}
-                placeholder="Enter suffix"
-                size="sm"
-              />
-            </FormControl>
 
             <div className="rounded-lg bg-gray-100 px-4">
               <div
@@ -253,6 +219,41 @@ export default function FineTuneAdd() {
 
               {advance && (
                 <div className={`flex flex-col pb-4 ${rowsC}`}>
+                  <FormControl>
+                    <LabelHeader
+                      label="Validation file"
+                      info={
+                        <div className="flex flex-col gap-1">
+                          <p>
+                            The ID of an uploaded file that contains validation
+                            data.
+                          </p>
+                          <p>
+                            If you provide this file, the data is used to
+                            generate validation metrics periodically during
+                            fine-tuning. These metrics can be viewed in the
+                            fine-tuning results file. Your train and validation
+                            data should be mutually exclusive.
+                          </p>
+                          <p>
+                            Your dataset must be formatted as a JSONL file,
+                            where each validation example is a JSON object with
+                            the keys "prompt" and "completion". Additionally,
+                            you must upload your file with the purpose
+                            fine-tune.
+                          </p>
+                        </div>
+                      }
+                    />
+                    <FileSelect
+                      value={validationFile}
+                      onChange={(e) => {
+                        setValidationFile(e);
+                      }}
+                      name={Fields.validationFile}
+                      autoSet={false}
+                    />
+                  </FormControl>
                   <div className="grid grid-cols-4 gap-4">
                     <FormControl>
                       <LabelHeader

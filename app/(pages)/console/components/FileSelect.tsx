@@ -121,7 +121,7 @@ export default function FileSelect({
         loading={loading}
         // onInputChange={onOrgChange}
         getOptionLabel={(option: ProjectFileItemD) => {
-          return option.id;
+          return option.filename + ' (' + option.id + ')';
         }}
         // renderOption={(props, option) => {
         //   return (

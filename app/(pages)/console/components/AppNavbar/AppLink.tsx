@@ -10,10 +10,12 @@ export default function AppLink({
   href,
   children,
   className,
+  activeClassName,
 }: {
   href: string | null;
   children: React.ReactNode;
   className: string;
+  activeClassName: string;
 }) {
   // Navigating to `/blog/hello-world` will return 'hello-world'
   // for the selected layout segment
@@ -25,10 +27,9 @@ export default function AppLink({
   return (
     <Link
       href={`/console/project/${projectKey}/${href || ''}`}
-      className={`${className} rounded-md py-2 px-4 ${clsx(
-        { 'bg-blue-700  text-white': isActive },
-        { 'bg-transparent text-blue-300': !isActive },
-      )}`}
+      className={`${className} rounded-md py-2 px-4 ${clsx({
+        [activeClassName]: isActive,
+      })}`}
     >
       {children}
     </Link>
