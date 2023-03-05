@@ -60,6 +60,7 @@ export const createFineTuneApi = async ({
   classification_n_classes?: string;
   classification_positive_class?: string;
   classification_betas?: string;
+  compute_classification_metrics?: boolean;
 }) => {
   return post({
     route: '/api/v1/basictuning/createFineTune',
