@@ -17,7 +17,6 @@ import {
 import { appContent } from 'app/(pages)/console/components/variants/app';
 import { useApp } from 'context/AppContext';
 import { useAuth } from 'context/AuthContext';
-import { jsonl } from 'js-jsonl';
 import { getProjectsApi } from 'network/api/project';
 import { getFileContentApi, getFileDetailApi } from 'network/api/project/file';
 import Link from 'next/link';
@@ -97,10 +96,6 @@ export default function FileDetail(route) {
       fetchFileContent();
     }
   }, [token, projectKey, fileId]);
-
-  if (fileContent) {
-    console.log(jsonl.parse(fileContent));
-  }
 
   return (
     <div className="bg-gray-50">
