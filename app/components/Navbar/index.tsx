@@ -93,8 +93,6 @@ export default function Navbar() {
           </div>
           <div className="hidden lg:block">
             <div className="nav-lists flex gap-14">
-              <Link href={'/contact'}>Contact</Link>
-
               {MENU_LIST.map((i) => {
                 return (
                   <Link
@@ -103,7 +101,7 @@ export default function Navbar() {
                       pathname === i.link ? 'text-black' : 'text-primary'
                     }`}
                   >
-                    {i.label}
+                    <a>{i.label}</a>
                   </Link>
                 );
               })}
