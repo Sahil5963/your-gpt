@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-head-element */
 'use client';
 import styled from '@emotion/styled';
 import Navbar from 'app/components/Navbar';

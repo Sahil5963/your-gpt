@@ -7,7 +7,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
 import { IoMdArrowBack, IoMdArrowRoundBack } from 'react-icons/io';
-import { IoArrowBack } from 'react-icons/io5';
 import { EXTERNAL_THEME } from 'utils/ui';
 import { OutlineButton, SolidButton } from '../Button';
 
@@ -96,13 +95,12 @@ export default function Navbar() {
               {MENU_LIST.map((i) => {
                 return (
                   <Link
-                    legacyBehavior
                     href={i.link}
                     className={`font-medium no-underline hover:text-black ${
                       pathname === i.link ? 'text-black' : 'text-primary'
                     }`}
                   >
-                    <a>{i.label}</a>
+                    {i.label}
                   </Link>
                 );
               })}
