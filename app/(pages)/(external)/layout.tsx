@@ -1,4 +1,5 @@
 'use client';
+
 import styled from '@emotion/styled';
 import Navbar from 'app/components/Navbar';
 import { EXTERNAL_THEME } from 'utils/ui';

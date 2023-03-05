@@ -107,7 +107,7 @@ export const uploadProjectFileApi = async ({
   original_filename: string;
 }) => {
   return post({
-    route: '/api/v1/uploadFile',
+    route: '/api/v1/basictuning/uploadFile',
     data: JSON.stringify(raw),
     config: {
       headers: {

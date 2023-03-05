@@ -161,7 +161,7 @@ export default function Projects() {
                       <tbody>
                         {list.map((i) => {
                           return (
-                            <tr>
+                            <tr key={i.id}>
                               <td>
                                 <Link
                                   href={`/console/project/${i.id}`}

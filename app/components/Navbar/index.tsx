@@ -7,6 +7,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
 import { IoMdArrowBack, IoMdArrowRoundBack } from 'react-icons/io';
+import { IoArrowBack } from 'react-icons/io5';
 import { EXTERNAL_THEME } from 'utils/ui';
 import { OutlineButton, SolidButton } from '../Button';
 
@@ -95,6 +96,7 @@ export default function Navbar() {
               {MENU_LIST.map((i) => {
                 return (
                   <Link
+                    key={i.link}
                     href={i.link}
                     className={`font-medium no-underline hover:text-black ${
                       pathname === i.link ? 'text-black' : 'text-primary'
@@ -154,6 +156,7 @@ export default function Navbar() {
           {MENU_LIST.map((i) => {
             return (
               <Link
+                key={i.link}
                 href={i.link}
                 onClick={closeSidebar}
                 className={`my-1 inline-block rounded-xl px-2 py-3 text-center text-lg font-medium capitalize no-underline transition-all ${

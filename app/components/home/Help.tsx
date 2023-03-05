@@ -71,7 +71,10 @@ const Help = () => {
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 xl:gap-6">
               {CARD_DATA.map(({ src, label, text }) => {
                 return (
-                  <div className="card flex flex-col gap-2 rounded-2xl border border-solid border-white/10 p-4 md:rounded-[35px] md:p-5 lg:gap-4 xl:p-7">
+                  <div
+                    key={label}
+                    className="card flex flex-col gap-2 rounded-2xl border border-solid border-white/10 p-4 md:rounded-[35px] md:p-5 lg:gap-4 xl:p-7"
+                  >
                     <div className="icon w-[44px] md:w-[50px]">{src}</div>
                     <div className="label text-lg font-semibold md:text-xl">
                       {label}

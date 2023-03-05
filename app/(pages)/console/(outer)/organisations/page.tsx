@@ -189,7 +189,7 @@ export default function Organisation() {
                       <tbody>
                         {list.map((i) => {
                           return (
-                            <tr>
+                            <tr key={i.id}>
                               <td>{i.id}</td>
                               <td>{i.name}</td>
                               <td>{i.project_count}</td>

@@ -46,7 +46,7 @@ export default function AuthProvider({
     localStorage.removeItem(STORAGE_KEYS.token);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       if (localStorage.getItem(STORAGE_KEYS.token)) {
         setToken(localStorage.getItem(STORAGE_KEYS.token) || '');
