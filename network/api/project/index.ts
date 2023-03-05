@@ -5,7 +5,7 @@ import { ProjectTypeD } from 'types/project';
 export const getProjectsApi = async ({
   token,
   ...raw
-}: ListingApiParams & { projectId: any }) => {
+}: ListingApiParams & { projectId?: any }) => {
   return post({
     route: '/api/v1/getMyProjects',
     data: JSON.stringify(raw),

@@ -41,10 +41,7 @@ export const getFineTuneDetailApi = async ({
   });
 };
 
-export const createFineTuneApi = async ({
-  token,
-  ...raw
-}: {
+export type CreateFineTuneApiParams = {
   token: string;
   project_key: string;
   training_file: string;
@@ -61,7 +58,11 @@ export const createFineTuneApi = async ({
   classification_positive_class?: string;
   classification_betas?: string;
   compute_classification_metrics?: boolean;
-}) => {
+};
+export const createFineTuneApi = async ({
+  token,
+  ...raw
+}: CreateFineTuneApiParams) => {
   return post({
     route: '/api/v1/basictuning/createFineTune',
     data: JSON.stringify(raw),

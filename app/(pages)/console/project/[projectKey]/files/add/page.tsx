@@ -41,7 +41,7 @@ export default function FileAdd() {
   const router = useRouter();
   const [uploadOpen, setUploadOpen] = useState(false);
   const [jsonlFile, setJsonlFile] = useState(null);
-  const [fileText, setFileText] = useState('');
+  const [fileText, setFileText] = useState<any>('');
   const { projectKey } = useApp();
   const { token } = useAuth();
   const [promptCount, setPromptCount] = useState(0);

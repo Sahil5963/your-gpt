@@ -21,7 +21,10 @@ import ModelSelect from 'app/(pages)/console/components/ModelSelect';
 import { appContent } from 'app/(pages)/console/components/variants/app';
 import { useApp } from 'context/AppContext';
 import { useAuth } from 'context/AuthContext';
-import { createFineTuneApi } from 'network/api/project/fineTune';
+import {
+  createFineTuneApi,
+  CreateFineTuneApiParams,
+} from 'network/api/project/fineTune';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -65,7 +68,7 @@ export default function FineTuneAdd() {
 
   const [model, setModel] = useState<ModelItemD | null>({
     id: 'curie',
-  });
+  } as ModelItemD);
   const [advance, setAdvance] = useState(false);
 
   const [metric, setMetric] = useState(false);
@@ -76,7 +79,7 @@ export default function FineTuneAdd() {
   const [success, setSuccess] = useState(false);
 
   const onSubmit = async (e) => {
-    let data1 = {};
+    let data1: CreateFineTuneApiParams = {} as CreateFineTuneApiParams;
     try {
       Array.from(e.target.elements).forEach((i: any) => {
         if (i.name && i.value) {

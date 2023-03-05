@@ -7,7 +7,6 @@ import { useAuth } from 'context/AuthContext';
 import { getFilesApi } from 'network/api/project/file';
 import { getAllModelsApi } from 'network/api/project/model';
 import React, { useCallback, useEffect, useState } from 'react';
-import { ProjectFileItemD } from 'types/model';
 import { ProjectFileItemD } from 'types/project';
 import { useDebouncedCallback } from 'use-debounce';
 import { log } from 'utils/helpers';
