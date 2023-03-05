@@ -96,12 +96,13 @@ export default function Navbar() {
               {MENU_LIST.map((i) => {
                 return (
                   <Link
+                    legacyBehavior
                     href={i.link}
                     className={`font-medium no-underline hover:text-black ${
                       pathname === i.link ? 'text-black' : 'text-primary'
                     }`}
                   >
-                    {i.label}
+                    <a>{i.label}</a>
                   </Link>
                 );
               })}
