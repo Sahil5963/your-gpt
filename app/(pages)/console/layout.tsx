@@ -3,7 +3,7 @@ import 'styles/globals.css';
 import React, { useEffect, useState } from 'react';
 
 import { Public_Sans } from '@next/font/google';
-import ClientProvider from './ClientProvider';
+import ClientProvider from 'app/ClientProvider';
 
 // If loading a variable font, you don't need to specify the font weight
 
