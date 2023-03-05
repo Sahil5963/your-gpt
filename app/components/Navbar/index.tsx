@@ -101,7 +101,7 @@ export default function Navbar() {
                       pathname === i.link ? 'text-black' : 'text-primary'
                     }`}
                   >
-                    <a>{i.label}</a>
+                    {i.label}
                   </Link>
                 );
               })}
