@@ -204,7 +204,9 @@ export default function FileDetail(route) {
                 <Typography level="h6">Raw JSON</Typography>
               </div>
 
-              <div className="text-sm text-gray-500">{fileContent}</div>
+              <div className="whitespace-pre-wrap text-sm text-gray-500 ">
+                {fileContent}
+              </div>
             </div>
           </>
         )}

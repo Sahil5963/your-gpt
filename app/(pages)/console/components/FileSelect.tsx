@@ -4,13 +4,15 @@ import { Autocomplete, AutocompleteProps } from '@mui/joy';
 import AutocompleteOption from '@mui/joy/AutocompleteOption';
 import { useApp } from 'context/AppContext';
 import { useAuth } from 'context/AuthContext';
+import { getFilesApi } from 'network/api/project/file';
 import { getAllModelsApi } from 'network/api/project/model';
 import React, { useCallback, useEffect, useState } from 'react';
-import { ModelItemD } from 'types/model';
+import { ProjectFileItemD } from 'types/model';
+import { ProjectFileItemD } from 'types/project';
 import { useDebouncedCallback } from 'use-debounce';
 import { log } from 'utils/helpers';
 
-export default function ModelSelect({
+export default function FileSelect({
   value,
   onLoadStart,
   onLoad,
@@ -19,15 +21,15 @@ export default function ModelSelect({
   name,
 }: {
   onLoadStart?: () => any;
-  onLoad?: (d: ModelItemD) => any;
-  value: ModelItemD;
-  onChange: (d: ModelItemD) => any;
+  onLoad?: (d: ProjectFileItemD) => any;
+  value: ProjectFileItemD;
+  onChange: (d: ProjectFileItemD) => any;
   autoSet?: boolean;
   name?: string;
 }) {
   const [loading, setLoading] = useState(false);
-  const [model, setModel] = useState(value);
-  const [models, setModels] = useState<ModelItemD[]>([]);
+  const [file, setFile] = useState(value);
+  const [files, setFiles] = useState<ProjectFileItemD[]>([]);
 
   const [search, setSearch] = useState('');
 
@@ -35,7 +37,7 @@ export default function ModelSelect({
 
   const { projectKey } = useApp();
 
-  const fetchModel = useCallback(async () => {
+  const fetchFile = useCallback(async () => {
     let active = true;
 
     if (!token || !projectKey) {
@@ -53,7 +55,7 @@ export default function ModelSelect({
       setLoading(false);
 
       if (active) {
-        const res = await getAllModelsApi({
+        const res = await getFilesApi({
           limit: 10,
           page: 1,
           project_key: projectKey,
@@ -63,9 +65,9 @@ export default function ModelSelect({
 
         if (res.type === 'RXSUCCESS') {
           if (autoSet) {
-            setModel(res.data[0]);
+            setFile(res.data[0]);
           }
-          setModels(res.data);
+          setFiles(res.data);
         }
       }
     } catch (err) {
@@ -78,11 +80,11 @@ export default function ModelSelect({
   }, [search, token, projectKey]);
 
   useEffect(() => {
-    fetchModel();
-  }, [fetchModel]);
+    fetchFile();
+  }, [fetchFile]);
 
   useEffect(() => {
-    setModel(value);
+    setFile(value);
   }, [value]);
 
   useEffect(() => {
@@ -92,10 +94,10 @@ export default function ModelSelect({
   }, [loading]);
 
   useEffect(() => {
-    if (model?.id) {
-      onChange(model);
+    if (file?.id) {
+      onChange(file);
     }
-  }, [model]);
+  }, [file]);
 
   // const delaySearch = useDebouncedCallback(async (value) => {
   //   setSearch(value);
@@ -111,18 +113,15 @@ export default function ModelSelect({
         size="sm"
         multiple={false}
         name={name}
-        options={models}
-        placeholder="Select model"
-        value={model}
-        onChange={(_, val: ModelItemD) => {
-          setModel(val);
+        options={files}
+        placeholder="Select file"
+        value={file}
+        onChange={(_, val: ProjectFileItemD) => {
+          setFile(val);
         }}
         loading={loading}
-        isOptionEqualToValue={(option, value) => {
-          return option.id === value.id;
-        }}
         // onInputChange={onOrgChange}
-        getOptionLabel={(option: ModelItemD) => {
+        getOptionLabel={(option: ProjectFileItemD) => {
           return option.id;
         }}
         // renderOption={(props, option) => {

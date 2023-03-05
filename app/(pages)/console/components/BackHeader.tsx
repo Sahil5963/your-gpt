@@ -4,11 +4,17 @@ import React from 'react';
 import { HiArrowLeft } from 'react-icons/hi';
 import { IoArrowBack } from 'react-icons/io5';
 
-export default function BackHeader({ title }: { title: string }) {
+export default function BackHeader({
+  title,
+  desc = '',
+}: {
+  title: string;
+  desc?: string;
+}) {
   const router = useRouter();
 
   return (
-    <div className="mb-4 flex items-center gap-2">
+    <div className="mb-4 flex items-start gap-2">
       <IconButton
         color="neutral"
         variant="plain"
@@ -19,9 +25,14 @@ export default function BackHeader({ title }: { title: string }) {
         <HiArrowLeft />
       </IconButton>
 
-      <Typography textColor={'neutral.800'} fontWeight={'lg'}>
-        {title}
-      </Typography>
+      <div>
+        <Typography textColor={'neutral.800'} fontWeight={'lg'}>
+          {title}
+        </Typography>
+        <Typography level="body2" textColor={'neutral.400'}>
+          {desc}
+        </Typography>
+      </div>
     </div>
   );
 }

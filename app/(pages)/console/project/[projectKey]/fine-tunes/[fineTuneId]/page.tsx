@@ -21,7 +21,7 @@ import {
 } from 'app/(pages)/console/components/variants/app';
 import { useApp } from 'context/AppContext';
 import { useAuth } from 'context/AuthContext';
-import { getFineTuneDetailApi } from 'network/api/project/model';
+import { getFineTuneDetailApi } from 'network/api/project/fineTune';
 import Link from 'next/link';
 import {
   useRouter,

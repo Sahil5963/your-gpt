@@ -45,12 +45,12 @@ export default function Navbar() {
 
   const openSidebar = () => {
     setActive(true);
-    document.getElementById('mainContent').classList.add('main-offset');
+    document.getElementById('mainContent')?.classList.add('main-offset');
     document.body.style.overflow = 'hidden';
   };
   const closeSidebar = () => {
     setActive(false);
-    document.getElementById('mainContent').classList.remove('main-offset');
+    document.getElementById('mainContent')?.classList.remove('main-offset');
     document.body.style.overflow = 'auto';
   };
 

@@ -78,3 +78,42 @@ export const getFileContentApi = async ({
     },
   });
 };
+export const getProjectFileSignedUrlApi = async ({
+  token,
+  ...raw
+}: {
+  token: string;
+  file_name: string;
+  project_key: string;
+}) => {
+  return post({
+    route: '/api/v1/basictuning/getProjectFileSignedUrl',
+    data: JSON.stringify(raw),
+    config: {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-type': 'application/json',
+      },
+    },
+  });
+};
+export const uploadProjectFileApi = async ({
+  token,
+  ...raw
+}: {
+  token: string;
+  file_name: string;
+  project_key: string;
+  original_filename: string;
+}) => {
+  return post({
+    route: '/api/v1/uploadFile',
+    data: JSON.stringify(raw),
+    config: {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-type': 'application/json',
+      },
+    },
+  });
+};
