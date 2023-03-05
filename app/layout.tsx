@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 import 'styles/globals.css';
 import React, { useEffect, useState } from 'react';
 
@@ -19,21 +19,21 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [domLoaded, setDomLoaded] = useState(false);
+  // const [domLoaded, setDomLoaded] = useState(false);
 
-  useEffect(() => {
-    setDomLoaded(true);
-  }, []);
+  // useEffect(() => {
+  //   setDomLoaded(true);
+  // }, []);
   return (
     <html lang="en">
       <head>
         <title>YourGPT - Personalized ChatGPT for your business</title>
-        {domLoaded && (
+        {/* {domLoaded && (
           <link
             href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;200;300;400;500;600;700;800&display=swap"
             rel="stylesheet"
           />
-        )}
+        )} */}
       </head>
       <body>
         <ClientProvider>{children}</ClientProvider>
