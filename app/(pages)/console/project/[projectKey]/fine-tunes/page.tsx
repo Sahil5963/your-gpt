@@ -93,11 +93,11 @@ export default function AppFineTunes() {
         selector: (row) => row.model,
         wrap: true,
       },
-      // {
-      //   name: 'Name',
-      //   selector: (row) => row.model,
-      //   wrap: true,
-      // },
+      {
+        name: 'Name',
+        selector: (row) => row.fine_tuned_model,
+        wrap: true,
+      },
       {
         name: 'Created at',
         selector: (row) => formatDateTime(row.created_at),

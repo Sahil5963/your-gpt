@@ -6,12 +6,19 @@ import {
   Alert,
   Autocomplete,
   Button,
+  Checkbox,
+  Chip,
+  ChipDelete,
   CircularProgress,
   FormControl,
   FormLabel,
   IconButton,
   Input,
   LinearProgress,
+  ListDivider,
+  ListItemDecorator,
+  Option,
+  Select,
   Slider,
   Typography,
 } from '@mui/joy';
@@ -21,11 +28,18 @@ import { useApp } from 'context/AppContext';
 import { useAuth } from 'context/AuthContext';
 import { playgroundApi } from 'network/api/project';
 import React, { useEffect, useRef, useState } from 'react';
-import { IoSend } from 'react-icons/io5';
+import { IoClose, IoSend } from 'react-icons/io5';
 import { ModelItemD } from 'types/model';
 import MessageList from './MessageList';
 import { PlaygroundMessageItemD } from 'types/playground';
 import toast from 'react-hot-toast';
+import { tv } from 'tailwind-variants';
+import {
+  BsFileEarmarkCheckFill,
+  BsFillChatSquareTextFill,
+} from 'react-icons/bs';
+import { RiMenuAddLine } from 'react-icons/ri';
+import { AiTwotoneEdit } from 'react-icons/ai';
 
 const AlwaysScrollToBottom = () => {
   const elementRef = useRef<any>();
@@ -57,6 +71,8 @@ export default function AppPlayground() {
   const { projectKey } = useApp();
 
   const [messages, setMessages] = useState<MessageItemD[]>([]);
+
+  const [endSquences, setEndSquences] = useState<string[]>([]);
 
   const onSend = async () => {
     try {
@@ -180,15 +196,65 @@ export default function AppPlayground() {
           </div>
         </div>
 
-        <SettingRoot className="right  w-[280px] border-l border-r-0 border-b-0 border-t-0 border-solid border-gray-300 px-3 py-4">
+        <div
+          style={{
+            height: `calc(100vh - ${
+              THEME.appNavbarHeight + THEME.appNavbar2Height
+            }px)`,
+          }}
+          className="right box-border w-[280px] overflow-y-auto border-l border-r-0 border-b-0 border-t-0 border-solid border-gray-300 px-3 py-4 pb-16"
+        >
           <div className="mb-4">
             <Typography fontWeight={'lg'}>Settings</Typography>
           </div>
 
-          <div className="items flex flex-col gap-2">
-            <div>
+          <div className={itemsV()}>
+            <div className={itemV()}>
+              <div className={labelV()}>Mode</div>
+              <Select
+                size="sm"
+                defaultValue="1"
+                slotProps={{
+                  listbox: {
+                    sx: {
+                      '--List-decorator-size': '24px',
+                    },
+                  },
+                }}
+                sx={{
+                  '--List-decorator-size': '24px',
+                }}
+              >
+                <Option value="1">
+                  <ListItemDecorator>
+                    <BsFileEarmarkCheckFill />
+                  </ListItemDecorator>
+                  Complete
+                </Option>
+                <Option value="2">
+                  <ListItemDecorator>
+                    <BsFillChatSquareTextFill />
+                  </ListItemDecorator>
+                  Chat
+                </Option>
+                <Option value="3">
+                  <ListItemDecorator>
+                    <RiMenuAddLine />
+                  </ListItemDecorator>
+                  Insert
+                </Option>
+                <Option value="4">
+                  <ListItemDecorator>
+                    <AiTwotoneEdit />
+                  </ListItemDecorator>
+                  Edit
+                </Option>
+              </Select>
+            </div>
+
+            <div className={itemV()}>
               <div className="flex justify-between">
-                <div className="label text-sm">Choose Model</div>
+                <div className={labelV()}>Choose Model</div>
 
                 {loadingModel && <CircularProgress size="sm" sx={{ p: 1 }} />}
               </div>
@@ -205,29 +271,34 @@ export default function AppPlayground() {
               />
             </div>
 
-            <div className="item">
+            <div className={itemV({ class: 'group' })}>
               <div className="flex items-center justify-between">
-                <div className="label text-sm">Temprature</div>
-                <div>
-                  <Input
-                    value={temprature}
-                    onChange={(e) => {
-                      setTemprature(Number(e.target.value));
-                    }}
-                    type={'number'}
-                    sx={{ width: 60 }}
-                    variant="outlined"
-                    size="sm"
-                  />
-                </div>
+                <div className={labelV()}>Temprature</div>
+                <input
+                  className={labelInputV()}
+                  value={temprature}
+                  onChange={(e) => {
+                    setTemprature(Number(e.target.value));
+                  }}
+                  type={'number'}
+                />
               </div>
-              <div className="px-2">
-                <Slider min={0.1} max={3} step={0.1} valueLabelDisplay="auto" />
+              <div className="px-1">
+                <Slider min={0.1} max={3} step={0.1} />
+              </div>
+            </div>
+            <div className={itemV({ class: 'group' })}>
+              <div className="flex items-center justify-between">
+                <div className={labelV()}>Maximum length</div>
+                <input className={labelInputV()} type={'number'} />
+              </div>
+              <div className="px-1">
+                <Slider min={1} max={1000} step={1} />
               </div>
             </div>
 
-            <div className="item">
-              <div className="label text-sm">Max tokens</div>
+            <div className={itemV()}>
+              <div className={labelV()}>Max tokens</div>
               <Input
                 size="sm"
                 type="number"
@@ -235,11 +306,152 @@ export default function AppPlayground() {
                 onChange={(e) => setMaxTokens(Number(e.target.value))}
               />
             </div>
+
+            {/* STOP SEQUENCES  */}
+            <div className={itemV({ class: 'group' })}>
+              <div className={labelV({ class: 'm-0' })}>Stop sequences</div>
+              <p className={labelSmallV()}>Enter sequence and press Tab</p>
+              <div className="flex items-start gap-[4px]">
+                <div className=" flex max-h-[160px] flex-1 flex-wrap gap-1 overflow-auto rounded-lg border-solid border-gray-200 p-2 transition-all group-hover:border-gray-400 ">
+                  <div className="flex flex-wrap gap-1">
+                    {endSquences.map((i) => {
+                      return (
+                        <Chip
+                          color="primary"
+                          variant="soft"
+                          endDecorator={
+                            <ChipDelete
+                              onDelete={() =>
+                                setEndSquences((s) =>
+                                  s.filter((i2) => i2 !== i),
+                                )
+                              }
+                            />
+                          }
+                        >
+                          {i}
+                        </Chip>
+                      );
+                    })}
+                  </div>
+
+                  <input
+                    className="border-none text-sm outline-none "
+                    placeholder="Add end sequence"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        setEndSquences((s) => [...s, e.target.value]);
+                        e.target.value = '';
+                      }
+
+                      if (e.key === 'Backspace' && !e.target.value) {
+                        setEndSquences((s) => {
+                          const d = [...s];
+                          d.pop();
+                          return d;
+                        });
+                      }
+                    }}
+                  />
+                </div>
+
+                <IconButton
+                  size="sm"
+                  onClick={() => setEndSquences([])}
+                  color="danger"
+                  sx={{ borderRadius: 120 }}
+                >
+                  <IoClose />
+                </IconButton>
+              </div>
+            </div>
+
+            {/* TOP P  */}
+            <div className={itemV({ class: 'group' })}>
+              <div className="flex items-center justify-between">
+                <div className={labelV()}>Top P</div>
+                <input value={20} className={labelInputV()} type={'number'} />
+              </div>
+              <div className="px-1">
+                <Slider min={1} max={1000} step={1} />
+              </div>
+            </div>
+
+            {/* Frequency Penalty */}
+            <div className={itemV({ class: 'group' })}>
+              <div className="flex items-center justify-between">
+                <div className={labelV()}>Frequency penalty</div>
+                <input value={20} className={labelInputV()} type={'number'} />
+              </div>
+              <div className="px-1">
+                <Slider min={1} max={1000} step={1} />
+              </div>
+            </div>
+
+            {/* Presence Penalty */}
+            <div className={itemV({ class: 'group' })}>
+              <div className="flex items-center justify-between">
+                <div className={labelV()}>Frequency penalty</div>
+                <input value={20} className={labelInputV()} type={'number'} />
+              </div>
+              <div className="px-1">
+                <Slider min={1} max={1000} step={1} />
+              </div>
+            </div>
+
+            {/* Best of */}
+            <div className={itemV({ class: 'group' })}>
+              <div className="flex items-center justify-between">
+                <div className={labelV()}>Best of</div>
+                <input value={20} className={labelInputV()} type={'number'} />
+              </div>
+              <div className="px-1">
+                <Slider min={1} max={1000} step={1} />
+              </div>
+            </div>
+
+            {/* Inject start text */}
+            <div className={itemV()}>
+              <div className={labelV()}>Inject start text</div>
+              <Input startDecorator={<Checkbox />} size="sm" type="text" />
+            </div>
+
+            {/* Inject restart text */}
+            <div className={itemV()}>
+              <div className={labelV()}>Inject restart text</div>
+              <Input startDecorator={<Checkbox />} size="sm" type="text" />
+            </div>
+
+            {/* Show probabilities */}
+            <div className={itemV()}>
+              <div className={labelV()}>Show probabilities</div>
+              <Select size="sm" placeholder="Choose one…" defaultValue={'Off'}>
+                {['Off', 'Most likely', 'Least likely', 'Full specturm'].map(
+                  (i) => {
+                    return <Option value={i}>{i}</Option>;
+                  },
+                )}
+              </Select>
+            </div>
           </div>
-        </SettingRoot>
+        </div>
       </div>
     </div>
   );
 }
 
-const SettingRoot = styled.div``;
+const labelInputV = tv({
+  base: 'border-transparent border active:border-blue-500 border-solid rounded-md outline-none text-sm p-1 w-6 group-hover:border-gray-400',
+});
+const labelV = tv({
+  base: 'text-sm mb-1 font-semibold text-gray-600',
+});
+const labelSmallV = tv({
+  base: 'text-xs mb-1  text-gray-400',
+});
+const itemsV = tv({
+  base: 'items flex flex-col gap-4',
+});
+const itemV = tv({
+  base: '',
+});
